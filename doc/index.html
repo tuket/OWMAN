@@ -1,0 +1,156 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Open World Manager </title>
+</head>
+
+<body>
+<div style="margin:10%">
+
+<center>
+
+<a name="title"></a>
+<h1>
+Large Open World Streaming.<br>
+Automatic memory management in open world games without loading screens.
+</h1>
+
+Alejandro Juan Pérez.
+
+</center>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<a name="index"></a>
+<h1>
+Index
+</h1>
+
+<p>
+<a href="#description_of_the_problem"> Description of the problem. </a>
+</p>
+
+<p>
+<a href="#game_examples"> Examples of games using world streaming. </a>
+</p>
+
+<p>
+<a href="#architecture"> Design of the architecture. </a>
+</p>
+
+<p>
+<a href="#resource_manager"> The Resource Manager </a>
+</p>
+
+<br><br><br><br>
+
+<a name="description_of_the_problem"></a>
+<h1> Description of the problem. </h1>
+
+<p>
+
+Traditionally games have been structured in levels. <br>
+In this kind of games the player must complete the current level to advance to the next one. 
+Once one level is completed the previous level doesn't need to remain in main memory therefore resources can be deleted.
+The mechanics of this game allows to manage the persistence of the game in an easy and efficient way.
+
+</p>
+
+<p>
+It is well know that computers(and other gaming devices) usually have two types of memory.<br>
+The first memory is the one we usually call main memory. Main memory is fast and slow.<br>
+The second memory is the secondary storage memory. This one is slow and big.
+</p>
+
+
+<p>
+In level based games usually the current level fits entirely in main memory but not all them at the same time.
+All the levels are stored in the secondary memory and when we need to play one of them we simply copy it into main memory.
+That's it, simple and efficient.
+</p>
+
+<p>
+The main drawback of this system is the loading screens. <br>
+Each time the level changes we must load the new level and that takes some time.
+Therefore, the user has to wait while the next level is being loaded into main memory. <br>
+</p>
+
+<img src="img/loading_sonic.png">
+
+<p>
+In some games waiting some seconds is not really an issue.
+But if we had to chose either waiting or not players would chose not waiting. <br>
+Also there are other types of game were a level system is not suitable. For example open world games.<br>
+</p>
+
+<p>
+The alternative we present is world streaming. <br>
+The main concept behind world streaming is loading resources "on the fly" when they are potentially needed
+and release them when the are potentially not needed anymore. <br>
+Loading of resources must be done in background, that is, resources are being loaded while other tasks of the game are running.
+</p>
+
+<a name="game_examples"></a>
+<h1> Examples of games using world streaming. </h1>
+
+<h2> Grand Theft Auto - Tarantula Studios (1997) </h2>
+
+<img src="img/gta_case.jpg">
+<img src="img/gta_screenshot.jpg">
+
+<br> <br> <br>
+
+<h2> Dungeon Siege - Gas Powered Games (2002) </h2>
+
+<img src="img/dungeon_siege_case.jpg">
+<img src="img/dungeon_siege_screenshot.jpg">
+
+<br> <br> <br>
+
+<h2> World of Warcraft - Blizzard(2004) </h2>
+
+
+
+<br>
+<br>
+<br>
+<a name="architecture"></a>
+<h1> Design of the architecture. </h1>
+
+<br>
+<br>
+<br>
+<br>
+
+<h1> The Resource Manager </h1>
+
+<p>
+The resource manager is one of the core components of a world streaming game engine. <br>
+The resource manager loads the resources of the game like textures, meshes and sound tracks.
+</p>
+<p>
+Also it must take into account that resources can be shared among the objects of the game. <br>
+Imagine that in our game we have an army of 100 orcs.
+All the orcs have the same mesh. So we could share that resource among the orcs.
+</p>
+
+<img src="img/5_orcs_2_resources.png"><br>
+<small>Image from: http://shunendo.com/2011/07/orc-head-3d-model-maya/</small>
+
+<p>
+Another requirement for the resource manager is to run in background. <br>
+We can't stop sending frames to the screen just because we are loading some resource! <br>
+Loading one resource from disk takes a lot of time if we had to stop refreshing the screen the player would notice. <br>
+Fortunately computers can transfer data from disk to memory while doing other tasks like doing computations. <br>
+</p>
+
+
+
+</div>
+</body>
+
+</html>
