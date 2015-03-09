@@ -17,8 +17,8 @@ class ResourceTable
 	
 public:
 	
-	const Resource* getResource(std::string name, ResourceFactory* factory);
-	const ResourceText* getResourceText(std::string name);
+	Resource* getResource(std::string name, ResourceFactory* factory);
+	ResourceText* getResourceText(std::string name);
 	
 	void release(const ResourceText* resource);
 	void release(const Resource* resource, ResourceFactory* factory);

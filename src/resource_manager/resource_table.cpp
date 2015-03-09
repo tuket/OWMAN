@@ -5,14 +5,14 @@
 using namespace std;
 
 
-const ResourceText* ResourceTable::getResourceText(std::string name)
+ResourceText* ResourceTable::getResourceText(std::string name)
 {
 	
 	return (ResourceText*) getResource(name, &resourceTextFactory);
 	
 }
 
-const Resource* ResourceTable::getResource
+Resource* ResourceTable::getResource
 (
 	std::string name,
 	ResourceFactory* factory

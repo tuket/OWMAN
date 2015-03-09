@@ -24,7 +24,24 @@ public:
 	{
 		pthread_mutex_lock(&mutex);
 		queue.push_back(elem);
+		pthread_cond_signal(&cond);
+		pthread_mutex_unlock(&mutex);
 	}
+	
+	T pop()
+	{
+		pthread_mutex_lock(&mutex);
+		while( queue.size() == 0 )
+		{
+			// this instruction unlocks the mutex automatically
+			pthread_cond_wait(&cond, &mutex);
+		}
+		T elem = queue.front();
+		queue.pop_front();
+		pthread_mutex_unlock(&mutex);
+		
+		return elem;
+	};
 	
 	~WorkQueue()
 	{

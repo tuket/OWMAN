@@ -17,6 +17,8 @@ ResourceText* ResourceTextFactory::createResource(string name)
 	
 	ResourceText *res = new ResourceText;
 	res->text = string(buffer);
+	res->name = name;
+	res->status = Resource::Status::UNKNOWN;
 	
 	delete[] buffer;
 	

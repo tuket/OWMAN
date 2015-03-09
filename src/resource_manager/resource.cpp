@@ -9,3 +9,8 @@ void Resource::setName(std::string name)
 {
 	this->name = name;
 }
+
+Resource::Status getStatus()const
+{
+	return status;
+}
