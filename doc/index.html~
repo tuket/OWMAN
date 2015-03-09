@@ -55,10 +55,12 @@ Index
 
 Traditionally games have been structured in levels. <br>
 In this kind of games the player must complete the current level to advance to the next one. 
-Once one level is completed the previous level doesn't need to remain in main memory therefore resources can be deleted.
-The mechanics of this game allows to manage the persistence of the game in an easy and efficient way.
+Once one level is completed that level doesn't need to remain in main memory therefore resources can be deleted. <br>
+The mechanics of this type of games allows to manage the persistence of the game in an easy and efficient way.
 
 </p>
+
+<img src="level_loading_mechanics.svg">
 
 <p>
 It is well know that computers(and other gaming devices) usually have two types of memory.<br>
@@ -126,6 +128,7 @@ Loading of resources must be done in background, that is, resources are being lo
 <br>
 <br>
 
+<a name="resource_manager"></a>
 <h1> The Resource Manager </h1>
 
 <p>
@@ -138,8 +141,7 @@ Imagine that in our game we have an army of 100 orcs.
 All the orcs have the same mesh. So we could share that resource among the orcs.
 </p>
 
-<img src="img/5_orcs_2_resources.png">
-
+<img src="img/5_orcs_2_resources.png"><br>
 <small>Image from: http://shunendo.com/2011/07/orc-head-3d-model-maya/</small>
 
 <p>
