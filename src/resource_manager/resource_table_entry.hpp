@@ -12,10 +12,16 @@ class ResourceTableEntry
 	
 	friend class ResourceTable;
 	
+public:
+	
+	ResourceTableEntry(){}
+	
+private:
+
+	ResourceTableEntry(Resource* resource);
+	
 	unsigned int count;
 	Resource* resource;
-	
-	
 	
 	unsigned int getCount()const;
 	
@@ -25,7 +31,6 @@ class ResourceTableEntry
 	
 	Resource* getPointer()const;
 	void setPointer(Resource* resource);
-
 	
 };
 

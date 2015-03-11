@@ -4,19 +4,24 @@
 
 using namespace std;
 
-
-ResourceText* ResourceTable::getResourceText(std::string name)
+unsigned int ResourceTable::getCount(std::string name)const
 {
+
+	map< string, ResourceTableEntry >::const_iterator it;
+	it = table.find(name);
 	
-	return (ResourceText*) getResource(name, &resourceTextFactory);
-	
+	if( it == table.end() )
+	{
+		return 0;
+	}
+	else
+	{
+		return it->second.count;
+	}
+
 }
 
-Resource* ResourceTable::getResource
-(
-	std::string name,
-	ResourceFactory* factory
-)
+Resource* ResourceTable::getResource(std::string name)
 {
 	
 	map< string, ResourceTableEntry >::iterator it;
@@ -27,10 +32,7 @@ Resource* ResourceTable::getResource
 	if( it == table.end() )
 	{
 		
-		res = factory->createResource( name );
-		ResourceTableEntry rte;
-		rte.resource = res;
-		rte.count = 1;
+		res = (Resource*)0;
 		
 	}
 	
@@ -46,19 +48,24 @@ Resource* ResourceTable::getResource
 	
 }
 
-// release
-
-void ResourceTable::release(const ResourceText* resource)
+void ResourceTable::addEntry(std::string name, Resource* resource)
 {
 	
-	release(resource, &resourceTextFactory);
+	ResourceTableEntry entry(resource);
+	table[name] = entry;
 	
 }
 
-void ResourceTable::release(const Resource* resource, ResourceFactory* factory)
+void ResourceTable::removeEntry(std::string name)
 {
 	
-	string name = resource->getName();
+	table.erase(name);
+	
+}
+
+void ResourceTable::incEntry(string name)
+{
+	
 	map< string, ResourceTableEntry >::iterator it;
 	it = table.find(name);
 	
@@ -76,25 +83,34 @@ void ResourceTable::release(const Resource* resource, ResourceFactory* factory)
 	{
 		
 		unsigned int &count = it->second.count;
+		count++;
+
+	}
+	
+}
+
+void ResourceTable::decEntry(string name)
+{
+	
+	map< string, ResourceTableEntry >::iterator it;
+	it = table.find(name);
+	
+	// not found
+	if( it == table.end() )
+	{
 		
-		// must erase
-		if( count == 1 )
-		{
-			
-			table.erase( it );
-			factory->destroyResource( it->second.resource );
-			
-		}
+		cerr << "fatal error" << endl;
+		exit(1);
 		
-		// decrement count
-		else
-		{
-			
-			count--;
-			
-		}
+	}
+	
+	// found
+	else
+	{
 		
-		
+		unsigned int &count = it->second.count;
+		count--;
+
 	}
 	
 }

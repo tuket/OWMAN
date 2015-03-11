@@ -13,11 +13,18 @@ class ResourceText : public Resource
 	friend class ResourceTextFactory;
 	std::string text;
 	
+protected:
+
+	void load();
+	void free();
+	
 public:
 	
-	ResourceText(){};
+	ResourceText();
 	
 	std::string getText()const;
+	
+	~ResourceText(){}
 	
 };
 

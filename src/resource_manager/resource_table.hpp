@@ -12,17 +12,17 @@ class ResourceTable
 	
 	std::map< std::string, ResourceTableEntry > table;
 	
-	// Factories
-	ResourceTextFactory resourceTextFactory;
-	
 public:
 	
-	Resource* getResource(std::string name, ResourceFactory* factory);
-	ResourceText* getResourceText(std::string name);
+	unsigned int getCount(std::string name)const;
 	
-	void release(const ResourceText* resource);
-	void release(const Resource* resource, ResourceFactory* factory);
+	void addEntry(std::string name, Resource* resource);
+	void removeEntry(std::string name);
 	
+	void incEntry(std::string name);
+	void decEntry(std::string name);
+	
+	Resource* getResource(std::string name);
 	
 };
 

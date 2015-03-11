@@ -7,8 +7,8 @@ void ResourceManager::launch()
 {
 	
 	int idThread;
-	stop = false;
-	idThread = pthread_create( &myThread, 0, loop, 0);
+	_stop = false;
+	idThread = pthread_create( &myThread, 0, &ResourceManager::staticLoop, (void*)this);
 	
 	// check error
 	if( idThread )
@@ -20,13 +20,36 @@ void ResourceManager::launch()
 	
 }
 
+ResourceText* ResourceManager::obtainText(std::string name)
+{
+	
+	unsigned int count = resourceTable.getCount( name );
+	
+	// not loaded
+	if( count == 0 )
+	{
+		ResourceText* resource = resourceTextFactory.createResource(name);
+		resourceTable.addEntry(name, resource);
+		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
+		return resource;
+	}
+	
+	// loaded
+	else
+	{
+		resourceTable.incEntry(name);
+		return (ResourceText*)resourceTable.getResource( name );
+	}
+	
+}
+
 void ResourceManager::loop()
 {
 	
 	// this might seem polling but it is not.
 	// The pop function of WorkQueue will stall
 	// if the are not elements in the queue
-	while( !stop )
+	while( !_stop )
 	{
 		
 		ResourceRequest request;
@@ -35,22 +58,37 @@ void ResourceManager::loop()
 		// obtain
 		if( request.getType() == ResourceRequest::Type::OBTAIN )
 		{
-			Resource* resource = resourceTable.getResourceText(name);
-			resource->status = Resource::Status::LOADED;
+
+			string name = request.getName();
+			Resource* resource = resourceTable.getResource(name);
+			resource->load();
+		
 		}
 		
 		// release
-		else if( request.getType() == ResourceRequest::Type::OBTAIN )
+		else if( request.getType() == ResourceRequest::Type::RELEASE )
 		{
+			
+			string name = request.getName();
+			Resource* resource = resourceTable.getResource(name);
+			resource->free();
 			
 		}
 		
 		// stop
-		else
+		else if( request.getType() == ResourceRequest::Type::STOP )
 		{
-			stop = true;
+			_stop = true;
 		}
 		
 	}
+	
+}
+
+void* ResourceManager::staticLoop(void* object)
+{
+	
+	((ResourceManager*)object)->loop();
+	return 0;
 	
 }

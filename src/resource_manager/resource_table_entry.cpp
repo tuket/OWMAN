@@ -1,5 +1,11 @@
 #include "resource_table_entry.hpp"
 
+ResourceTableEntry::ResourceTableEntry(Resource* resource)
+{
+	count = 1;
+	this->resource = resource;
+}
+
 unsigned int ResourceTableEntry::getCount()const
 {
 	return count;

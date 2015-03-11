@@ -12,6 +12,7 @@ ResourceRequest ResourceRequest::operator=(const ResourceRequest& resourceReques
 {
 	type = resourceRequest.type;
 	name = resourceRequest.name;
+	return *this;
 }
 
 ResourceRequest::Type ResourceRequest::getType()const

@@ -12,8 +12,9 @@ class ResourceManager
 	
 	pthread_t myThread;
 	ResourceTable resourceTable;
+	ResourceTextFactory resourceTextFactory;
 	WorkQueue<ResourceRequest> workQueue;
-	bool stop;
+	bool _stop;
 	
 public:
 
@@ -25,12 +26,12 @@ public:
 	void launch();
 	
 	/**
-	 * \brief request a handle to a resouce
+	 * \brief request a handle to a text resouce
 	 */
 	ResourceText* obtainText(std::string name);
 	
 	/**
-	 * \brief release a handle to a resouce
+	 * \brief release a handle to a text resouce
 	 */
 	void releaseText(ResourceText* resource);
 	
@@ -40,8 +41,19 @@ public:
 	void stop();
 	
 private:
-
+	
+	/**
+	 * \brief consumes requests
+	 * Iterates for ever to handle requests.
+	 */
 	void loop();
+	
+	/**
+	 * \brief this function calls loop
+	 * You can not create a pthread from a member funtion
+	 * so I use this static function as a helper
+	 */
+	static void* staticLoop(void* object);
 	
 };
 
