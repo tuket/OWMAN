@@ -26,7 +26,7 @@ void LowLevelRenderer2D::Camera::setPosition(const Vec2f& pos)
 //  TEXTURE
 // ---------
 
-LowLevelRenderer2D::Texture::Texture(string fileName, GLuint shaderProgram)
+LowLevelRenderer2D::Texture::Texture(string fileName)
 {
 	
 	glGenTextures(1, &textureID);
@@ -34,8 +34,6 @@ LowLevelRenderer2D::Texture::Texture(string fileName, GLuint shaderProgram)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	
 	loadTexture(fileName.c_str(), &width, &height);
-	
-	glUniform1i(glGetUniformLocation(shaderProgram, "tex"), 0);
 	
 }
 
@@ -62,21 +60,21 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	const int glMinorVersion = 1;
 	
 	cout << "Using OpenGL version: " <<
-	GL_MAJOR_VERSION << "." << GL_MINOR_VERSION << endl;
+	glMajorVersion << "." << glMinorVersion << endl;
 	
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, glMajorVersion );
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, glMinorVersion );
 	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
 	
 	// make the window
-	SDL_Window* window =
+	window =
 	SDL_CreateWindow(
 		windowTitle.c_str(),
 		40, 40,
 		width, height,
 		SDL_WINDOW_OPENGL
 	);
-	
+		
 	SDL_GLContext context = SDL_GL_CreateContext(window);
 	
 	// init glew
@@ -213,6 +211,9 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	
 	// making the link between vertex data and attributes
 	// OpenGL needs to know how the attributes are formatted
 	// and ordered
@@ -253,7 +254,7 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	
 	// enable using textures
 	glEnable(GL_TEXTURE_2D);
-	
+	glUniform1i(glGetUniformLocation(shaderProgram, "tex"), 0);
 	
 }
 
@@ -285,13 +286,14 @@ void LowLevelRenderer2D::draw(const Vec2f& pos, const Vec2f& scale, Texture* tex
 		GL_UNSIGNED_INT,	// how many vertices to draw
 		0
 	);
-	
+
 }
 
 void LowLevelRenderer2D::swap()
 {
 	SDL_GL_SwapWindow(window);
 }
+
 
 //  LOAD TEXTURE
 // --------------

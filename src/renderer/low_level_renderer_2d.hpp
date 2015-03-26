@@ -38,7 +38,9 @@ public:
 		GLuint textureID;
 		int width, height;
 		
-		Texture(std::string fileName, GLuint shaderProgram);
+	public:
+	
+		Texture(std::string fileName);
 		~Texture();
 		
 	};
@@ -47,6 +49,7 @@ private:
 	
 	Camera camera;
 	GLuint shaderProgram;
+	SDL_Window* window;
 	
 public:
 	
@@ -62,9 +65,6 @@ public:
 	void clear();
 	void draw(const Vec2f& pos, const Vec2f& scale, Texture* texture);
 	void swap();
-	
-	Texture* createTexture();
-	void destroyTexture(Texture* texture);
 	
 };
 
