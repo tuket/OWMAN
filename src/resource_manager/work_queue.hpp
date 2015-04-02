@@ -4,6 +4,12 @@
 #ifndef WORK_QUEUE
 #define WORK_QUEUE
 
+/**
+ * \brief Thread safe queue
+ * This queue can be used concurrently by several threads.
+ * It is specialy designed for the consumer producer-pattern.
+ */
+
 template <typename T>
 class WorkQueue
 {

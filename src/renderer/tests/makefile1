@@ -1,0 +1,11 @@
+
+OBJS = ../../math/vec2f.o ../low_level_renderer_2d.o test1.o ../../IO/event_handler.o
+
+
+test1 : $(OBJS)
+	g++ $^ -o test1 -lSDL2 -lGL -lGLEW -lSOIL
+
+%.o : %.cpp
+	g++ -c $< -o $@
+
+

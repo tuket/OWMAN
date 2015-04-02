@@ -3,6 +3,20 @@
 
 using namespace std;
 
+ResourceManager ResourceManager::uniqueInstance;
+
+void ResourceManager::init()
+{
+	
+	
+	
+}
+
+ResourceManager* ResourceManager::getSingleton()
+{
+	return &uniqueInstance;
+}
+
 void ResourceManager::launch()
 {
 	
@@ -38,9 +52,83 @@ ResourceText* ResourceManager::obtainText(std::string name)
 	else
 	{
 		resourceTable.incEntry(name);
-		return (ResourceText*)resourceTable.getResource( name );
+		return (ResourceText*)resourceTable.getResource(name);
 	}
 	
+}
+
+void ResourceManager::releaseText(ResourceText* resource)
+{
+	
+	string name = resource->getName();
+	unsigned int count = resourceTable.getCount(name);
+	
+	// last reference
+	if( count == 1 )
+	{
+		
+		resourceTextFactory.destroyResource(resource);
+		resourceTable.removeEntry(name);
+		
+	}
+	
+	// more references
+	else
+	{
+		resourceTable.decEntry(name);
+	}
+	
+}
+
+ResourceTexture* ResourceManager::obtainTexture(std::string name)
+{
+	
+	unsigned int count = resourceTable.getCount( name );
+	
+	// not loaded
+	if( count == 0 )
+	{
+		ResourceTexture* resource = resourceTextureFactory.createResource(name);
+		resourceTable.addEntry(name, resource);
+		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
+		return resource;
+	}
+	
+	// loaded
+	else
+	{
+		resourceTable.incEntry(name);
+		return (ResourceTexture*)resourceTable.getResource(name);
+	}
+	
+}
+
+void ResourceManager::releaseTexture(ResourceTexture* resource)
+{
+	
+	string name = resource->getName();
+	unsigned int count = resourceTable.getCount(name);
+	
+	// last reference
+	if( count == 1 )
+	{
+		
+		resourceTextureFactory.destroyResource(resource);
+		resourceTable.removeEntry(name);
+		
+	}
+	
+	// more references
+	else
+	{
+		resourceTable.decEntry(name);
+	}
+	
+}
+
+void ResourceManager::setRenderer(LowLevelRenderer2D* renderer)
+{
+	resourceTextureFactory.setRenderer(renderer);
 }
 
 void ResourceManager::loop()

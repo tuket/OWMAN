@@ -1,8 +1,15 @@
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
+#include "resource_text_factory.hpp"
+#include "resource_texture_factory.hpp"
 #include <pthread.h>
 #include <string>
+
+#ifndef LOW_LEVEL_RENDERER_2D
+class LowLevelRenderer2D;
+#endif
+
 
 #ifndef RESOURCE_MANAGER
 #define RESOURCE_MANAGER
@@ -10,14 +17,21 @@
 class ResourceManager
 {
 	
+	static ResourceManager uniqueInstance;
+	
 	pthread_t myThread;
 	ResourceTable resourceTable;
 	ResourceTextFactory resourceTextFactory;
+	ResourceTextureFactory resourceTextureFactory;
 	WorkQueue<ResourceRequest> workQueue;
 	bool _stop;
 	
 public:
-
+	
+	static void init();
+	
+	static ResourceManager* getSingleton();
+	
 	ResourceManager(){}
 	
 	/**
@@ -26,19 +40,31 @@ public:
 	void launch();
 	
 	/**
-	 * \brief request a handle to a text resouce
+	 * \brief request a pointer to a text resouce
 	 */
 	ResourceText* obtainText(std::string name);
 	
 	/**
-	 * \brief release a handle to a text resouce
+	 * \brief release a pointer to a text resouce
 	 */
 	void releaseText(ResourceText* resource);
+	
+	/**
+	 * \brief request a pointer to a texture resouce
+	 */
+	ResourceTexture* obtainTexture(std::string name);
+	
+	/**
+	 * \brief release a pointer to a texture resouce
+	 */
+	void releaseTexture(ResourceTexture* resource);
 	
 	/**
 	 * \brief stop the resource manager thread
 	 */
 	void stop();
+	
+	void setRenderer(LowLevelRenderer2D* renderer);
 	
 private:
 	

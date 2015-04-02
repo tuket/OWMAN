@@ -5,9 +5,9 @@
 class Vec2f
 {
 	
-	float x, y;
-	
 public:
+
+	float x, y;
 	
 	Vec2f(){}
 	Vec2f(float x, float y);

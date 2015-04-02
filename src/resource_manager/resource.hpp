@@ -3,20 +3,28 @@
 #ifndef RESOURCE
 #define RESOURCE
 
+/**
+ * \brief Resouce data class
+ * This class hold the data for different types of
+ * resource. In order to create a new type of resource
+ * just extend from this class
+ */
+
 class Resource
 {
 	
 	friend class ResourceManager;
 	
 public:
-
+	
 	enum class Status
 	{
 		UNKOWN,
 		STORED,
 		QUEUED,
 		LOADING,
-		LOADED
+		LOADED,
+		READY
 	};
 	
 protected:
