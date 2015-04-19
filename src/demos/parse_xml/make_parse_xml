@@ -1,0 +1,3 @@
+
+all : parse_xml.cpp
+	g++ parse_xml.cpp -g -std=c++11 -o parse_xml

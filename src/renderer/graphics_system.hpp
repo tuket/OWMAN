@@ -2,6 +2,7 @@
 #include "sprite_factory.hpp"
 #include <string>
 #include <set>
+#include <vector>
 #include "camera.hpp"
 
 #ifndef ENGINE
@@ -13,6 +14,22 @@ class Engine;
 
 class GraphicsSystem
 {
+	
+	enum class PendingTaskType
+	{
+		DESTROY_SPRITE
+	};
+	
+	class PendingTask
+	{
+	public:
+		PendingTask(const PendingTaskType& type, void* pointer);
+		
+		PendingTaskType pendingTaskType;
+		void* pointer;
+	};
+	
+	std::vector<PendingTask> pendingTasks;
 	
 	Engine* myEngine;
 	

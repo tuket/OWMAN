@@ -22,6 +22,7 @@ protected:
 	Entity* myEntity;
 	GraphicsSystem* myGraphicsSystem;
 	bool visible;
+	int priority;	// the higher the more priority
 	
 	Vec2f position;
 	Vec2f scale;
@@ -46,6 +47,8 @@ public:
 	Vec2f getScale()const;
 	void setPosition(const Vec2f& position);
 	void setScale(const Vec2f& scale);
+	int getPriority()const;
+	void setPriority(int priority);
 	
 };
 

@@ -3,7 +3,7 @@ OBJS = ../../math/vec2f.o ../low_level_renderer_2d.o test2.o ../../IO/event_hand
 
 
 test1 : $(OBJS)
-	g++ $^ -o test2 -lSDL2 -lGL -lGLEW -lSOIL -lpthread -std=c++11 -g -fvar-tracking -Wall
+	g++ $^ -o test2 -lSDL2 -lGL -lGLEW -lSOIL -lpthread -std=c++11 -g -Wall
 
 %.o : %.cpp
 	g++ -c $< -o $@ -std=c++11 -g

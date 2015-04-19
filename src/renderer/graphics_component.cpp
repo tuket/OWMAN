@@ -30,3 +30,13 @@ void GraphicsComponent::setScale(const Vec2f& scale)
 {
 	this->scale = scale;
 }
+
+int GraphicsComponent::getPriority()const
+{
+	return priority;
+}
+
+void GraphicsComponent::setPriority(int priority)
+{
+	this->priority = priority;
+}

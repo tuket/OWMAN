@@ -1,0 +1,23 @@
+<entity>
+
+	<id>2</id>
+
+	<position>
+		<x>14</x>
+		<y>80</y>
+	</position>
+
+	<graphics>
+		<texture>elf.png</texture>
+		<width>10</width>
+		<height>15</height>
+	</graphics>
+
+	<physics>
+		<shape>box</shape>
+		<width>10</width>
+		<height>15</height>
+		<mass>60</mass>
+	</physics>
+
+</entity>

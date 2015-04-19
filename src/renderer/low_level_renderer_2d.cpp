@@ -55,6 +55,9 @@ void LowLevelRenderer2D::Camera::setHeight(float height)
 LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height)
 {
 	
+	this->width = width;
+	this->height = height;
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glGenTextures(1, &textureID);
 	GLenum error = glGetError();
@@ -77,9 +80,7 @@ LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height
 		GL_UNSIGNED_BYTE,	// data type of the pixel data
 		image				// pointer to iamge data
 	);
-	
-	SOIL_free_image_data(image);
-	
+		
 }
 
 LowLevelRenderer2D::Texture
@@ -94,6 +95,27 @@ LowLevelRenderer2D::Texture::~Texture()
 {
 	
 }
+
+float LowLevelRenderer2D::Texture::getWidth()const
+{
+	return width;
+}
+
+float LowLevelRenderer2D::Texture::getHeight()const
+{
+	return height;
+}
+
+void LowLevelRenderer2D::Texture::setWidth(float width)
+{
+	this->width = width;
+}
+
+void LowLevelRenderer2D::Texture::setHeight(float height)
+{
+	this->height = height;
+}
+
 
 //  LOW LEVEL RENDERER 2D
 // -----------------------

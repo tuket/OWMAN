@@ -24,6 +24,8 @@ void ResourceTexture::loadToGraphicsCard()
 	texture = renderer->createTexture(imageData, width, height);
 	status = Resource::Status::READY;
 	
+	SOIL_free_image_data(imageData);	
+	
 }
 
 // this function is called by the resource manager thread
@@ -42,6 +44,9 @@ void ResourceTexture::load()
 		0,					// pointer where num of chanel will be saved
 		SOIL_LOAD_RGBA		// RGB
 	);
+	
+	texture.setWidth(width);
+	texture.setHeight(height);
 	
 	if(imageData == 0)
 	{

@@ -1,0 +1,12 @@
+
+OBJS = ../../math/vec2f.o ../low_level_renderer_2d.o test3.o ../../IO/event_handler.o ../graphics_system.o ../sprite.o ../sprite_factory.o ../graphics_component.o ../camera.o ../../resource_manager/resource_manager.o ../../resource_manager/resource_texture.o ../../resource_manager/resource_texture_factory.o ../../resource_manager/resource_request.o ../../resource_manager/resource.o ../../resource_manager/resource_table.o ../../resource_manager/resource_table_entry.o ../sprite_factory.o ../../resource_manager/resource_text_factory.o ../../resource_manager/resource_text.o
+
+
+test1 : $(OBJS)
+	g++ $^ -o test3 -lSDL2 -lGL -lGLEW -lSOIL -lpthread -std=c++11 -g -Wall
+
+%.o : %.cpp
+	g++ -c $< -o $@ -std=c++11 -g
+
+clear : $(OBJS)
+	rm $^

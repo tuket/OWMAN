@@ -49,9 +49,16 @@ public:
 		Texture(unsigned char* image, int width, int height);
 		
 	public:
+	
 		Texture(){}
 		Texture operator=(const Texture& texture);
 		~Texture();
+		
+		float getWidth()const;
+		float getHeight()const;
+		
+		void setWidth(float width);
+		void setHeight(float height);
 		
 	};
 	

@@ -24,7 +24,8 @@ int main()
 		false
 	);
 	
-	Sprite* sprite = graphicsSystem.createSprite("img/large_textur.png", Vec2f(200, 100));
+	Sprite* sprite = graphicsSystem.createSprite("img/b.png", Vec2f(200, 100));
+	//graphicsSystem.destroySprite(sprite);
 	
 	sprite->setPosition(Vec2f(50, 50));
 	
@@ -45,6 +46,7 @@ int main()
 				
 		eventHandler.poll();
 		
+		graphicsSystem.update(1000.0/60);
 		graphicsSystem.draw();
 		graphicsSystem.swap();
 		

@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/HelloWorld.dir/HelloWorld.cpp.o  -o HelloWorld -rdynamic ../Box2D/libBox2D.a 
