@@ -35,7 +35,7 @@ class WorldStreamer
 	Entity* mainCharacter;
 	
 	EntityFactory* entityFactory;
-		
+	
 public:
 	
 	WorldStreamer(){}

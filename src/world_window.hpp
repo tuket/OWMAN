@@ -1,12 +1,9 @@
 #include <vector>
 #include "position.hpp"
+#include "world_cell.hpp"
 
 #ifndef ENTITY
 class Entity;
-#endif
-
-#ifndef WORLD_CELL
-class WorldCell;
 #endif
 
 #ifndef WORLD_WINDOW
@@ -28,7 +25,7 @@ public:
 	WorldWindow(unsigned int windowSize);
 	
 	
-	WorldCell* operator()(int x, int y);
+	WorldCell *& operator()(int x, int y);
 	
 	~WorldWindow();
 	
