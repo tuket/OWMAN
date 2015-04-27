@@ -9,11 +9,16 @@ using namespace std;
 
 EntityFactory::EntityFactory(Engine* engine)
 {
-	countId = 1;	// 0 is invalid
+	countId = DEFAULT_INIT_ID;
 	myEngine = engine;
 }
 
-Entity* EntityFactory::createEntity(xml_node<> *node, const Vec2i& toCenter)
+
+Entity* EntityFactory::createEntity
+(
+	xml_node<> *node,
+	const Vec2i& toCenter
+)
 {
 	
 	Entity* entity = new Entity;
@@ -23,7 +28,15 @@ Entity* EntityFactory::createEntity(xml_node<> *node, const Vec2i& toCenter)
 	pos.y = toCenter.y * cellSize;
 	
 	xml_node<> *id_node = node->first_node("id");
-	entity->id = atoi(id_node->value());
+	if( id_node != 0 )
+	{
+		entity->id = atoi(id_node->value());
+	}
+	else
+	{
+		entity->id = countId;
+		countId++;
+	}
 	
 	// position
 	xml_node<> *position_node = node->first_node("position");
@@ -64,6 +77,6 @@ Entity* EntityFactory::createEntity(xml_node<> *node, const Vec2i& toCenter)
 void EntityFactory::destroyEntity(Entity* entity)
 {
 	
-	
+	delete entity;
 	
 }

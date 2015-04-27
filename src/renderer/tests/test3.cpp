@@ -25,7 +25,7 @@ int main()
 	
 	GraphicsSystem graphicsSystem
 	(
-		"test2",
+		"test3",
 		600, 600,
 		false
 	);
@@ -45,6 +45,7 @@ int main()
 	while(true)
 	{
 		
+		cout << "total sprites: " << sprites.size() << endl;
 		unsigned int beginTicks = SDL_GetTicks();
 		
 		eventHandler.poll();

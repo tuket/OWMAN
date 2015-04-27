@@ -40,3 +40,5 @@ void GraphicsComponent::setPriority(int priority)
 {
 	this->priority = priority;
 }
+
+

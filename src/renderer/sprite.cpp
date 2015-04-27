@@ -28,3 +28,11 @@ void Sprite::draw()const
 	renderer->draw(position, scale, resourceTexture->getTexture());
 	
 }
+
+Sprite::~Sprite()
+{
+	
+	ResourceManager* resourceManager = ResourceManager::getSingleton();
+	resourceManager->releaseTexture( resourceTexture );
+	
+}

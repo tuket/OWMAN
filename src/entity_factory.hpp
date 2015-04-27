@@ -13,7 +13,14 @@ class EntityFactory
 	
 	Engine* myEngine;
 	
-	unsigned int countId;
+	// Entities con be created by suplying a fixed id,
+	// otherwise it will be assigned an arbitrary id
+	// If you are giving a fixed id to an entity in the xml file
+	// you must choose a number between 1 and DEFAULT_INIT_ID
+	static const Entity::Id DEFAULT_INIT_ID = 0x1000000;
+	
+	// 0 means invalid id
+	Entity::Id countId;
 	
 public:
 	
@@ -21,6 +28,7 @@ public:
 	EntityFactory(Engine* engine);
 	
 	Entity* createEntity(rapidxml::xml_node<> *node, const Vec2i& toCenter);
+	
 	void destroyEntity(Entity* entity);
 	
 };

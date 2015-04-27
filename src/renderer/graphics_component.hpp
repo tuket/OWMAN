@@ -50,6 +50,8 @@ public:
 	int getPriority()const;
 	void setPriority(int priority);
 	
+	virtual ~GraphicsComponent() {};
+	
 };
 
 #endif

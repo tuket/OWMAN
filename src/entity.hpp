@@ -20,8 +20,11 @@ class Entity
 	Id id;
 	
 	GraphicsComponent* graphicsComponent;
+	// Physics component here
 	
 	Entity();
+	
+	void setGraphicsComponent(GraphicsComponent* component);
 	
 public:
 	
@@ -32,7 +35,8 @@ public:
 	void setPosition(const Vec2f& pos);
 	
 	GraphicsComponent* getGraphicsComponent();
-	void setGraphicsComponent(GraphicsComponent* component);
+	
+	~Entity();
 	
 };
 

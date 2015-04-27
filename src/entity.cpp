@@ -4,6 +4,8 @@
 Entity::Entity()
 {
 	id = 0;		// 0 is invalid
+	typeId = 0;
+	graphicsComponent = 0;
 }
 
 TypeId Entity::getTypeOfEntity()const
@@ -34,4 +36,14 @@ GraphicsComponent* Entity::getGraphicsComponent()
 void Entity::setGraphicsComponent(GraphicsComponent* component)
 {
 	graphicsComponent = component;
+}
+
+Entity::~Entity()
+{
+	
+	if( graphicsComponent != 0 )
+	{
+		delete graphicsComponent;
+	}
+	
 }

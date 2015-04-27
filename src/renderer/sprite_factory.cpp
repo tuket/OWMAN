@@ -1,9 +1,17 @@
 #include "sprite_factory.hpp"
 #include "../resource_manager/resource_manager.hpp"
 
+
 SpriteFactory::SpriteFactory(GraphicsSystem* graphicsSystem)
 {
 	this->myGraphicsSystem = graphicsSystem;
+}
+
+void SpriteFactory::destroyGraphicsComponent(GraphicsComponent* graphicsComponent)
+{
+	
+	delete graphicsComponent;
+	
 }
 
 Sprite* SpriteFactory::createSprite(std::string fileName, const Vec2f& scale)
@@ -23,8 +31,6 @@ Sprite* SpriteFactory::createSprite(std::string fileName, const Vec2f& scale)
 void SpriteFactory::destroySprite(Sprite* sprite)
 {
 	
-	ResourceManager* resourceManager = ResourceManager::getSingleton();
-	resourceManager->releaseTexture(sprite->resourceTexture);
 	delete sprite;
 	
 }

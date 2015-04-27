@@ -19,6 +19,8 @@ class SpriteFactory
 	
 public:
 	
+	void destroyGraphicsComponent(GraphicsComponent* graphicsComponent);
+	
 	Sprite* createSprite(std::string fileName, const Vec2f& scale);
 	void destroySprite(Sprite* sprite);
 	

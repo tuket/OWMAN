@@ -43,6 +43,8 @@ public:
 	
 	void becomeReady()const;
 	
+	~Sprite();
+	
 };
 
 #endif

@@ -28,11 +28,10 @@ class WorldStreamer
 	// concides with the cell where the main character is
 	// and with origin of coordinates
 	Vec2i windowPos;
+	const float cellSize;
 	
 	WorldWindow worldWindow;
 	std::string worldFolder;
-	
-	Entity* mainCharacter;
 	
 	EntityFactory* entityFactory;
 	
@@ -43,11 +42,24 @@ public:
 	(
 		std::string worldFolder,
 		EntityFactory* entityFactory,
+		float cellSize = 100.f
 	);
 	
+	/**
+	 * \brief Inits the world streamer.
+	 * \param cell the cell where the main character is located.
+	 * \param offset of the character wrt the cell bot left corner.
+	 * Both params could be ingnored by the implementation.
+	 **/
+	void init(Vec2i cell, Vec2f offset);
 	
-	void init();
-	void update();
+	/**
+	 * \brief Updates the world streamer.
+	 * \param cell the cell where the main character is located.
+	 * \param offset of the character wrt the cell bot left corner.
+	 * Both params could be ingnored by the implementation.
+	 **/
+	void update(Vec2i cell, Vec2f offset);
 	
 	Vec2i getWindowPosition()const;
 	
