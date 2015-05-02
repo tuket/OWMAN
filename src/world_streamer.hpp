@@ -28,7 +28,7 @@ class WorldStreamer
 	// concides with the cell where the main character is
 	// and with origin of coordinates
 	Vec2i windowPos;
-	const float cellSize;
+	const float cellSize = 100;
 	
 	WorldWindow worldWindow;
 	std::string worldFolder;

@@ -10,24 +10,23 @@
 
 class TestWorldStreamer : public IWorldStreamer
 {
-	
+
 protected:
 
-	EntityFactory* entityFactory;
-	vector<Entity*> entities;
-	
+	std::vector<Entity*> entities;
+
 public:
 
 	TestWorldStreamer(){}
-	
+
 	TestWorldStreamer(EntityFactory* entityFactory);
-	
+
 	void init(Vec2i cell, Vec2f offset);
-	
-	void update(Vec2i cell, Vec2f offset);
-	
-	std::vector<Entity*> getActiveEntities()const;
-	
+
+	void update(Vec2f position);
+
+	std::vector<Entity*> getEntities()const;
+
 };
 
 #endif

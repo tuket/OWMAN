@@ -4,16 +4,16 @@
 Entity::Entity()
 {
 	id = 0;		// 0 is invalid
-	typeId = 0;
+	typeId = "";
 	graphicsComponent = 0;
 }
 
-TypeId Entity::getTypeOfEntity()const
+Entity::TypeId Entity::getTypeOfEntity()const
 {
 	return typeId;
 }
 
-Id Entity::getId()const
+Entity::Id Entity::getId()const
 {
 	return id;
 }
@@ -40,10 +40,10 @@ void Entity::setGraphicsComponent(GraphicsComponent* component)
 
 Entity::~Entity()
 {
-	
+
 	if( graphicsComponent != 0 )
 	{
 		delete graphicsComponent;
 	}
-	
+
 }

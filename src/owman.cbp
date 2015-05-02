@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="owman" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/owman" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lSDL2 -lGL -lGLEW -lSOIL -lpthread" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/owman" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lSDL2 -lGL -lGLEW -lSOIL -lpthread" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="IO/event_handler.cpp" />
+		<Unit filename="IO/event_handler.hpp" />
+		<Unit filename="cell_size.hpp" />
+		<Unit filename="engine.cpp" />
+		<Unit filename="engine.hpp" />
+		<Unit filename="entity.cpp" />
+		<Unit filename="entity.hpp" />
+		<Unit filename="entity_factory.cpp" />
+		<Unit filename="entity_factory.hpp" />
+		<Unit filename="i_world_streamer.cpp" />
+		<Unit filename="i_world_streamer.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="math/vec2f.cpp" />
+		<Unit filename="math/vec2f.hpp" />
+		<Unit filename="math/vec2i.cpp" />
+		<Unit filename="math/vec2i.hpp" />
+		<Unit filename="renderer/camera.cpp" />
+		<Unit filename="renderer/camera.hpp" />
+		<Unit filename="renderer/color.hpp" />
+		<Unit filename="renderer/graphics_component.cpp" />
+		<Unit filename="renderer/graphics_component.hpp" />
+		<Unit filename="renderer/graphics_system.cpp" />
+		<Unit filename="renderer/graphics_system.hpp" />
+		<Unit filename="renderer/low_level_renderer_2d.cpp" />
+		<Unit filename="renderer/low_level_renderer_2d.hpp" />
+		<Unit filename="renderer/sprite.cpp" />
+		<Unit filename="renderer/sprite.hpp" />
+		<Unit filename="renderer/sprite_factory.cpp" />
+		<Unit filename="renderer/sprite_factory.hpp" />
+		<Unit filename="resource_manager/resource.cpp" />
+		<Unit filename="resource_manager/resource.hpp" />
+		<Unit filename="resource_manager/resource_factory.cpp" />
+		<Unit filename="resource_manager/resource_factory.hpp" />
+		<Unit filename="resource_manager/resource_manager.cpp" />
+		<Unit filename="resource_manager/resource_manager.hpp" />
+		<Unit filename="resource_manager/resource_request.cpp" />
+		<Unit filename="resource_manager/resource_request.hpp" />
+		<Unit filename="resource_manager/resource_table.cpp" />
+		<Unit filename="resource_manager/resource_table.hpp" />
+		<Unit filename="resource_manager/resource_table_entry.cpp" />
+		<Unit filename="resource_manager/resource_table_entry.hpp" />
+		<Unit filename="resource_manager/resource_text.cpp" />
+		<Unit filename="resource_manager/resource_text.hpp" />
+		<Unit filename="resource_manager/resource_text_factory.cpp" />
+		<Unit filename="resource_manager/resource_text_factory.hpp" />
+		<Unit filename="resource_manager/resource_texture.cpp" />
+		<Unit filename="resource_manager/resource_texture.hpp" />
+		<Unit filename="resource_manager/resource_texture_factory.cpp" />
+		<Unit filename="resource_manager/resource_texture_factory.hpp" />
+		<Unit filename="resource_manager/work_queue.cpp" />
+		<Unit filename="resource_manager/work_queue.hpp" />
+		<Unit filename="test_world_streamer.cpp" />
+		<Unit filename="test_world_streamer.hpp" />
+		<Unit filename="world_cell.cpp" />
+		<Unit filename="world_cell.hpp" />
+		<Unit filename="world_streamer.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="world_streamer.hpp" />
+		<Unit filename="world_window.cpp" />
+		<Unit filename="world_window.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

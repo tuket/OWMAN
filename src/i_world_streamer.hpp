@@ -1,4 +1,6 @@
 #include <vector>
+#include "math/vec2i.hpp"
+#include "math/vec2f.hpp"
 
 #ifndef ENTITY
 class Entity;
@@ -13,39 +15,41 @@ class EntityFactory;
 
 class IWorldStreamer
 {
-	
+
 protected:
 
 	EntityFactory* entityFactory;
-	
+
 public:
 
 	IWorldStreamer(){}
-	
+
 	IWorldStreamer(EntityFactory* entityFactory);
-	
+
+	EntityFactory* getEntityFactory()const;
+	void setEntityFactory(EntityFactory* entityFactory);
+
 	/**
 	 * \brief Inits the world streamer.
 	 * \param cell the cell where the main character is located.
 	 * \param offset of the character wrt the cell bot left corner.
-	 * Both params could be ingnored by the implementation.
+	 * Both params could be ignored by the implementation.
 	 **/
-	void init(Vec2i cell, Vec2f offset);
-	
+	virtual void init(Vec2i cell, Vec2f offset) = 0;
+
 	/**
 	 * \brief Updates the world streamer.
-	 * \param cell the cell where the main character is located.
 	 * \param offset of the character wrt the cell bot left corner.
-	 * Both params could be ingnored by the implementation.
+	 * The param could be ignored by the implementation.
 	 **/
-	void update(Vec2i cell, Vec2f offset);
-	
+	virtual void update(Vec2f position) = 0;
+
 	/**
 	 * \brief Returns a vector of pointers to all the active entities
-	 * 
+	 *
 	 **/
-	std::vector<Entity*> getActiveEntities()const;
-	
+	virtual std::vector<Entity*> getEntities()const = 0;
+
 };
 
 #endif

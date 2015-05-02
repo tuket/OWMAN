@@ -27,6 +27,12 @@ public:
 	EntityFactory(){}
 	EntityFactory(Engine* engine);
 	
+	/**
+	 * \brief Create an entity
+	 * \param node The root xml node
+	 * \param toCenter Number of cells to the center of the world window
+	 * \return A pointer to the entity. Use destroyEntity() to release.
+	 **/
 	Entity* createEntity(rapidxml::xml_node<> *node, const Vec2i& toCenter);
 	
 	void destroyEntity(Entity* entity);
