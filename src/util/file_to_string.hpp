@@ -1,3 +1,4 @@
+#include <fstream>
 
 #ifndef FILE_TO_STRING
 #define FILE_TO_STRING
@@ -5,8 +6,9 @@
 char* fileToString(const char* fileName)
 {
 	
-	fstream fs;
-	fs.open(fileName, fstream::in);
+	std::fstream fs;
+	fs.open(fileName, std::fstream::in);
+	if( !fs.is_open() ) return 0;
 	
 	fs.seekg(0, fs.end);
 	int length = fs.tellg();
