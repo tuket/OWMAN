@@ -1,0 +1,21 @@
+
+<id>1</id>
+
+<position>
+	<x>100</x>
+	<y>100</y>
+</position>
+
+<graphics>
+	<texture>main_character.png</texture>
+	<width>10</width>
+	<height>15</height>
+</graphics>
+
+<physics>
+	<shape>box</shape>
+	<width>10</width>
+	<height>15</height>
+	<mass>60</mass>
+</physics>
+
