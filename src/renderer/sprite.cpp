@@ -23,16 +23,23 @@ void Sprite::becomeReady()const
 
 void Sprite::draw()const
 {
-	
+
 	LowLevelRenderer2D* renderer = myFactory->getGraphicsSystem()->getRenderer();
 	renderer->draw(position, scale, resourceTexture->getTexture());
-	
+
 }
 
 Sprite::~Sprite()
 {
-	
+
 	ResourceManager* resourceManager = ResourceManager::getSingleton();
 	resourceManager->releaseTexture( resourceTexture );
-	
+
+}
+
+void Sprite::destroyDispatcher()
+{
+
+    myGraphicsSystem->destroySprite( this );
+
 }

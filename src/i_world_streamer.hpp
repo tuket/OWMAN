@@ -35,20 +35,24 @@ public:
 	 * \param offset of the character wrt the cell bot left corner.
 	 * Both params could be ignored by the implementation.
 	 **/
-	virtual void init(Vec2i cell, Vec2f offset) = 0;
+	virtual void init(Vec2i& cell, Vec2f& offset) = 0;
 
 	/**
 	 * \brief Updates the world streamer.
 	 * \param offset of the character wrt the cell bot left corner.
 	 * The param could be ignored by the implementation.
 	 **/
-	virtual void update(Vec2f position) = 0;
+	virtual void update(Vec2f& position) = 0;
 
 	/**
 	 * \brief Returns a vector of pointers to all the active entities
 	 *
 	 **/
 	virtual std::vector<Entity*> getEntities()const = 0;
+
+	virtual float getCellSize()const;
+
+	virtual ~IWorldStreamer(){}
 
 };
 

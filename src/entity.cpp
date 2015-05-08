@@ -18,7 +18,12 @@ Entity::Id Entity::getId()const
 	return id;
 }
 
-Vec2f Entity::getPosition()const
+const Vec2f& Entity::getPosition()const
+{
+	return graphicsComponent->getPosition();
+}
+
+Vec2f& Entity::getPosition()
 {
 	return graphicsComponent->getPosition();
 }

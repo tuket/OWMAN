@@ -11,7 +11,12 @@ void GraphicsComponent::setVisible(bool visible)
 	this->visible = visible;
 }
 
-Vec2f GraphicsComponent::getPosition()const
+const Vec2f& GraphicsComponent::getPosition()const
+{
+	return position;
+}
+
+Vec2f& GraphicsComponent::getPosition()
 {
 	return position;
 }

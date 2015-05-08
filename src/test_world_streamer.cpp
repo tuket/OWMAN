@@ -14,7 +14,7 @@ TestWorldStreamer::TestWorldStreamer(EntityFactory* entityFactory)
 
 }
 
-void TestWorldStreamer::init(Vec2i cell, Vec2f offset)
+void TestWorldStreamer::init(Vec2i& cell, Vec2f& offset)
 {
 
 	char entityText[] =
@@ -51,7 +51,7 @@ void TestWorldStreamer::init(Vec2i cell, Vec2f offset)
 
 }
 
-void TestWorldStreamer::update(Vec2f position)
+void TestWorldStreamer::update(Vec2f& position)
 {
 
 }

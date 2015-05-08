@@ -19,7 +19,7 @@ class Engine
 	GraphicsSystem* graphicsSystem;
 
 	IWorldStreamer* worldStreamer;
-	Entity* mainCharacter;
+	MainCharacter* mainCharacter;
 
 	EventHandler eventHandler;
 
@@ -32,9 +32,12 @@ public:
 
 	void init();
 
-	GraphicsSystem* getGraphicsSystem();
-
 	void mainLoop();
+
+    GraphicsSystem* getGraphicsSystem();
+	MainCharacter* getMainCharacter();
+
+	float getCellSize()const;
 
 	~Engine();
 

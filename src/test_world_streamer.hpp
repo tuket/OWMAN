@@ -21,9 +21,9 @@ public:
 
 	TestWorldStreamer(EntityFactory* entityFactory);
 
-	void init(Vec2i cell, Vec2f offset);
+	void init(Vec2i& cell, Vec2f& offset);
 
-	void update(Vec2f position);
+	void update(Vec2f& position);
 
 	std::vector<Entity*> getEntities()const;
 

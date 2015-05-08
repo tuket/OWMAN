@@ -1,28 +1,11 @@
 <cell>
 <entity>
 	<position>
-		<x>265.494739037</x>
-		<y>426.246892239</y>
+		<x>229.794593589</x>
+		<y>215.251058621</y>
 	</position>
 	<graphics>
-		<texture>tukifoc.png</texture>
-		<width>120</width>
-		<height>120</height>
-	</graphics>
-	<physics>
-		<shape>box</shape>
-		<width>120</width>
-		<height>120</height>
-		<mass>60</mass>
-	</physics>
-</entity>
-<entity>
-	<position>
-		<x>79.2614515478</x>
-		<y>413.520784762</y>
-	</position>
-	<graphics>
-		<texture>chicken.png</texture>
+		<texture>angry_bird.png</texture>
 		<width>64</width>
 		<height>64</height>
 	</graphics>
@@ -35,8 +18,8 @@
 </entity>
 <entity>
 	<position>
-		<x>128.421022897</x>
-		<y>232.666959761</y>
+		<x>74.8123053948</x>
+		<y>206.818959441</y>
 	</position>
 	<graphics>
 		<texture>tukifoc.png</texture>

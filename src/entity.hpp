@@ -35,7 +35,8 @@ public:
 	TypeId getTypeOfEntity()const;
 	Id getId()const;
 
-	Vec2f getPosition()const;
+	const Vec2f& getPosition()const;
+	Vec2f& getPosition();
 	void setPosition(const Vec2f& pos);
 
 	GraphicsComponent* getGraphicsComponent();

@@ -25,69 +25,69 @@ GraphicsSystem::GraphicsSystem
 ),
 spriteFactory(this)
 {
-	
+
 	camera.myGraphicsSystem = this;
 	ResourceManager* resMan = ResourceManager::getSingleton();
 	resMan->setRenderer(&renderer);
-	
+
 }
 
 void GraphicsSystem::update(unsigned int delta)
 {
-	
+
 	// process pending tasks
-	for(int i=0; i<pendingTasks.size(); i++)
+	for(unsigned int i=0; i<pendingTasks.size(); i++)
 	{
-		
+
 		if( pendingTasks[i].pendingTaskType == PendingTaskType::DESTROY_SPRITE )
 		{
-			
+
 			Sprite* sprite = (Sprite*)(pendingTasks[i].pointer);
-			
+
 			// the sprite has been laoded
 			// we can now remove it and unmark the pending task
 			if( sprite->isReady() )
 			{
-				
+
 				destroySprite(sprite);
-				
+
 				// this technique allow to delete one element in constant
 				// time if you do not care about the order of the elements
 				pendingTasks[i] = pendingTasks[pendingTasks.size()-1];
 				pendingTasks.pop_back();
-				
+
 				i--;
-				
+
 			}
-			
+
 		}
-		
-		
+
+
 		// I think that it could be a good idea to process only one of
 		// these pending tasks per frame so it is less likely to have
 		// fps drops
 		break;
-		
+
 	}
-	
+
 	set<GraphicsComponent*>::iterator it;
 	for( it=components.begin(); it != components.end(); ++it )
 	{
-		
+
 		(*it)->update(delta);
-		
+
 	}
-	
+
 }
 
 void GraphicsSystem::draw()
 {
-	
+
 	renderer.clear();
 	set<GraphicsComponent*>::iterator it;
 	for( it=components.begin(); it != components.end(); ++it )
 	{
-		
+
 		if( (*it)->isReady() )
 		{
 			if( (*it)->isVisible() )
@@ -97,30 +97,30 @@ void GraphicsSystem::draw()
 		}
 		else
 		{
-			
+
 			// loaded -> must upload to graphics card
 			if((*it)->isLoaded())
 			{
 				(*it)->becomeReady();
 			}
-			
+
 			// not loaded -> just wait
 			else
 			{
 				renderer.drawColorSquare((*it)->position, (*it)->scale, Color(1,0.5,0.5));
 			}
-			
+
 		}
-		
+
 	}
-	
+
 }
 
 void GraphicsSystem::swap()
 {
-	
+
 	renderer.swap();
-	
+
 }
 
 Sprite* GraphicsSystem::createSprite(std::string fileName, const Vec2f& scale)
@@ -135,7 +135,7 @@ void GraphicsSystem::destroySprite(Sprite* sprite)
 {
 	// what if this function is called before the texture
 	// is loaded?
-	
+
 	// the texture of the sprite has already been loaded
 	// to RAM and to video memory
 	if(sprite->isReady())
@@ -143,7 +143,7 @@ void GraphicsSystem::destroySprite(Sprite* sprite)
 		components.erase(sprite);
 		spriteFactory.destroySprite(sprite);
 	}
-	
+
 	// the texture is not loaded to the video memory yet
 	// we must wait for it to be loaded in order to unload it
 	else
@@ -151,7 +151,14 @@ void GraphicsSystem::destroySprite(Sprite* sprite)
 		PendingTask destroyLaterTask(PendingTaskType::DESTROY_SPRITE, sprite);
 		pendingTasks.push_back(destroyLaterTask);
 	}
-	
+
+}
+
+void GraphicsSystem::destroyGraphicsComponent(GraphicsComponent* graphicsComponent)
+{
+
+    graphicsComponent->destroyDispatcher();
+
 }
 
 Engine* GraphicsSystem::getEngine()

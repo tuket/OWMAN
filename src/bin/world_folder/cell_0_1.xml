@@ -1,8 +1,25 @@
 <cell>
 <entity>
 	<position>
-		<x>265.494739037</x>
-		<y>426.246892239</y>
+		<x>69.8147807629</x>
+		<y>261.825942529</y>
+	</position>
+	<graphics>
+		<texture>pikachu.png</texture>
+		<width>64</width>
+		<height>64</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>64</width>
+		<height>64</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>430.019735998</x>
+		<y>377.931223959</y>
 	</position>
 	<graphics>
 		<texture>tukifoc.png</texture>
@@ -18,11 +35,11 @@
 </entity>
 <entity>
 	<position>
-		<x>79.2614515478</x>
-		<y>413.520784762</y>
+		<x>333.354389307</x>
+		<y>300.212563742</y>
 	</position>
 	<graphics>
-		<texture>chicken.png</texture>
+		<texture>angry_bird.png</texture>
 		<width>64</width>
 		<height>64</height>
 	</graphics>
@@ -35,18 +52,18 @@
 </entity>
 <entity>
 	<position>
-		<x>128.421022897</x>
-		<y>232.666959761</y>
+		<x>26.0672546131</x>
+		<y>419.644770225</y>
 	</position>
 	<graphics>
-		<texture>tukifoc.png</texture>
-		<width>120</width>
-		<height>120</height>
+		<texture>topo.png</texture>
+		<width>100</width>
+		<height>150</height>
 	</graphics>
 	<physics>
 		<shape>box</shape>
-		<width>120</width>
-		<height>120</height>
+		<width>100</width>
+		<height>150</height>
 		<mass>60</mass>
 	</physics>
 </entity>

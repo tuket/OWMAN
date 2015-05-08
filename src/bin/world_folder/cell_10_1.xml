@@ -1,0 +1,70 @@
+<cell>
+<entity>
+	<position>
+		<x>87.2723578346</x>
+		<y>59.59132003</y>
+	</position>
+	<graphics>
+		<texture>angry_bird.png</texture>
+		<width>64</width>
+		<height>64</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>64</width>
+		<height>64</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>249.524549128</x>
+		<y>22.5539026851</y>
+	</position>
+	<graphics>
+		<texture>angry_bird.png</texture>
+		<width>64</width>
+		<height>64</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>64</width>
+		<height>64</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>116.828865831</x>
+		<y>111.882789315</y>
+	</position>
+	<graphics>
+		<texture>elf.png</texture>
+		<width>100</width>
+		<height>100</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>100</width>
+		<height>100</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>48.0794729627</x>
+		<y>117.529940357</y>
+	</position>
+	<graphics>
+		<texture>pikachu.png</texture>
+		<width>64</width>
+		<height>64</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>64</width>
+		<height>64</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+</cell>

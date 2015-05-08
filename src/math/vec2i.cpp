@@ -10,9 +10,10 @@ Vec2i Vec2i::operator=(const Vec2i& vec)
 {
 	this->x = vec.x;
 	this->y = vec.y;
+	return *this;
 }
 
-Vec2i Vec2i::operator+(const Vec2i& vec)
+Vec2i Vec2i::operator+(const Vec2i& vec)const
 {
 	Vec2i res(x, y);
 	res.x += vec.x;
@@ -20,7 +21,7 @@ Vec2i Vec2i::operator+(const Vec2i& vec)
 	return res;
 }
 
-Vec2i Vec2i::operator-(const Vec2i& vec)
+Vec2i Vec2i::operator-(const Vec2i& vec)const
 {
 	Vec2i res(x, y);
 	res.x -= vec.x;
@@ -28,8 +29,31 @@ Vec2i Vec2i::operator-(const Vec2i& vec)
 	return res;
 }
 
-Vec2i Vec2i::operator-()
+Vec2i Vec2i::operator-()const
 {
 	Vec2i res(-x, -y);
 	return res;
+}
+
+bool Vec2i::operator<(const Vec2i& v)const
+{
+
+    if( x == v.x ) return y < v.y;
+
+    return x < v.x;
+
+}
+
+bool Vec2i::operator==(const Vec2i& v)const
+{
+
+    return x == v.x && y == v.y;
+
+}
+
+bool Vec2i::operator!=(const Vec2i& v)const
+{
+
+    return x != v.x || y != v.y;
+
 }

@@ -2,60 +2,499 @@
 #include "dependencies/rapidxml/rapidxml.hpp"
 #include "util/file_to_string.hpp"
 #include "math/vec2i.hpp"
+#include "resource_manager/resource_manager.hpp"
+#include "entity_factory.hpp"
 #include <fstream>
+#include <sstream>
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include <typeinfo>
+#include <regex>
 
 using namespace std;
 using namespace rapidxml;
+using namespace boost;
+
+// helper
+/** \brief returns whether a given string is the name of a cell file
+ * \param the name of the file
+ * \return whether it is a cell file
+ *
+ */
+bool isCellFile(string fileName)
+{
+
+    string minSample = "cell_0_0.xml";
+    if( fileName.size() < minSample.size() ) return false;
+
+    int slash = 0;
+    for(int i = fileName.size(); i>=0; i--)
+    if( fileName[i] == '/' )
+    {
+        slash = i;
+        slash++;
+        break;
+    }
+    int i = slash;
+
+    string s1 = "cell_";
+
+    for(unsigned int j=0; j<s1.size(); j++, i++)
+    {
+        if( s1[j] != fileName[i] ) return false;
+    }
+
+    if( fileName[i] == '0' )
+    {
+
+        if( fileName[i+1] != '_' ) return false;
+        i += 2;
+
+    }
+    else
+    {
+
+        if( !('1' <= fileName[i] && fileName[i] <= '9') ) return false;
+        i++;
+
+        while( '0' <= fileName[i] && fileName[i] <= '9' )
+        {
+            i++;
+        }
+
+        if( fileName[i] != '_' ) return false;
+
+        i++;
+
+    }
+
+    if( fileName[i] == '0' )
+    {
+
+        if( fileName[i+1] != '.' ) return false;
+        i += 2;
+
+    }
+    else
+    {
+
+        if( !('1' <= fileName[i] && fileName[i] <= '9') ) return false;
+        i++;
+
+        while( '0' <= fileName[i] && fileName[i] <= '9' )
+        {
+            i++;
+        }
+
+        if( fileName[i] != '.' ) return false;
+
+        i++;
+
+    }
+
+    string s2 = "xml";
+
+    for(unsigned int j=0; j<s2.size(); j++, i++)
+    {
+        if( fileName[i] != s2[j] ) return false;
+    }
+
+    return true;
+
+}
+
+// helper
+/** \brief returns the cell position from the file name
+ * \param the name of the file
+ * \return the position of the cell
+ * For example "cell_3_4.xml" -> Vec2i(3, 4). <br>
+ * Assumes the the file name is valid (i.e. has been
+ * checked with isCellFile()
+ */
+Vec2i getCell(string fileName)
+{
+
+    int slash = 0;
+    for(int i = fileName.size(); i>=0; i--)
+    if( fileName[i] == '/' )
+    {
+        slash = i;
+        slash++;
+        break;
+    }
+    int i = slash;
+
+    while( !('0' <= fileName[i] && fileName[i] <= '9')  )
+    {
+        i++;
+    }
+
+    int x = 0;
+    while( '0' <= fileName[i] && fileName[i] <= '9' )
+    {
+        x *= 10;
+        x += (int)(fileName[i] - '0');
+
+        i++;
+    }
+
+    while( !('0' <= fileName[i] && fileName[i] <= '9')  )
+    {
+        i++;
+    }
+
+    int y = 0;
+    while( '0' <= fileName[i] && fileName[i] <= '9' )
+    {
+        y *= 10;
+        y += (int)(fileName[i] - '0');
+
+        i++;
+    }
+
+    return Vec2i(x, y);
+
+}
 
 WorldStreamer::WorldStreamer
 (
 	string worldFolder,
-	EntityFactory* entityFactory
+	EntityFactory* entityFactory,
+	float cellSize,
+    unsigned int windowSize
 )
+:
+cellSize(cellSize),
+worldWindow(windowSize)
 {
 
 	this->worldFolder = worldFolder;
 	this->entityFactory = entityFactory;
-	this->graphicsSystem = graphicsSystem;
 
-	char* mainCharText = fileToString(worldFolder + "/main_character.xml");
+	filesystem::wpath worldPath(worldFolder);
 
-	xml_document<> mainCharDoc;
-	mainCharDoc.parse<0> (mainCharText);
+    filesystem::directory_iterator end_dit;
 
-	xml_node<> *root = mainCharDoc.first_node("main_character");
+    for
+    (
+        filesystem::directory_iterator dit( worldFolder )
+        ;
+        dit != end_dit
+        ;
+        ++dit
+    )
+    {
 
-	Vec2i mainCharPos;
+        if( filesystem::is_regular_file( dit->status() ) )
+        {
+            string fileName = dit->path().string();
 
-	xml_node<> *posNode = root->first_node("position");
-		xml_node<> *posXNode = posNode->first_node("x");
-		mainCharPos.x = atoi( posXNode->value() );
-		xml_node<> *posYNode = posNode->first_node("y");
-		mainCharPos.y = atoi( posYNode->value() );
+            bool isCell = isCellFile(fileName);
 
-	windowPos = mainCharPos;
+            if( isCell )
+            {
 
-	mainCharacter = entityFactory->createEntity(mainCharNode, Vec2i(0,0));
+                Vec2i cell = getCell( fileName );
+                cout << "available cell: " << cell.x << ", " << cell.y << endl;
+                availableCells.insert( cell );
 
-	delete[] mainCharText;
+            }
+
+        }
+
+    }
 
 }
 
-void WorldStreamer::init()
+void WorldStreamer::init(Vec2i& cell, Vec2f& offset)
 {
 
+    for
+    (
+        int y = cell.y - worldWindow.windowSize;
+        y <= (int)(cell.y + worldWindow.windowSize);
+        y++
+    )
+    for
+    (
+        int x = cell.x - worldWindow.windowSize;
+        x <= (int)(cell.x + worldWindow.windowSize);
+        x++
+    )
+    if( availableCells.find( Vec2i(x, y) ) != availableCells.end() )
+    {
 
+        stringstream ss;
+        ss << worldFolder
+        << "/"
+        << "cell_"
+        << x
+        << "_"
+        << y
+        << ".xml";
+
+        string fileName = ss.str();
+        // cout << fileName << endl;
+
+        ResourceManager* resMan = ResourceManager::getSingleton();
+        ResourceText* cellResource = resMan->obtainText(fileName);
+        loadingCellResources[ Vec2i(x, y) ] = cellResource;
+
+    }
 
 }
 
-void WorldStreamer::update()
+void WorldStreamer::update(Vec2f& position)
 {
 
+    // check if the main character changed of position
 
+    Vec2i nextCell = windowPos;
+    Vec2f pos = position;
+
+    while( pos.x < 0.0f )
+    {
+        nextCell.x--;
+        pos.x += cellSize;
+    }
+    while( pos.x > cellSize )
+    {
+        nextCell.x++;
+        pos.x -= cellSize;
+    }
+
+    while( pos.y < 0.0 )
+    {
+        nextCell.y--;
+        pos.y += cellSize;
+    }
+    while( pos.y > cellSize )
+    {
+        nextCell.y++;
+        pos.y -= cellSize;
+    }
+
+    // changed of cell
+    // must change the coordinate system origin
+    if( nextCell != windowPos )
+    {
+
+        // update window pos
+        windowPos = nextCell;
+
+        // update entities pos
+        vector<Entity*> ents = getEntities();
+        for(unsigned int i=0; i<ents.size(); i++)
+        {
+            Vec2f pPos = ents[i]->getPosition();
+            ents[i]->setPosition( pPos + (pos-position) );
+        }
+        position = pos;
+
+        // delete old cells
+        for
+        (
+            map<Vec2i, WorldCell>::const_iterator it = worldWindow.cells.begin();
+            it != worldWindow.cells.end();
+            ++it
+        )
+        {
+
+            if
+            (
+                (int)(nextCell.x - worldWindow.windowSize) > it->first.x ||
+                it->first.x > (int)(nextCell.x + worldWindow.windowSize) ||
+                (int)(nextCell.y - worldWindow.windowSize) > it->first.y ||
+                it->first.y > (int)(nextCell.y + worldWindow.windowSize)
+            )
+            {
+                cout << "must delete: " << worldWindow.windowSize << endl;
+                // must delete
+                const WorldCell& wc = it->second;
+
+                // release all the entities of the cell
+                for
+                (
+                    WorldCell::const_iterator it = wc.begin();
+                    it != wc.end();
+                    ++it
+                )
+                {
+                    entityFactory->destroyEntity( *it );
+                }
+
+                worldWindow.cells.erase(it);
+                // store?
+
+
+            }
+
+        }
+
+        // insert new cells
+        for
+        (
+            int y = (int)(nextCell.y - worldWindow.windowSize);
+            y <= (int)(nextCell.y + worldWindow.windowSize);
+            y++
+        )
+        for
+        (
+            int x = (int)(nextCell.x - worldWindow.windowSize);
+            x <= (int)(nextCell.x + worldWindow.windowSize);
+            x++
+        )
+        if
+        (
+            worldWindow.cells.find( Vec2i(x, y) ) != worldWindow.cells.end() &&
+            availableCells.find( Vec2i(x, y) ) != availableCells.end() &&
+            loadingCellResources.find( Vec2i(x, y) ) != loadingCellResources.end()
+        )
+        {
+
+            stringstream ss;
+            ss << worldFolder
+            << "/"
+            << "cell_"
+            << x
+            << "_"
+            << y
+            << ".xml";
+
+            string fileName = ss.str();
+            // cout << fileName << endl;
+
+            ResourceManager* resMan = ResourceManager::getSingleton();
+            ResourceText* cellResource = resMan->obtainText(fileName);
+            loadingCellResources[ Vec2i(x, y) ] = cellResource;
+
+        }
+
+
+    }
+
+    // parse loaded cell resources
+    map<Vec2i, ResourceText*>::iterator it;
+    for
+    (
+        it = loadingCellResources.begin();
+        it != loadingCellResources.end();
+        ++it
+    )
+    {
+
+        ResourceText* res = it->second;
+        // the resource file is finally loaded
+        if
+        (
+            res->getStatus() == Resource::Status::LOADED // finally loaded
+        )
+        {
+
+            // loaded late.
+            // finally loaded but it is not needed anymore,
+            // so release resource without parsing
+            if
+            (
+                (int)(windowPos.x - worldWindow.windowSize) > it->first.x ||
+                it->first.x > (int)(windowPos.x + worldWindow.windowSize )||
+                (int)(windowPos.y - worldWindow.windowSize) > it->first.y ||
+                it->first.y > (int)(windowPos.y + worldWindow.windowSize)
+            )
+            {
+                cout << "------" << endl;
+                cout << worldWindow.windowSize << endl;
+                cout << windowPos.x << ", " << windowPos.y << endl;
+                cout << it->first.x << ", " << it->first.y << endl;
+                ResourceManager* resMan = ResourceManager::getSingleton();
+                resMan->releaseText( res );
+                loadingCellResources.erase( it );
+                continue;
+
+            }
+
+            WorldCell wc;
+
+            string stext = res->getText();
+            char*  text = new char[stext.size()+1];
+            strcpy(text, stext.c_str());
+            text[ stext.size() ] = '\0';
+            cout << res->getName() << endl;
+
+            xml_document<> doc;
+            doc.parse<0>( text );
+
+            xml_node<> *node = doc.first_node("cell");
+
+            node = node->first_node("entity");
+
+            while( node != 0 )
+            {
+
+                Entity* ent = entityFactory->createEntity(node, it->first-windowPos);
+
+                wc.push_back( ent );
+                node = node->next_sibling();
+
+            }
+
+
+            Vec2i cell = it->first;
+            worldWindow.cells[ cell ] = wc;
+            ResourceManager* resMan = ResourceManager::getSingleton();
+            resMan->releaseText( res );
+            loadingCellResources.erase( it );
+
+        }
+
+    }
 
 }
 
 Vec2i WorldStreamer::getWindowPosition()const
 {
 	return windowPos;
+}
+
+float WorldStreamer::getCellSize()const
+{
+    return cellSize;
+}
+
+vector<Entity*> WorldStreamer::getEntities()const
+{
+
+    int len = 0;
+
+    for
+    (
+        map<Vec2i, WorldCell>::const_iterator it = worldWindow.cells.begin();
+        it != worldWindow.cells.end();
+        ++it
+    )
+    {
+        len += it->second.size();
+    }
+
+    vector<Entity*> ents;
+    ents.reserve(len);
+
+    for
+    (
+        map<Vec2i, WorldCell>::const_iterator it = worldWindow.cells.begin();
+        it != worldWindow.cells.end();
+        ++it
+    )
+    {
+        const WorldCell& wc = it->second;
+
+        for(unsigned int i=0; i<wc.size(); i++)
+        {
+            ents.push_back(wc[i]);
+        }
+
+    }
+
+    return ents;
+
 }

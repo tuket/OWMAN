@@ -3,6 +3,7 @@
 #include "dependencies/rapidxml/rapidxml.hpp"
 #include "util/file_to_string.hpp"
 #include <string>
+#include <sstream>
 #include <cstdio>
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -12,15 +13,12 @@ using namespace std;
 using namespace rapidxml;
 
 Engine::Engine(std::string initFile, std::string worldFolder)
+:
+eventHandler( this )
 {
 
     end = false;
     fps = 60;
-
-    worldStreamer = new TestWorldStreamer;
-    worldStreamer->setEntityFactory(&entityFactory);
-
-	entityFactory = EntityFactory(this);
 
 	char* initFileText = fileToString( initFile.c_str() );
 
@@ -62,11 +60,40 @@ Engine::Engine(std::string initFile, std::string worldFolder)
 	node = doc.first_node("y_resolution");
 	int yResolution = atof( node->value() );
 
+	node = doc.first_node("cell_size");
+	float cellSize = atof( node->value() );
+
+	node = doc.first_node("window_size");
+	int windowSize = atoi( node->value() );
+
+	worldStreamer = new WorldStreamer(worldFolder, &entityFactory, cellSize, windowSize);
+
+	entityFactory = EntityFactory(this);
+
 	graphicsSystem = new GraphicsSystem( title, xResolution, yResolution, fullscreen );
 	Camera* camera = graphicsSystem->getCamera();
 	camera->setWidth(xResolution/2);
-	camera->setHeight(yResolution/2
-);
+	camera->setHeight(yResolution/2);
+
+	delete initFileText;
+
+    // main character
+
+    stringstream ss;
+    ss << worldFolder << "/" << "main_character.xml";
+    string mcFileName = ss.str();
+
+    char* mcFileText = fileToString(mcFileName.c_str());
+
+    xml_document<> mcDoc;
+    mcDoc.parse<0>( mcFileText );
+
+    node = mcDoc.first_node("main_character");
+
+    mainCharacter = entityFactory.createMainCharacter(node);
+
+
+    delete mcFileText;
 
 }
 
@@ -79,13 +106,20 @@ void Engine::init()
     ResourceManager* resourceManager = ResourceManager::getSingleton();
     resourceManager->launch();
 
-    worldStreamer->init(Vec2i(0,0), Vec2f(0,0));
+    if( !mainCharacter )
+    {
+        //worldStreamer->init(mainCharacter->getCell(), mainCharacter->getPosition());
+    }
+    else
+    {
+        worldStreamer->init
+        (
+            mainCharacter->getCell(),
+            mainCharacter->getPosition()
+        );
+    }
 
-}
 
-GraphicsSystem* Engine::getGraphicsSystem()
-{
-	return graphicsSystem;
 }
 
 void Engine::mainLoop()
@@ -101,7 +135,7 @@ void Engine::mainLoop()
         // (update physics)
 
         // update world streamer
-        worldStreamer->update( Vec2f(0, 0) );
+        worldStreamer->update( mainCharacter->getPosition() );
 
         // get list of entities
         vector<Entity*> entities = worldStreamer->getEntities();
@@ -122,6 +156,9 @@ void Engine::mainLoop()
             }
         }
 
+        // follow main character with the camera
+        graphicsSystem->getCamera()->setPosition( -mainCharacter->getPosition() );
+
         // update graphics
         graphicsSystem->update(1000/fps);
 
@@ -135,6 +172,23 @@ void Engine::mainLoop()
 			SDL_Delay( sleepTicks );
 
     }
+
+}
+
+GraphicsSystem* Engine::getGraphicsSystem()
+{
+	return graphicsSystem;
+}
+
+MainCharacter* Engine::getMainCharacter()
+{
+    return mainCharacter;
+}
+
+float Engine::getCellSize()const
+{
+
+    return worldStreamer->getCellSize();
 
 }
 

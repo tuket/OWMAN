@@ -1,21 +1,26 @@
 
-<id>1</id>
+<main_character>
 
-<position>
-	<x>100</x>
-	<y>100</y>
-</position>
+	<id>1</id>
 
-<graphics>
-	<texture>main_character.png</texture>
-	<width>10</width>
-	<height>15</height>
-</graphics>
+	<position>
+		<cell_x>0</cell_x>
+		<cell_y>0</cell_y>
+		<x>0</x>
+		<y>0</y>
+	</position>
 
-<physics>
-	<shape>box</shape>
-	<width>10</width>
-	<height>15</height>
-	<mass>60</mass>
-</physics>
+	<graphics>
+		<texture>main_character.png</texture>
+		<width>64</width>
+		<height>100</height>
+	</graphics>
 
+	<physics>
+		<shape>box</shape>
+		<width>10</width>
+		<height>15</height>
+		<mass>60</mass>
+	</physics>
+
+</main_character>

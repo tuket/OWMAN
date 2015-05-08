@@ -1,4 +1,5 @@
 #include <vector>
+#include <map>
 #include "position.hpp"
 #include "world_cell.hpp"
 
@@ -11,24 +12,23 @@ class Entity;
 
 class WorldWindow
 {
-	
+
 	friend class WorldStreamer;
-	
-	WorldCell*** table;
-	
+
+	std::map<Vec2i, WorldCell> cells;
+
 	unsigned int windowSize;
 
 public:
-	
+
 	WorldWindow();
-	
+
 	WorldWindow(unsigned int windowSize);
-	
-	
-	WorldCell *& operator()(int x, int y);
-	
+
+    std::vector<Entity*> getEntities()const;
+
 	~WorldWindow();
-	
+
 };
 
 #endif

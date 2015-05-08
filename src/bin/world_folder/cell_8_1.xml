@@ -1,0 +1,53 @@
+<cell>
+<entity>
+	<position>
+		<x>165.505597836</x>
+		<y>142.645612889</y>
+	</position>
+	<graphics>
+		<texture>wood_box.png</texture>
+		<width>80</width>
+		<height>80</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>80</width>
+		<height>80</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>144.135435749</x>
+		<y>88.982368674</y>
+	</position>
+	<graphics>
+		<texture>wood_box.png</texture>
+		<width>80</width>
+		<height>80</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>80</width>
+		<height>80</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+<entity>
+	<position>
+		<x>151.095326678</x>
+		<y>236.10918269</y>
+	</position>
+	<graphics>
+		<texture>elf.png</texture>
+		<width>100</width>
+		<height>100</height>
+	</graphics>
+	<physics>
+		<shape>box</shape>
+		<width>100</width>
+		<height>100</height>
+		<mass>60</mass>
+	</physics>
+</entity>
+</cell>

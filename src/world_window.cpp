@@ -1,9 +1,11 @@
 #include "world_window.hpp"
 #include "world_cell.hpp"
 
+using namespace std;
+
 WorldWindow::WorldWindow()
 {
-	table = 0;
+
 }
 
 WorldWindow::WorldWindow(unsigned int windowSize)
@@ -11,36 +13,50 @@ WorldWindow::WorldWindow(unsigned int windowSize)
 
 	this->windowSize = windowSize;
 
-	table = new WorldCell** [ windowSize*2+1 ];
-	table[0] = new WorldCell* [ (windowSize*2+1)*(windowSize*2+1) ];
-	for(unsigned int i=1; i<windowSize*2+1; i++)
-	{
-		table[i] = &table[0][ i * (windowSize*2+1) ];
-	}
-
-	for(unsigned int i=0; i<(windowSize*2+1)*(windowSize*2+1); i++)
-	{
-		table[0][i] = 0;
-	}
-
 }
 
-WorldCell *& WorldWindow::operator()(int x, int y)
+vector<Entity*> WorldWindow::getEntities()const
 {
 
-	return table[y][x];
+    int len = 0;
+
+    for
+    (
+        map<Vec2i, WorldCell>::const_iterator it = cells.begin();
+        it != cells.end();
+        ++it
+    )
+    {
+
+        len += it->second.size();
+
+    }
+
+    vector<Entity*> res;
+    res.reserve(len);
+
+    for
+    (
+        map<Vec2i, WorldCell>::const_iterator it = cells.begin();
+        it != cells.end();
+        ++it
+    )
+    {
+
+        const WorldCell& wc = it->second;
+
+        for(unsigned int i=0; i<wc.size(); i++)
+        {
+            res.push_back( wc[i] );
+        }
+
+    }
+
+    return res;
 
 }
 
 WorldWindow::~WorldWindow()
 {
-
-	if(table != 0)
-	{
-
-		delete[] table[0];
-		delete[] table;
-
-	}
 
 }
