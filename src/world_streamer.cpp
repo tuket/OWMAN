@@ -346,9 +346,9 @@ void WorldStreamer::update(Vec2f& position)
         )
         if
         (
-            worldWindow.cells.find( Vec2i(x, y) ) != worldWindow.cells.end() &&
-            availableCells.find( Vec2i(x, y) ) != availableCells.end() &&
-            loadingCellResources.find( Vec2i(x, y) ) != loadingCellResources.end()
+            worldWindow.cells.find( Vec2i(x, y) ) == worldWindow.cells.end() &&     // no
+            availableCells.find( Vec2i(x, y) ) != availableCells.end() &&           // yes
+            loadingCellResources.find( Vec2i(x, y) ) == loadingCellResources.end()  // no
         )
         {
 
