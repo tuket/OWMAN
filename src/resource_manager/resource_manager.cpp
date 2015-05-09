@@ -23,6 +23,7 @@ void ResourceManager::launch()
 	int idThread;
 	_stop = false;
 	idThread = pthread_create( &myThread, 0, &ResourceManager::staticLoop, (void*)this);
+    pthread_mutex_init(&mutexTable, 0);
 
 	// check error
 	if( idThread )
@@ -37,13 +38,19 @@ void ResourceManager::launch()
 ResourceText* ResourceManager::obtainText(std::string name)
 {
 
-	unsigned int count = resourceTable.getCount( name );
+    pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount( name );
+	pthread_mutex_unlock(&mutexTable);
 
 	// not loaded
 	if( count == 0 )
 	{
 		ResourceText* resource = resourceTextFactory.createResource(name);
-		resourceTable.addEntry(name, resource);
+
+		pthread_mutex_lock(&mutexTable);
+            resourceTable.addEntry(name, resource);
+		pthread_mutex_unlock(&mutexTable);
+
 		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
 		return resource;
 	}
@@ -51,8 +58,16 @@ ResourceText* ResourceManager::obtainText(std::string name)
 	// loaded
 	else
 	{
-		resourceTable.incEntry(name);
-		return (ResourceText*)resourceTable.getResource(name);
+
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.incEntry(name);
+		pthread_mutex_unlock(&mutexTable);
+
+        pthread_mutex_lock(&mutexTable);
+            ResourceText* res = (ResourceText*)resourceTable.getResource(name);
+        pthread_mutex_unlock(&mutexTable);
+
+		return res;
 	}
 
 }
@@ -61,21 +76,29 @@ void ResourceManager::releaseText(ResourceText* resource)
 {
 
 	string name = resource->getName();
-	unsigned int count = resourceTable.getCount(name);
+
+	pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount(name);
+	pthread_mutex_unlock(&mutexTable);
 
 	// last reference
 	if( count == 1 )
 	{
 
 		resourceTextFactory.destroyResource(resource);
-		resourceTable.removeEntry(name);
+
+		pthread_mutex_lock(&mutexTable);
+            resourceTable.removeEntry(name);
+		pthread_mutex_unlock(&mutexTable);
 
 	}
 
 	// more references
 	else
 	{
-		resourceTable.decEntry(name);
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.decEntry(name);
+		pthread_mutex_unlock(&mutexTable);
 	}
 
 }
@@ -83,13 +106,19 @@ void ResourceManager::releaseText(ResourceText* resource)
 ResourceTexture* ResourceManager::obtainTexture(std::string name)
 {
 
-	unsigned int count = resourceTable.getCount( name );
+    pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount( name );
+	pthread_mutex_unlock(&mutexTable);
 
 	// not loaded
 	if( count == 0 )
 	{
 		ResourceTexture* resource = resourceTextureFactory.createResource(name);
-		resourceTable.addEntry(name, resource);
+
+		pthread_mutex_lock(&mutexTable);
+            resourceTable.addEntry(name, resource);
+		pthread_mutex_unlock(&mutexTable);
+
 		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
 		return resource;
 	}
@@ -97,8 +126,15 @@ ResourceTexture* ResourceManager::obtainTexture(std::string name)
 	// loaded
 	else
 	{
-		resourceTable.incEntry(name);
-		return (ResourceTexture*)resourceTable.getResource(name);
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.incEntry(name);
+		pthread_mutex_unlock(&mutexTable);
+
+        pthread_mutex_lock(&mutexTable);
+            ResourceTexture* res = (ResourceTexture*)resourceTable.getResource(name);
+        pthread_mutex_unlock(&mutexTable);
+
+		return res;
 	}
 
 }
@@ -107,21 +143,33 @@ void ResourceManager::releaseTexture(ResourceTexture* resource)
 {
 
 	string name = resource->getName();
-	unsigned int count = resourceTable.getCount(name);
+
+	pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount(name);
+	pthread_mutex_unlock(&mutexTable);
 
 	// last reference
 	if( count == 1 )
 	{
 
-		resourceTextureFactory.destroyResource(resource);
-		resourceTable.removeEntry(name);
+        // release of textures requires
+        // (due to some limitations of OpenGL) to be deleted by
+        // the main thread
+		resource->free();
+        resourceTextureFactory.destroyResource(resource);
+
+        pthread_mutex_lock(&mutexTable);
+            resourceTable.removeEntry(name);
+        pthread_mutex_unlock(&mutexTable);
 
 	}
 
 	// more references
 	else
 	{
-		resourceTable.decEntry(name);
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.decEntry(name);
+		pthread_mutex_unlock(&mutexTable);
 	}
 
 }
@@ -148,7 +196,11 @@ void ResourceManager::loop()
 		{
 
 			string name = request.getName();
-			Resource* resource = resourceTable.getResource(name);
+
+			pthread_mutex_lock(&mutexTable);
+                Resource* resource = resourceTable.getResource(name);
+			pthread_mutex_unlock(&mutexTable);
+
 			resource->load();
 
 		}
@@ -157,9 +209,7 @@ void ResourceManager::loop()
 		else if( request.getType() == ResourceRequest::Type::RELEASE )
 		{
 
-			string name = request.getName();
-			Resource* resource = resourceTable.getResource(name);
-			resource->free();
+			// save
 
 		}
 

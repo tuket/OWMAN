@@ -17,7 +17,13 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-lSDL2 -lGL -lGLEW -lSOIL -lpthread" />
+					<Add option="-lSDL2" />
+					<Add option="-lGL" />
+					<Add option="-lGLEW" />
+					<Add option="-lSOIL" />
+					<Add option="-lpthread" />
+					<Add option="-lboost_system" />
+					<Add option="-lboost_filesystem" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -31,80 +37,312 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-lSDL2 -lGL -lGLEW -lSOIL -lpthread" />
+					<Add option="-lSDL2" />
+					<Add option="-lGL" />
+					<Add option="-lGLEW" />
+					<Add option="-lSOIl" />
+					<Add option="-lpthread" />
+					<Add option="-lboost_system" />
+					<Add option="-lboost_filesystem" />
 				</Linker>
+			</Target>
+			<Target title="test_regex">
+				<Option output="bin/test_regex/owman" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/test_regex/" />
+				<Option object_output="obj/test_regex/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="test_is_cell_file">
+				<Option output="test_is_cell_file" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="IO/event_handler.cpp" />
-		<Unit filename="IO/event_handler.hpp" />
-		<Unit filename="cell_size.hpp" />
-		<Unit filename="engine.cpp" />
-		<Unit filename="engine.hpp" />
-		<Unit filename="entity.cpp" />
-		<Unit filename="entity.hpp" />
-		<Unit filename="entity_factory.cpp" />
-		<Unit filename="entity_factory.hpp" />
-		<Unit filename="i_world_streamer.cpp" />
-		<Unit filename="i_world_streamer.hpp" />
-		<Unit filename="main.cpp" />
-		<Unit filename="math/vec2f.cpp" />
-		<Unit filename="math/vec2f.hpp" />
-		<Unit filename="math/vec2i.cpp" />
-		<Unit filename="math/vec2i.hpp" />
-		<Unit filename="renderer/camera.cpp" />
-		<Unit filename="renderer/camera.hpp" />
-		<Unit filename="renderer/color.hpp" />
-		<Unit filename="renderer/graphics_component.cpp" />
-		<Unit filename="renderer/graphics_component.hpp" />
-		<Unit filename="renderer/graphics_system.cpp" />
-		<Unit filename="renderer/graphics_system.hpp" />
-		<Unit filename="renderer/low_level_renderer_2d.cpp" />
-		<Unit filename="renderer/low_level_renderer_2d.hpp" />
-		<Unit filename="renderer/sprite.cpp" />
-		<Unit filename="renderer/sprite.hpp" />
-		<Unit filename="renderer/sprite_factory.cpp" />
-		<Unit filename="renderer/sprite_factory.hpp" />
-		<Unit filename="resource_manager/resource.cpp" />
-		<Unit filename="resource_manager/resource.hpp" />
-		<Unit filename="resource_manager/resource_factory.cpp" />
-		<Unit filename="resource_manager/resource_factory.hpp" />
-		<Unit filename="resource_manager/resource_manager.cpp" />
-		<Unit filename="resource_manager/resource_manager.hpp" />
-		<Unit filename="resource_manager/resource_request.cpp" />
-		<Unit filename="resource_manager/resource_request.hpp" />
-		<Unit filename="resource_manager/resource_table.cpp" />
-		<Unit filename="resource_manager/resource_table.hpp" />
-		<Unit filename="resource_manager/resource_table_entry.cpp" />
-		<Unit filename="resource_manager/resource_table_entry.hpp" />
-		<Unit filename="resource_manager/resource_text.cpp" />
-		<Unit filename="resource_manager/resource_text.hpp" />
-		<Unit filename="resource_manager/resource_text_factory.cpp" />
-		<Unit filename="resource_manager/resource_text_factory.hpp" />
-		<Unit filename="resource_manager/resource_texture.cpp" />
-		<Unit filename="resource_manager/resource_texture.hpp" />
-		<Unit filename="resource_manager/resource_texture_factory.cpp" />
-		<Unit filename="resource_manager/resource_texture_factory.hpp" />
-		<Unit filename="resource_manager/work_queue.cpp" />
-		<Unit filename="resource_manager/work_queue.hpp" />
-		<Unit filename="test_world_streamer.cpp" />
-		<Unit filename="test_world_streamer.hpp" />
-		<Unit filename="world_cell.cpp" />
-		<Unit filename="world_cell.hpp" />
-		<Unit filename="world_streamer.cpp">
-			<Option compile="0" />
-			<Option link="0" />
+		<Unit filename="IO/event_handler.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
-		<Unit filename="world_streamer.hpp" />
-		<Unit filename="world_window.cpp" />
-		<Unit filename="world_window.hpp" />
+		<Unit filename="IO/event_handler.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cell_size.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="demos/test_is_cell_file.cpp">
+			<Option target="test_is_cell_file" />
+		</Unit>
+		<Unit filename="demos/test_regex.cpp">
+			<Option target="test_regex" />
+		</Unit>
+		<Unit filename="engine.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="engine.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="entity.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="entity.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="entity_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="entity_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="i_world_streamer.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="i_world_streamer.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="main_character.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="main_character.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="math/vec2f.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="math/vec2f.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="math/vec2i.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="test_is_cell_file" />
+		</Unit>
+		<Unit filename="math/vec2i.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="test_is_cell_file" />
+		</Unit>
+		<Unit filename="renderer/camera.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/camera.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/color.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/graphics_component.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/graphics_component.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/graphics_system.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/graphics_system.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/low_level_renderer_2d.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/low_level_renderer_2d.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_manager.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_manager.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_request.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_request.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_table.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_table.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_table_entry.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_table_entry.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_text.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_text.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_text_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_text_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_texture.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_texture.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_texture_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_texture_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/work_queue.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/work_queue.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="test_world_streamer.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="test_world_streamer.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="util/file_to_string.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="util/file_to_string.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_cell.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_cell.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_streamer.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_streamer.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_window.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="world_window.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project output_directory="doc" />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot class_diagrams="1" />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

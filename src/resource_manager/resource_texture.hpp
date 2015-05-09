@@ -8,32 +8,37 @@
 class ResourceTextureFactory;
 #endif
 
+#ifndef RESOURCE_MANAGER
+class ResourceManager;
+#endif
+
 class ResourceTexture : public Resource
 {
-	
+
 	friend class ResourceTextureFactory;
-	
+	friend class ResourceManager;
+
 	unsigned char* imageData;
 	LowLevelRenderer2D::Texture texture;
 	int width, height;
-	
+
 	ResourceTextureFactory* myFactory;
-	
+
 protected:
 
 	void load();
 	void free();
-	
+
 public:
-	
+
 	ResourceTexture();
-	
+
 	LowLevelRenderer2D::Texture* getTexture();
-	
+
 	void loadToGraphicsCard();
-	
+
 	~ResourceTexture(){}
-	
+
 };
 
 #endif

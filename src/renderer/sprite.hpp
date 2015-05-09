@@ -19,32 +19,34 @@ class GraphicsSystem;
 
 class Sprite : public GraphicsComponent
 {
-	
+
 	friend class Entity;
 	friend class GraphicsSystem;
-	
+
 	friend class SpriteFactory;
-	
+
 	SpriteFactory* myFactory;
-	
+
 	ResourceTexture* resourceTexture;
-	
+
 public:
-	
+
 	Sprite(SpriteFactory* factory)
 	:GraphicsComponent(),
 	myFactory(factory){}
-	
+
 	void update(unsigned int delta){}
 	void draw()const;
-	
+
 	bool isReady()const;
 	bool isLoaded()const;
-	
+
 	void becomeReady()const;
-	
+
 	~Sprite();
-	
+
+	void destroyDispatcher();
+
 };
 
 #endif

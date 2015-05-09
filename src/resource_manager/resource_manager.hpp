@@ -20,6 +20,8 @@ class ResourceManager
 	static ResourceManager uniqueInstance;
 
 	pthread_t myThread;
+    pthread_mutex_t mutexTable;     //< mutex for accessing the table
+
 	ResourceTable resourceTable;
 	ResourceTextFactory resourceTextFactory;
 	ResourceTextureFactory resourceTextureFactory;
