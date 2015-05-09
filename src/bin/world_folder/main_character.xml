@@ -18,8 +18,8 @@
 
 	<physics>
 		<shape>box</shape>
-		<width>10</width>
-		<height>15</height>
+		<width>64</width>
+		<height>100</height>
 		<mass>60</mass>
 	</physics>
 

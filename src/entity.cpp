@@ -1,11 +1,13 @@
 #include "entity.hpp"
 #include "renderer/graphics_component.hpp"
+#include "physics/physics_component.hpp"
 
 Entity::Entity()
 {
 	id = 0;		// 0 is invalid
 	typeId = "";
 	graphicsComponent = 0;
+	physicsComponent = 0;
 }
 
 Entity::TypeId Entity::getTypeOfEntity()const
@@ -18,19 +20,34 @@ Entity::Id Entity::getId()const
 	return id;
 }
 
-const Vec2f& Entity::getPosition()const
+Vec2f Entity::getPosition()const
 {
-	return graphicsComponent->getPosition();
-}
 
-Vec2f& Entity::getPosition()
-{
-	return graphicsComponent->getPosition();
+	if( physicsComponent )
+    {
+        return physicsComponent->getPosition();
+    }
+    else if( graphicsComponent )
+    {
+        return graphicsComponent->getPosition();
+    }
+
+    return Vec2f();
+
 }
 
 void Entity::setPosition(const Vec2f& pos)
 {
-	graphicsComponent->setPosition( pos );
+
+	if( physicsComponent )
+    {
+        physicsComponent->setPosition( pos );
+    }
+    else if( graphicsComponent )
+    {
+        graphicsComponent->setPosition( pos );
+    }
+
 }
 
 GraphicsComponent* Entity::getGraphicsComponent()
@@ -41,6 +58,16 @@ GraphicsComponent* Entity::getGraphicsComponent()
 void Entity::setGraphicsComponent(GraphicsComponent* component)
 {
 	graphicsComponent = component;
+}
+
+void Entity::setPhysicsComponent(PhysicsComponent* component)
+{
+    physicsComponent = component;
+}
+
+PhysicsComponent* Entity::getPhysicsComponent()
+{
+    return physicsComponent;
 }
 
 Entity::~Entity()

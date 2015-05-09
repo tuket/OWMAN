@@ -59,7 +59,6 @@ public:
 
 	void destroyGraphicsComponent(GraphicsComponent* graphicsComponent);
 
-	Engine* getEngine();
 	LowLevelRenderer2D* getRenderer();
 	Camera* getCamera();
 

@@ -5,6 +5,10 @@
 class GraphicsComponent;
 #endif
 
+#ifndef PHYSICS_COMPONENT
+class PhysicsComponent;
+#endif
+
 #ifndef ENTITY
 #define ENTITY
 
@@ -24,22 +28,23 @@ protected:
 	Id id;
 
 	GraphicsComponent* graphicsComponent;
-	// Physics component here
+	PhysicsComponent* physicsComponent;
 
 	Entity();
 
 	void setGraphicsComponent(GraphicsComponent* component);
+	void setPhysicsComponent(PhysicsComponent* component);
 
 public:
 
 	TypeId getTypeOfEntity()const;
 	Id getId()const;
 
-	const Vec2f& getPosition()const;
-	Vec2f& getPosition();
+	Vec2f getPosition()const;
 	void setPosition(const Vec2f& pos);
 
 	GraphicsComponent* getGraphicsComponent();
+	PhysicsComponent* getPhysicsComponent();
 
 	~Entity();
 

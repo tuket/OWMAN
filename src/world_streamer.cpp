@@ -206,7 +206,7 @@ worldWindow(windowSize)
 
 }
 
-void WorldStreamer::init(Vec2i& cell, Vec2f& offset)
+void WorldStreamer::init(const Vec2i& cell, const Vec2f& offset)
 {
 
     for
@@ -244,7 +244,7 @@ void WorldStreamer::init(Vec2i& cell, Vec2f& offset)
 
 }
 
-void WorldStreamer::update(Vec2f& position)
+void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 {
 
     // check if the main character changed of position
@@ -289,7 +289,7 @@ void WorldStreamer::update(Vec2f& position)
             Vec2f pPos = ents[i]->getPosition();
             ents[i]->setPosition( pPos + (pos-position) );
         }
-        position = pos;
+        mainCharacter->setPosition( pos );
 
         // delete old cells
         for

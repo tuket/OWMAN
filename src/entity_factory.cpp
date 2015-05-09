@@ -1,6 +1,8 @@
 #include "entity_factory.hpp"
 #include "cell_size.hpp"
 #include "renderer/graphics_component.hpp"
+#include "physics/physics_component.hpp"
+#include "physics/physics_box.hpp"
 #include "engine.hpp"
 #include <string>
 
@@ -55,7 +57,15 @@ Entity* EntityFactory::createEntity
 		float height_graphics = atof( height_graphics_node->value() );
 
 	// physics
-		// TODO
+	xml_node<> *physics_node = node->first_node("physics");
+            xml_node<> *shape_node = physics_node->first_node("shape");
+            string sShape( shape_node->value() );
+            xml_node<> *width_physics_node = physics_node->first_node("width");
+            float width_physics = atof( width_physics_node->value() );
+            xml_node<> *height_physics_node = physics_node->first_node("height");
+            float height_physics = atof( height_physics_node->value() );
+            xml_node<> *mass_node = physics_node->first_node("mass");
+            float mass = atof( mass_node->value() );
 
 
 
@@ -66,7 +76,16 @@ Entity* EntityFactory::createEntity
 		Vec2f( width_graphics, height_graphics )
 	);
 
+	PhysicsComponent* physicsComponent =
+	myEngine->getPhysicsSystem()->createPhysicsBox
+	(
+        pos,
+        Vec2f(width_physics, height_physics),
+        mass
+    );
+
 	entity->setGraphicsComponent( graphicsComponent );
+	entity->setPhysicsComponent( physicsComponent );
 
 	entity->setPosition( pos );
 
@@ -113,7 +132,15 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 		float height_graphics = atof( height_graphics_node->value() );
 
 	// physics
-		// TODO
+    xml_node<> *physics_node = node->first_node("physics");
+            xml_node<> *shape_node = physics_node->first_node("shape");
+            string sShape( shape_node->value() );
+            xml_node<> *width_physics_node = physics_node->first_node("width");
+            float width_physics = atof( width_physics_node->value() );
+            xml_node<> *height_physics_node = physics_node->first_node("height");
+            float height_physics = atof( height_physics_node->value() );
+            xml_node<> *mass_node = physics_node->first_node("mass");
+            float mass = atof( mass_node->value() );
 
 
 
@@ -124,7 +151,16 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 		Vec2f( width_graphics, height_graphics )
 	);
 
+	PhysicsComponent* physicsComponent =
+	myEngine->getPhysicsSystem()->createPhysicsBoxKinematic
+	(
+        pos,
+        Vec2f(width_physics, height_physics),
+        mass
+    );
+
 	entity->setGraphicsComponent( graphicsComponent );
+	entity->setPhysicsComponent( physicsComponent );
 
 	entity->setPosition( pos );
 	entity->setCell( Vec2i(cell_x, cell_y) );

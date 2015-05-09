@@ -1,4 +1,5 @@
 #include "renderer/graphics_system.hpp"
+#include "physics/physics_system.hpp"
 #include "entity_factory.hpp"
 #include "world_window.hpp"
 #include "world_streamer.hpp"
@@ -17,6 +18,7 @@ class Engine
 
 	// Systems
 	GraphicsSystem* graphicsSystem;
+	PhysicsSystem* physicsSystem;
 
 	IWorldStreamer* worldStreamer;
 	MainCharacter* mainCharacter;
@@ -35,6 +37,8 @@ public:
 	void mainLoop();
 
     GraphicsSystem* getGraphicsSystem();
+    PhysicsSystem* getPhysicsSystem();
+
 	MainCharacter* getMainCharacter();
 
 	float getCellSize()const;

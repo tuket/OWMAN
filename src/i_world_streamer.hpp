@@ -6,6 +6,10 @@
 class Entity;
 #endif
 
+#ifndef MAIN_CHARACTER
+class MainCharacter;
+#endif
+
 #ifndef ENTITY_FACTORY
 class EntityFactory;
 #endif
@@ -35,14 +39,14 @@ public:
 	 * \param offset of the character wrt the cell bot left corner.
 	 * Both params could be ignored by the implementation.
 	 **/
-	virtual void init(Vec2i& cell, Vec2f& offset) = 0;
+	virtual void init(const Vec2i& cell, const Vec2f& offset) = 0;
 
 	/**
 	 * \brief Updates the world streamer.
 	 * \param offset of the character wrt the cell bot left corner.
 	 * The param could be ignored by the implementation.
 	 **/
-	virtual void update(Vec2f& position) = 0;
+	virtual void update(const Vec2f& position, MainCharacter* mainCharacter) = 0;
 
 	/**
 	 * \brief Returns a vector of pointers to all the active entities

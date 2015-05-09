@@ -24,6 +24,7 @@
 					<Add option="-lpthread" />
 					<Add option="-lboost_system" />
 					<Add option="-lboost_filesystem" />
+					<Add option="-lBox2D" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,10 +41,11 @@
 					<Add option="-lSDL2" />
 					<Add option="-lGL" />
 					<Add option="-lGLEW" />
-					<Add option="-lSOIl" />
+					<Add option="-lSOIL" />
 					<Add option="-lpthread" />
 					<Add option="-lboost_system" />
 					<Add option="-lboost_filesystem" />
+					<Add option="-lBox2D" />
 				</Linker>
 			</Target>
 			<Target title="test_regex">
@@ -64,6 +66,30 @@
 				<Option output="test_is_cell_file" prefix_auto="1" extension_auto="1" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+				</Compiler>
+			</Target>
+			<Target title="demo_box2d">
+				<Option output="demo_box2d" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add option="-lSDL2" />
+					<Add option="-lGL" />
+					<Add option="-lGLEW" />
+					<Add option="-lSOIL" />
+					<Add option="-lpthread" />
+					<Add option="-lboost_system" />
+					<Add option="-lboost_filesystem" />
+					<Add option="-lBox2D" />
+					<Add option="-lsfml-graphics" />
+					<Add option="-lsfml-window" />
+					<Add option="-lsfml-system" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -80,6 +106,9 @@
 		<Unit filename="cell_size.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+		</Unit>
+		<Unit filename="demos/demo_box2d.cpp">
+			<Option target="demo_box2d" />
 		</Unit>
 		<Unit filename="demos/test_is_cell_file.cpp">
 			<Option target="test_is_cell_file" />
@@ -148,6 +177,38 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="test_is_cell_file" />
+		</Unit>
+		<Unit filename="physics/physics_box.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_box.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_box_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_box_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_component.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_component.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_system.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="physics/physics_system.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="renderer/camera.cpp">
 			<Option target="Debug" />

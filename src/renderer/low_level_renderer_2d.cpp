@@ -89,6 +89,7 @@ LowLevelRenderer2D::Texture::operator=(const Texture& texture)
 	this->textureID = texture.textureID;
 	this->width = texture.width;
 	this->height = texture.height;
+	return *this;
 }
 
 LowLevelRenderer2D::Texture::~Texture()

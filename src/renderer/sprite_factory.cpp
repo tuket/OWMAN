@@ -31,7 +31,6 @@ Sprite* SpriteFactory::createSprite(std::string fileName, const Vec2f& scale)
 void SpriteFactory::destroySprite(Sprite* sprite)
 {
 
-	ResourceManager* resMan = ResourceManager::getSingleton();
 	delete sprite;
 
 }

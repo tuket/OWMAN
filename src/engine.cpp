@@ -2,6 +2,7 @@
 #include "resource_manager/resource_manager.hpp"
 #include "dependencies/rapidxml/rapidxml.hpp"
 #include "util/file_to_string.hpp"
+#include "physics/physics_component.hpp"
 #include <string>
 #include <sstream>
 #include <cstdio>
@@ -70,10 +71,13 @@ eventHandler( this )
 
 	entityFactory = EntityFactory(this);
 
+    // init systems
 	graphicsSystem = new GraphicsSystem( title, xResolution, yResolution, fullscreen );
 	Camera* camera = graphicsSystem->getCamera();
 	camera->setWidth(xResolution/2);
 	camera->setHeight(yResolution/2);
+
+	physicsSystem = new PhysicsSystem();
 
 	delete initFileText;
 
@@ -132,10 +136,11 @@ void Engine::mainLoop()
 
         eventHandler.poll();
 
-        // (update physics)
+        // update physics
+        physicsSystem->update( 1000/fps );
 
         // update world streamer
-        worldStreamer->update( mainCharacter->getPosition() );
+        worldStreamer->update( mainCharacter->getPosition(), mainCharacter );
 
         // get list of entities
         vector<Entity*> entities = worldStreamer->getEntities();
@@ -148,13 +153,19 @@ void Engine::mainLoop()
             if
             (
                 entity->getGraphicsComponent() != 0 &&
-                //entity->getPhysicsComponent() != 0
-                false
+                entity->getPhysicsComponent() != 0
             )
             {
-                // whatever
+                GraphicsComponent* gc = entity->getGraphicsComponent();
+                PhysicsComponent* pc = entity->getPhysicsComponent();
+                gc->setPosition( pc->getPosition() );
             }
         }
+
+        GraphicsComponent* gc = mainCharacter->getGraphicsComponent();
+        PhysicsComponent* pc = mainCharacter->getPhysicsComponent();
+        gc->setPosition( pc->getPosition() );
+
 
         // follow main character with the camera
         graphicsSystem->getCamera()->setPosition( -mainCharacter->getPosition() );
@@ -178,6 +189,11 @@ void Engine::mainLoop()
 GraphicsSystem* Engine::getGraphicsSystem()
 {
 	return graphicsSystem;
+}
+
+PhysicsSystem* Engine::getPhysicsSystem()
+{
+    return physicsSystem;
 }
 
 MainCharacter* Engine::getMainCharacter()

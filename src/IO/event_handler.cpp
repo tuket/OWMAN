@@ -1,6 +1,5 @@
 #include "event_handler.hpp"
 #include "../engine.hpp"
-//#include "../renderer/graphics_system.hpp"
 #include <cmath>
 #include <iostream>
 

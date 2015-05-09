@@ -67,7 +67,7 @@ public:
 	 * \param offset of the character wrt the cell bot left corner.
 	 * Both params could be ingnored by the implementation.
 	 **/
-	void init(Vec2i& cell, Vec2f& offset);
+	void init(const Vec2i& cell, const Vec2f& offset);
 
 	/**
 	 * \brief Updates the world streamer.
@@ -75,7 +75,7 @@ public:
 	 * \param offset of the character wrt the cell bot left corner.
 	 * Both params could be ingnored by the implementation.
 	 **/
-	void update(Vec2f& position);
+	void update(const Vec2f& position, MainCharacter* mainCharacter);
 
 	/**
 	 * \brief Returns a vector of pointers to all the active entities

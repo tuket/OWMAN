@@ -161,11 +161,6 @@ void GraphicsSystem::destroyGraphicsComponent(GraphicsComponent* graphicsCompone
 
 }
 
-Engine* GraphicsSystem::getEngine()
-{
-	return myEngine;
-}
-
 LowLevelRenderer2D* GraphicsSystem::getRenderer()
 {
 	return &renderer;
