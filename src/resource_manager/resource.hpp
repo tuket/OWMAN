@@ -12,11 +12,11 @@
 
 class Resource
 {
-	
+
 	friend class ResourceManager;
-	
+
 public:
-	
+
 	enum class Status
 	{
 		UNKOWN,
@@ -24,27 +24,29 @@ public:
 		QUEUED,
 		LOADING,
 		LOADED,
-		READY
+		READY,
+		SAVING
 	};
-	
+
 protected:
 
 	std::string name;
 	Status status;
-	
+
 	virtual void load() = 0;
 	virtual void free() = 0;
-	
-public:
-	
-	Resource();
-	
-	std::string getName()const;
+
 	void setName(std::string name);
+
+public:
+
+	Resource();
+
+	std::string getName()const;
 	Resource::Status getStatus()const;
-	
+
 	virtual ~Resource(){};
-	
+
 };
 
 #endif

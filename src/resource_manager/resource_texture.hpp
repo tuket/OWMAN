@@ -1,9 +1,6 @@
 #include "resource.hpp"
 #include "../renderer/low_level_renderer_2d.hpp"
 
-#ifndef RESOURCE_TEXTURE
-#define RESOURCE_TEXTURE
-
 #ifndef RESOURCE_TEXTURE_FACTORY
 class ResourceTextureFactory;
 #endif
@@ -11,6 +8,10 @@ class ResourceTextureFactory;
 #ifndef RESOURCE_MANAGER
 class ResourceManager;
 #endif
+
+
+#ifndef RESOURCE_TEXTURE
+#define RESOURCE_TEXTURE
 
 class ResourceTexture : public Resource
 {

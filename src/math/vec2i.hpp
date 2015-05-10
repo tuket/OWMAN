@@ -14,6 +14,9 @@ public:
 
 	Vec2i operator=(const Vec2i& vec);
 
+	Vec2i operator+=(const Vec2i& vec);
+	Vec2i operator-=(const Vec2i& vec);
+
 	Vec2i operator+(const Vec2i& vec)const;
 	Vec2i operator-(const Vec2i& vec)const;
 	Vec2i operator-()const;

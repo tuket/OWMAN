@@ -13,6 +13,18 @@ Vec2i Vec2i::operator=(const Vec2i& vec)
 	return *this;
 }
 
+Vec2i Vec2i::operator+=(const Vec2i& vec)
+{
+    (*this) = (*this) + vec;
+    return *this;
+}
+
+Vec2i Vec2i::operator-=(const Vec2i& vec)
+{
+    (*this) = (*this) - vec;
+    return *this;
+}
+
 Vec2i Vec2i::operator+(const Vec2i& vec)const
 {
 	Vec2i res(x, y);

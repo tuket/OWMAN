@@ -247,7 +247,60 @@ void WorldStreamer::init(const Vec2i& cell, const Vec2f& offset)
 void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 {
 
-    // check if the main character changed of position
+    // check if the entities have changed of cell
+
+    for
+    (
+        map<Vec2i, WorldCell>::iterator it = worldWindow.cells.begin();
+        it != worldWindow.cells.end();
+        ++it
+    )
+    {
+
+        WorldCell& wc = it->second;
+        Vec2i currentCell = it->first;
+
+        for(unsigned int i=0; i<wc.size(); i++)
+        {
+
+            Vec2f pos = wc[i]->getPosition();
+            Vec2i goodCell = Vec2i( pos.x/cellSize, pos.y/cellSize );
+            goodCell += windowPos;
+
+            // the entity is not in the cell it should be
+            // --> change of cell
+            if( currentCell != goodCell )
+            {
+
+                map<Vec2i, WorldCell>::iterator it2;
+                it2 = worldWindow.cells.find( goodCell );
+                // the cell is loaded -> just append
+                if( it2 != worldWindow.cells.end() )
+                {
+                    Entity* ent = wc[i];
+
+                    wc[i] = wc.back();
+                    wc.pop_back();
+
+                    it2->second.push_back(ent);
+
+                    i--;
+
+                }
+
+                // the cell is not loaded, what to do?
+                else
+                {
+
+                }
+
+            }
+
+        }
+
+    }
+
+    // check if the main character changed of cell
 
     Vec2i nextCell = windowPos;
     Vec2f pos = position;
