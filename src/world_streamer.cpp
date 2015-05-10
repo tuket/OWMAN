@@ -237,7 +237,7 @@ void WorldStreamer::init(const Vec2i& cell, const Vec2f& offset)
         // cout << fileName << endl;
 
         ResourceManager* resMan = ResourceManager::getSingleton();
-        ResourceText* cellResource = resMan->obtainText(fileName);
+        ResourceCell* cellResource = resMan->obtainCell(fileName);
         loadingCellResources[ Vec2i(x, y) ] = cellResource;
 
     }
@@ -289,8 +289,11 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 }
 
                 // the cell is not loaded, what to do?
+                // --> load it
                 else
                 {
+
+                    // TODOOOOO
 
                 }
 
@@ -349,7 +352,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
         (
             map<Vec2i, WorldCell>::const_iterator it = worldWindow.cells.begin();
             it != worldWindow.cells.end();
-            ++it
+            // ++it
         )
         {
 
@@ -376,11 +379,23 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                     entityFactory->destroyEntity( *it );
                 }
 
+                ResourceManager* resMan = ResourceManager::getSingleton();
+                resMan->releaseCell( loadedCellResources[ it->first ] );
+                loadedCellResources.erase(it->first);
+
+                auto nextIt = it;
+                nextIt++;
                 worldWindow.cells.erase(it);
-                // store?
+                it = nextIt;
+
+
+
+                continue;
 
 
             }
+
+            it++;
 
         }
 
@@ -418,7 +433,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
             // cout << fileName << endl;
 
             ResourceManager* resMan = ResourceManager::getSingleton();
-            ResourceText* cellResource = resMan->obtainText(fileName);
+            ResourceCell* cellResource = resMan->obtainCell(fileName);
             loadingCellResources[ Vec2i(x, y) ] = cellResource;
 
         }
@@ -427,16 +442,16 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
     }
 
     // parse loaded cell resources
-    map<Vec2i, ResourceText*>::iterator it;
+    map<Vec2i, ResourceCell*>::iterator it;
     for
     (
         it = loadingCellResources.begin();
         it != loadingCellResources.end();
-        ++it
+        //++it
     )
     {
 
-        ResourceText* res = it->second;
+        ResourceCell* res = it->second;
         // the resource file is finally loaded
         if
         (
@@ -460,7 +475,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 cout << windowPos.x << ", " << windowPos.y << endl;
                 cout << it->first.x << ", " << it->first.y << endl;
                 ResourceManager* resMan = ResourceManager::getSingleton();
-                resMan->releaseText( res );
+                resMan->releaseCell( res );
                 loadingCellResources.erase( it );
                 continue;
 
@@ -468,16 +483,8 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 
             WorldCell wc;
 
-            string stext = res->getText();
-            char*  text = new char[stext.size()+1];
-            strcpy(text, stext.c_str());
-            text[ stext.size() ] = '\0';
-            cout << res->getName() << endl;
-
-            xml_document<> doc;
-            doc.parse<0>( text );
-
-            xml_node<> *node = doc.first_node("cell");
+            xml_document<>* doc = res->getDocument();
+            xml_node<> *node = res->getNode();
 
             node = node->first_node("entity");
 
@@ -494,12 +501,18 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 
             Vec2i cell = it->first;
             worldWindow.cells[ cell ] = wc;
-            ResourceManager* resMan = ResourceManager::getSingleton();
-            resMan->releaseText( res );
+
+            auto nextIt = it;
+            nextIt++;
+            loadedCellResources[ cell ] = it->second;
             loadingCellResources.erase( it );
+            it = nextIt;
+
+
+            continue;
 
         }
-
+        it++;
     }
 
 }

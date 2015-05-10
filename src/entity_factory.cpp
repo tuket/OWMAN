@@ -178,4 +178,7 @@ void EntityFactory::destroyEntity(Entity* entity)
     GraphicsComponent* gp = entity->getGraphicsComponent();
 	myEngine->getGraphicsSystem()->destroyGraphicsComponent( gp );
 
+	PhysicsComponent* pc = entity->getPhysicsComponent();
+	myEngine->getPhysicsSystem()->destroyPhysicsComponent(pc);
+
 }

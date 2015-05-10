@@ -270,6 +270,22 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="resource_manager/resource_cell.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_cell.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_cell_factory.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_cell_factory.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="resource_manager/resource_factory.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

@@ -25,6 +25,8 @@ public:
 
     virtual ~PhysicsBox(){}
 
+    void destroyDispatcher();
+
 };
 
 #endif

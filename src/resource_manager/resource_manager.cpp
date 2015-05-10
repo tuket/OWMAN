@@ -174,6 +174,74 @@ void ResourceManager::releaseTexture(ResourceTexture* resource)
 
 }
 
+// the implementation of this resource is a bit more tricky
+// because the changes on cells are permanent.
+ResourceCell* ResourceManager::obtainCell(std::string name)
+{
+    pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount( name );
+	pthread_mutex_unlock(&mutexTable);
+
+	// not loaded
+	if( count == 0 )
+	{
+		ResourceCell* resource = resourceCellFactory.createResource(name);
+
+		pthread_mutex_lock(&mutexTable);
+            resourceTable.addEntry(name, resource);
+		pthread_mutex_unlock(&mutexTable);
+
+		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
+		return resource;
+	}
+
+	// loaded
+	else
+	{
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.incEntry(name);
+		pthread_mutex_unlock(&mutexTable);
+
+        pthread_mutex_lock(&mutexTable);
+            ResourceCell* res = (ResourceCell*)resourceTable.getResource(name);
+        pthread_mutex_unlock(&mutexTable);
+
+		return res;
+	}
+}
+
+void ResourceManager::releaseCell(ResourceCell* resource)
+{
+
+    string name = resource->getName();
+
+	pthread_mutex_lock(&mutexTable);
+        unsigned int count = resourceTable.getCount(name);
+	pthread_mutex_unlock(&mutexTable);
+
+	// last reference
+	if( count == 1 )
+	{
+
+		resource->free();
+        resourceCellFactory.destroyResource(resource);
+
+        pthread_mutex_lock(&mutexTable);
+            resourceTable.removeEntry(name);
+        pthread_mutex_unlock(&mutexTable);
+
+	}
+
+	// more references
+	else
+	{
+	    pthread_mutex_lock(&mutexTable);
+            resourceTable.decEntry(name);
+		pthread_mutex_unlock(&mutexTable);
+	}
+
+}
+
 void ResourceManager::setRenderer(LowLevelRenderer2D* renderer)
 {
 	resourceTextureFactory.setRenderer(renderer);

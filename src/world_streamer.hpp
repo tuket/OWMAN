@@ -3,6 +3,7 @@
 #include "world_cell.hpp"
 #include "entity.hpp"
 #include "resource_manager/resource_text.hpp"
+#include "resource_manager/resource_cell.hpp"
 #include <string>
 #include <map>
 #include <set>
@@ -46,7 +47,8 @@ class WorldStreamer : public IWorldStreamer
 	std::set<Vec2i> availableCells;
 
     // Cells for which we are still loading the .xml file
-	std::map<Vec2i, ResourceText*> loadingCellResources;
+	std::map<Vec2i, ResourceCell*> loadingCellResources;
+	std::map<Vec2i, ResourceCell*> loadedCellResources;
 
 	EntityFactory* entityFactory;
 

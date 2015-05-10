@@ -1,4 +1,5 @@
 #include "physics_box.hpp"
+#include "physics_system.hpp"
 
 Vec2f PhysicsBox::getPosition()const
 {
@@ -8,4 +9,9 @@ Vec2f PhysicsBox::getPosition()const
 void PhysicsBox::setPosition(const Vec2f& v)
 {
     body->SetTransform( b2Vec2(v.x ,v.y), 0 );
+}
+
+void PhysicsBox::destroyDispatcher()
+{
+    myPhysicsSystem->destroyPhysicsBox(this);
 }

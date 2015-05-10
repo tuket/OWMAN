@@ -3,6 +3,7 @@
 #include "resource_request.hpp"
 #include "resource_text_factory.hpp"
 #include "resource_texture_factory.hpp"
+#include "resource_cell_factory.hpp"
 #include <pthread.h>
 #include <string>
 
@@ -25,6 +26,7 @@ class ResourceManager
 	ResourceTable resourceTable;
 	ResourceTextFactory resourceTextFactory;
 	ResourceTextureFactory resourceTextureFactory;
+	ResourceCellFactory resourceCellFactory;
 	WorkQueue<ResourceRequest> workQueue;
 	bool _stop;
 
@@ -60,6 +62,16 @@ public:
 	 * \brief release a pointer to a texture resource
 	 */
 	void releaseTexture(ResourceTexture* resource);
+
+    /**
+	 * \brief request a pointer to a cell resource
+	 */
+	ResourceCell* obtainCell(std::string name);
+
+    /**
+	 * \brief release a pointer to a cell resource
+	 */
+	void releaseCell(ResourceCell* resource);
 
 	/**
 	 * \brief stop the resource manager thread
