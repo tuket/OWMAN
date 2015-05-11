@@ -8,11 +8,11 @@
 class ResourceCellFactory : public ResourceFactory
 {
 
-	void destroyResource(Resource* resource);
 
 public:
 
 	ResourceCell* createResource(std::string name);
+	void destroyResource(Resource* resource);
 	void destroyResource(ResourceCell* resource);
 
 

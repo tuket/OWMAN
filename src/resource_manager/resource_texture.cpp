@@ -17,24 +17,24 @@ LowLevelRenderer2D::Texture* ResourceTexture::getTexture()
 
 void ResourceTexture::loadToGraphicsCard()
 {
-	
+
 	LowLevelRenderer2D* renderer;
 	renderer = myFactory->getRenderer();
-	
+
 	texture = renderer->createTexture(imageData, width, height);
 	status = Resource::Status::READY;
-	
-	SOIL_free_image_data(imageData);	
-	
+
+	SOIL_free_image_data(imageData);
+
 }
 
 // this function is called by the resource manager thread
 void ResourceTexture::load()
 {
-	
+
 	LowLevelRenderer2D* renderer;
 	renderer = myFactory->getRenderer();
-	
+
 	imageData =
 	SOIL_load_image
 	(
@@ -44,10 +44,10 @@ void ResourceTexture::load()
 		0,					// pointer where num of chanel will be saved
 		SOIL_LOAD_RGBA		// RGB
 	);
-	
+
 	texture.setWidth(width);
 	texture.setHeight(height);
-	
+
 	if(imageData == 0)
 	{
 		cerr << "Error loading: " << name << endl;
@@ -55,14 +55,19 @@ void ResourceTexture::load()
 	}
 
 	status = Resource::Status::LOADED;
-	
+
 }
 
 void ResourceTexture::free()
 {
-	
+
 	LowLevelRenderer2D* renderer;
 	renderer = myFactory->getRenderer();
 	renderer->destroyTexture(&texture);
-	
+
+}
+
+void ResourceTexture::destroyDispatcher()
+{
+    myFactory->destroyResource(this);
 }

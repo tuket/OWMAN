@@ -19,7 +19,7 @@ def gen_rand_cell():
 	res = ""
 	res += "<cell>\n"
 
-	numEnts = random.randint(2, 6)
+	numEnts = random.randint(2, 4)
 
 	for i in xrange(numEnts):
 
@@ -79,8 +79,11 @@ def gen_rand_cell():
 
 	return res
 
-
-fileName = sys.argv[1]
-f = open(fileName, 'w')
-
-f.write( gen_rand_cell() )
+for x in xrange(1000):
+	for y in xrange(1000):
+		
+		fileName = "cell_" + str(x) + "_" + str(y) + ".xml"
+	
+		f = open(fileName, 'w')
+		f.write( gen_rand_cell() )
+		f.close()

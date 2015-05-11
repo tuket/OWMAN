@@ -18,6 +18,8 @@ class ResourceText : public Resource
 
 	friend class ResourceTextFactory;
 	friend class ResourceManager;
+
+	ResourceTextFactory* myFactory;
 	std::string text;
 
 protected:
@@ -30,6 +32,8 @@ public:
 	ResourceText();
 
 	std::string getText()const;
+
+	void destroyDispatcher();
 
 	~ResourceText(){}
 

@@ -38,6 +38,8 @@ public:
 
 	void loadToGraphicsCard();
 
+	void destroyDispatcher();
+
 	~ResourceTexture(){}
 
 };

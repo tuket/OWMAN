@@ -22,7 +22,7 @@ void EventHandler::handle()
 	switch (event.type) {
 		/* close button clicked */
 		case SDL_QUIT:
-			exit(0);
+			engine->endGame();
         break;
 
 		case SDL_MOUSEWHEEL:
@@ -47,7 +47,7 @@ void EventHandler::handle()
 			switch (event.key.keysym.sym) {
 				case SDLK_ESCAPE:
 				//case SDLK_q:
-					exit(0);
+					engine->endGame();
                 break;
 
                 case SDLK_UP:

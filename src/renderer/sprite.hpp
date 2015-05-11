@@ -43,6 +43,8 @@ public:
 
 	void becomeReady()const;
 
+	rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
+
 	~Sprite();
 
 	void destroyDispatcher();

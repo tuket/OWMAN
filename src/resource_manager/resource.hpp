@@ -45,6 +45,8 @@ public:
 	std::string getName()const;
 	Resource::Status getStatus()const;
 
+	virtual void destroyDispatcher() = 0;
+
 	virtual ~Resource(){};
 
 };

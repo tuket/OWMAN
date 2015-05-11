@@ -1,5 +1,6 @@
 #include "resource_cell.hpp"
 #include "../dependencies/rapidxml/rapidxml_print.hpp"
+#include "resource_cell_factory.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -61,4 +62,9 @@ rapidxml::xml_node<>* ResourceCell::getNode()
 rapidxml::xml_document<>* ResourceCell::getDocument()
 {
     return &doc;
+}
+
+void ResourceCell::destroyDispatcher()
+{
+    myFactory->destroyResource(this);
 }

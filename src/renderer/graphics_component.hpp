@@ -1,4 +1,5 @@
 #include "../math/vec2f.hpp"
+#include "../dependencies/rapidxml/rapidxml.hpp"
 
 #ifndef ENTITY
 class Entity;
@@ -50,6 +51,8 @@ public:
 	void setScale(const Vec2f& scale);
 	int getPriority()const;
 	void setPriority(int priority);
+
+	virtual rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc) = 0;
 
 	virtual ~GraphicsComponent() {};
 

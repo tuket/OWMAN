@@ -6,6 +6,7 @@ ResourceCell* ResourceCellFactory::createResource(std::string name)
 
     ResourceCell *res = new ResourceCell;
 	res->name = name;
+	res->myFactory = this;
 
 	return res;
 

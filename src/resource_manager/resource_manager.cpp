@@ -223,12 +223,11 @@ void ResourceManager::releaseCell(ResourceCell* resource)
 	if( count == 1 )
 	{
 
-		resource->free();
-        resourceCellFactory.destroyResource(resource);
-
         pthread_mutex_lock(&mutexTable);
-            resourceTable.removeEntry(name);
+            resourceTable.decEntry(name);
         pthread_mutex_unlock(&mutexTable);
+
+        workQueue.push( ResourceRequest( ResourceRequest::Type::RELEASE, name ) );
 
 	}
 
@@ -278,7 +277,18 @@ void ResourceManager::loop()
 		else if( request.getType() == ResourceRequest::Type::RELEASE )
 		{
 
-			// save
+            string name = request.getName();
+
+            pthread_mutex_lock(&mutexTable);
+                Resource* resource = resourceTable.getResource(name);
+			pthread_mutex_unlock(&mutexTable);
+
+			resource->free();
+            resourceCellFactory.destroyResource(resource);
+
+            pthread_mutex_lock(&mutexTable);
+                resourceTable.removeEntry(name);
+			pthread_mutex_unlock(&mutexTable);
 
 		}
 

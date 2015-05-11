@@ -1,4 +1,5 @@
 #include "resource_text.hpp"
+#include "resource_text_factory.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -16,7 +17,7 @@ std::string ResourceText::getText()const
 
 void ResourceText::load()
 {
-	
+
 	fstream fs;
 	fs.open(name.c_str(), fstream::in);
 	fs.seekg(0, fs.end);
@@ -26,18 +27,23 @@ void ResourceText::load()
 	fs.read(buffer, length);
 	buffer[length] = '\0';
 	fs.close();
-	
+
 	text = string(buffer);
 	status = Resource::Status::LOADED;
-	
+
 	delete[] buffer;
-	
+
 }
 
 void ResourceText::free()
 {
-	
+
 	text = "";
 	status = Resource::Status::STORED;
-	
+
+}
+
+void ResourceText::destroyDispatcher()
+{
+    myFactory->destroyResource(this);
 }

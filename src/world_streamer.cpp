@@ -233,7 +233,7 @@ worldWindow(windowSize)
             {
 
                 Vec2i cell = getCell( fileName );
-                cout << "available cell: " << cell.x << ", " << cell.y << endl;
+                // cout << "available cell: " << cell.x << ", " << cell.y << endl;
                 availableCells.insert( cell );
 
             }
@@ -246,6 +246,8 @@ worldWindow(windowSize)
 
 void WorldStreamer::init(const Vec2i& cell, const Vec2f& offset)
 {
+
+    windowPos = cell;
 
     for
     (
@@ -510,10 +512,12 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 it->first.y > (int)(windowPos.y + worldWindow.windowSize)
             )
             {
+                /*
                 cout << "------" << endl;
                 cout << worldWindow.windowSize << endl;
                 cout << windowPos.x << ", " << windowPos.y << endl;
                 cout << it->first.x << ", " << it->first.y << endl;
+                */
                 ResourceManager* resMan = ResourceManager::getSingleton();
                 resMan->releaseCell( res );
                 loadingCellResources.erase( it );
