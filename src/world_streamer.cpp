@@ -3,6 +3,7 @@
 #include "util/file_to_string.hpp"
 #include "math/vec2i.hpp"
 #include "resource_manager/resource_manager.hpp"
+#include "renderer/graphics_component.hpp"
 #include "entity_factory.hpp"
 #include <fstream>
 #include <sstream>
@@ -155,6 +156,42 @@ Vec2i getCell(string fileName)
     return Vec2i(x, y);
 
 }
+
+
+
+// helper
+/** \brief modifies an xml_document to represent the given cell
+ *
+ * \param the document to be modified
+ * \param the cell
+ */
+void cellToXmlDocument(xml_document<>* doc, const WorldCell& wc, float cellSize)
+{
+
+    doc->remove_all_attributes();
+    doc->remove_all_nodes();
+
+    if( wc.size() == 0 )
+    {
+        xml_node<>* root = doc->allocate_node(node_element, "cell", " ");
+        doc->append_node( root );
+        return;
+    }
+
+    xml_node<>* root = doc->allocate_node(node_element, "cell");
+    doc->append_node( root );
+
+    xml_node<>* node_ent;
+    for( unsigned int i=0; i<wc.size(); i++ )
+    {
+
+        node_ent = wc[i]->createXmlNode(doc, cellSize);
+        root->append_node( node_ent );
+
+    }
+
+}
+
 
 WorldStreamer::WorldStreamer
 (
@@ -366,7 +403,11 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
             {
                 cout << "must delete: " << worldWindow.windowSize << endl;
                 // must delete
+
+                // update XML document
                 const WorldCell& wc = it->second;
+                xml_document<>* doc = loadedCellResources[ it->first ]->getDocument();
+                cellToXmlDocument( doc, wc, cellSize );
 
                 // release all the entities of the cell
                 for
@@ -483,7 +524,6 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 
             WorldCell wc;
 
-            xml_document<>* doc = res->getDocument();
             xml_node<> *node = res->getNode();
 
             node = node->first_node("entity");

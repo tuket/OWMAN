@@ -1,5 +1,6 @@
 #include <string>
 #include "position.hpp"
+#include "dependencies/rapidxml/rapidxml.hpp"
 
 #ifndef GRAPHICS_COMPONENT
 class GraphicsComponent;
@@ -45,6 +46,8 @@ public:
 
 	GraphicsComponent* getGraphicsComponent();
 	PhysicsComponent* getPhysicsComponent();
+
+	rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc, float cellSize);
 
 	~Entity();
 

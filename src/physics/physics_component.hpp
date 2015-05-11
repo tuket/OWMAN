@@ -1,4 +1,5 @@
 #include "../math/vec2f.hpp"
+#include "../dependencies/rapidxml/rapidxml.hpp"
 
 #ifndef PHYSICS_SYSTEM
 class PhysicsSystem;
@@ -20,6 +21,8 @@ public:
 
     virtual Vec2f getPosition()const = 0;
     virtual void setPosition(const Vec2f& v) = 0;
+
+    virtual rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc) = 0;
 
     /** \brief this will call to the corresponding PhysicsSystem function \
      * in charge of deleting this PhysicsComponent

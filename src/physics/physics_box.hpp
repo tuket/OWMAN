@@ -16,12 +16,16 @@ class PhysicsBox : public PhysicsComponent
 
     b2Body* body;
 
+    Vec2f scale;
+
     PhysicsBox(){}
 
 public:
 
     Vec2f getPosition()const;
     void setPosition(const Vec2f& v);
+
+    rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 
     virtual ~PhysicsBox(){}
 

@@ -208,6 +208,11 @@ float Engine::getCellSize()const
 
 }
 
+void Engine::endGame()
+{
+    worldStreamer->saveEverything();
+}
+
 Engine::~Engine()
 {
     if( graphicsSystem ) delete graphicsSystem;

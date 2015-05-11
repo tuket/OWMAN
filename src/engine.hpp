@@ -43,6 +43,8 @@ public:
 
 	float getCellSize()const;
 
+	void endGame();
+
 	~Engine();
 
 };

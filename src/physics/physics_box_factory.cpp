@@ -13,6 +13,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBox( const Vec2f& position, const Ve
     b2World* world = myPhysicsSystem->getWorld();
 
     PhysicsBox* res = new PhysicsBox;
+    res->scale = scale;
 
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -41,6 +42,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBoxKinematic( const Vec2f& position,
     b2World* world = myPhysicsSystem->getWorld();
 
     PhysicsBox* res = new PhysicsBox;
+    res->scale = scale;
 
     b2BodyDef bodyDef;
     bodyDef.type = b2_kinematicBody;
