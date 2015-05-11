@@ -89,6 +89,8 @@ public:
 
 	float getCellSize()const;
 
+	void end();
+
 };
 
 #endif

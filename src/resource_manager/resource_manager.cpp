@@ -242,6 +242,7 @@ void ResourceManager::releaseCell(ResourceCell* resource)
 
 }
 
+
 void ResourceManager::setRenderer(LowLevelRenderer2D* renderer)
 {
 	resourceTextureFactory.setRenderer(renderer);

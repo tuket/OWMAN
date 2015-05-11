@@ -210,7 +210,8 @@ float Engine::getCellSize()const
 
 void Engine::endGame()
 {
-    worldStreamer->saveEverything();
+    worldStreamer->end();
+    end = true;
 }
 
 Engine::~Engine()

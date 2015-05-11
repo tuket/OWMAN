@@ -27,6 +27,8 @@ public:
 
 	std::vector<Entity*> getEntities()const;
 
+	void end(){}
+
 };
 
 #endif

@@ -78,6 +78,8 @@ public:
 	 */
 	void stop();
 
+	bool hasStopped();
+
 	void setRenderer(LowLevelRenderer2D* renderer);
 
 private:

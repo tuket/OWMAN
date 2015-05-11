@@ -11,6 +11,7 @@
 #include <boost/filesystem.hpp>
 #include <typeinfo>
 #include <regex>
+#include <cmath>
 
 using namespace std;
 using namespace rapidxml;
@@ -301,7 +302,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
         {
 
             Vec2f pos = wc[i]->getPosition();
-            Vec2i goodCell = Vec2i( pos.x/cellSize, pos.y/cellSize );
+            Vec2i goodCell = Vec2i( floor(pos.x/cellSize), floor(pos.y/cellSize) );
             goodCell += windowPos;
 
             // the entity is not in the cell it should be
@@ -330,7 +331,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 else
                 {
 
-                    // TODOOOOO
+                    // TODO
 
                 }
 
@@ -401,8 +402,6 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 it->first.y > (int)(nextCell.y + worldWindow.windowSize)
             )
             {
-                cout << "must delete: " << worldWindow.windowSize << endl;
-                // must delete
 
                 // update XML document
                 const WorldCell& wc = it->second;
@@ -602,5 +601,48 @@ vector<Entity*> WorldStreamer::getEntities()const
     }
 
     return ents;
+
+}
+
+void WorldStreamer::end()
+{
+
+    for
+    (
+        map<Vec2i, WorldCell>::const_iterator it = worldWindow.cells.begin();
+        it != worldWindow.cells.end();
+        // ++it
+    )
+    {
+
+
+
+        // update XML document
+        const WorldCell& wc = it->second;
+        xml_document<>* doc = loadedCellResources[ it->first ]->getDocument();
+        cellToXmlDocument( doc, wc, cellSize );
+
+        // release all the entities of the cell
+        for
+        (
+            WorldCell::const_iterator it = wc.begin();
+            it != wc.end();
+            ++it
+        )
+        {
+            entityFactory->destroyEntity( *it );
+        }
+
+        ResourceManager* resMan = ResourceManager::getSingleton();
+        resMan->releaseCell( loadedCellResources[ it->first ] );
+        loadedCellResources.erase(it->first);
+
+        auto nextIt = it;
+        nextIt++;
+        worldWindow.cells.erase(it);
+        it = nextIt;
+
+    }
+
 
 }
