@@ -10,6 +10,9 @@ class Entity;
 #ifndef WORLD_WINDOW
 #define WORLD_WINDOW
 
+/**
+ * Collection of active cells
+ */
 class WorldWindow
 {
 

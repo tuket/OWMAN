@@ -12,6 +12,8 @@ class GraphicsSystem;
 #ifndef GRAPHICS_COMPONENT
 #define GRAPHICS_COMPONENT
 
+/** Abstract class representing any type of GraphicsComponent
+ */
 class GraphicsComponent
 {
 
@@ -39,9 +41,23 @@ public:
 	bool isVisible()const;
 	void setVisible(bool visible);
 
+    /** \brief return if this components is ready
+     * To be ready means that is has been loaded to video \
+     * memory
+     */
 	virtual bool isReady()const = 0;
+
+	/** \brief return if this component is loaded
+	 * To be loaded means that it has been loaded to main \
+	 * memory
+	 */
 	virtual bool isLoaded()const = 0;
 
+    /** \brief load to video memory
+     * Once the resource of this component has been loaded \
+     * into main memory it has to be loaded to video memory \
+     * this functions loads it into video memory
+     */
 	virtual void becomeReady()const = 0;
 
 	const Vec2f& getPosition()const;
@@ -52,6 +68,11 @@ public:
 	int getPriority()const;
 	void setPriority(int priority);
 
+    /** \brief Creates a graphics XML node
+     * Returns an XML node representing the class itself
+     * \param The XML document
+     * \return The XML node
+     */
 	virtual rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc) = 0;
 
 	virtual ~GraphicsComponent() {};

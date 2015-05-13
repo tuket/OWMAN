@@ -4,7 +4,7 @@
 #define RESOURCE
 
 /**
- * \brief Resouce data class
+ * \brief Abstract resource data class
  * This class hold the data for different types of
  * resource. In order to create a new type of resource
  * just extend from this class

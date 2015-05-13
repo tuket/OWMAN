@@ -2,6 +2,11 @@
 #ifndef VEC2I
 #define VEC2I
 
+/**
+ * Represents a vector of two integer components
+ *
+ */
+
 class Vec2i
 {
 

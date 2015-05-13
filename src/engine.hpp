@@ -9,6 +9,10 @@
 #ifndef ENGINE
 #define ENGINE
 
+/** \brief encapsulates all systems
+ * Has the main loop. Contains all systems like graphics system
+ * and physics system
+ */
 class Engine
 {
 

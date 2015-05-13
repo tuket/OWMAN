@@ -8,6 +8,10 @@ class EntityFactory;
 #ifndef MAIN_CHARACTER
 #define MAIN_CHARACTER
 
+/**
+ * The only difference with a normal entity is that
+ * a main character stores the cell where it is located
+ */
 class MainCharacter : public Entity
 {
 

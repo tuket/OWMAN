@@ -15,6 +15,12 @@ class LowLevelRenderer2D;
 #ifndef RESOURCE_MANAGER
 #define RESOURCE_MANAGER
 
+/** \brief This is the singleton you should use
+ * Requesting resources will deliver a resource pointer
+ * event if the resource data is not loaded.
+ * You can check if a resource has been loaded checking
+ * the status attribute.
+ */
 class ResourceManager
 {
 

@@ -13,6 +13,9 @@ class PhysicsComponent;
 #ifndef ENTITY
 #define ENTITY
 
+/** \brief Components compounded entity
+ *
+ */
 class Entity
 {
 

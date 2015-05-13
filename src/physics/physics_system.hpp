@@ -29,7 +29,14 @@ public:
 
     void update(unsigned int delta);
 
+    /** \brief Create a dynamic box
+     * Dynamic means that is is affected by forces
+     */
     PhysicsBox* createPhysicsBox( const Vec2f& position, const Vec2f& scale, float mass );
+
+    /** \brief Create a kinematic box
+     * Kinematic means that it is not affected by forces
+     */
     PhysicsBox* createPhysicsBoxKinematic( const Vec2f& position, const Vec2f& scale, float mass );
 
     void destroyPhysicsComponent( PhysicsComponent* physicsComponent );

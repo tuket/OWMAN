@@ -7,6 +7,9 @@ class GraphicsSystem;
 #ifndef CAMERA
 #define CAMERA
 
+/** \brief High level abstraction camera
+ * You can set the position and dimensions of the camera
+ */
 class Camera
 {
 

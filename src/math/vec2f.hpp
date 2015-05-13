@@ -2,6 +2,10 @@
 #ifndef VEC2F
 #define VEC2F
 
+/**
+ * Represents a vector of two float components
+ */
+
 class Vec2f
 {
 

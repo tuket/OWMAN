@@ -7,25 +7,25 @@
 /**
  * \brief Thread safe queue
  * This queue can be used concurrently by several threads.
- * It is specialy designed for the consumer producer-pattern.
+ * It is specially designed for the consumer producer-pattern.
  */
 
 template <typename T>
 class WorkQueue
 {
-	
+
 	std::list<T> queue;
 	pthread_mutex_t mutex;
 	pthread_cond_t cond;
-	
+
 public:
-	
+
 	WorkQueue()
 	{
 		pthread_mutex_init(&mutex, 0);
 		pthread_cond_init(&cond, 0);
 	}
-	
+
 	void push(T elem)
 	{
 		pthread_mutex_lock(&mutex);
@@ -33,7 +33,7 @@ public:
 		pthread_cond_signal(&cond);
 		pthread_mutex_unlock(&mutex);
 	}
-	
+
 	T pop()
 	{
 		pthread_mutex_lock(&mutex);
@@ -45,16 +45,16 @@ public:
 		T elem = queue.front();
 		queue.pop_front();
 		pthread_mutex_unlock(&mutex);
-		
+
 		return elem;
 	};
-	
+
 	~WorkQueue()
 	{
 		pthread_mutex_destroy(&mutex);
 		pthread_cond_destroy(&cond);
 	}
-	
+
 };
 
 #endif

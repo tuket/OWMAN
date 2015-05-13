@@ -13,6 +13,14 @@ class ResourceManager;
 #ifndef RESOURCE_TEXTURE
 #define RESOURCE_TEXTURE
 
+/** \brief Represents a resource texture
+ * Since OpenGL does not allow to make any call
+ * from any other thread other than the main thread,
+ * the resource manager can not load anything to video
+ * memory. So for this resource, to be LOADED means to
+ * be loaded in main memory and to be READY means to be
+ * loaded in video memory
+ */
 class ResourceTexture : public Resource
 {
 

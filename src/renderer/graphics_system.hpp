@@ -50,8 +50,16 @@ public:
 		bool fullScreen
 	);
 
+    /** \brief update animations
+     */
 	void update(unsigned int delta);
+
 	void draw();
+
+	/** \brief Swap buffers
+	 * Once you ave drawn all the components \
+	 * call this function to swap buffers
+	 */
 	void swap();
 
 	Sprite* createSprite(std::string fileName, const Vec2f& scale);

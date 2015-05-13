@@ -8,6 +8,11 @@ class ResourceCellFactory;
 #ifndef RESOURCE_CELL
 #define RESOURCE_CELL
 
+/** \brief Cell resource
+ * This class is a modifiable resource.
+ * When there are no references to this resource
+ * the changes will be stored.
+ */
 class ResourceCell : public Resource
 {
 
