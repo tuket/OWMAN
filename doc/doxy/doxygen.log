@@ -1,0 +1,39 @@
+/home/tuket/prog/owman/src/renderer/low_level_renderer_2d.cpp:126: warning: no uniquely matching class member found for 
+  LowLevelRenderer2D::LowLevelRenderer2D(string windowTitle, unsigned int width, unsigned int height, bool fullScreen)
+Possible candidates:
+  LowLevelRenderer2D::LowLevelRenderer2D()' at line 88 of file /home/tuket/prog/owman/src/renderer/low_level_renderer_2d.hpp
+  LowLevelRenderer2D::LowLevelRenderer2D(std::string windowTitle, unsigned int width, unsigned int height, bool fullScreen)' at line 90 of file /home/tuket/prog/owman/src/renderer/low_level_renderer_2d.hpp
+
+/home/tuket/prog/owman/src/resource_manager/resource_request.cpp:5: warning: no matching class member found for 
+  ResourceRequest::ResourceRequest(ResourceRequest::Type type, string name)
+Possible candidates:
+  ResourceRequest::ResourceRequest()
+  ResourceRequest::ResourceRequest(Type type, std::string name)
+
+/home/tuket/prog/owman/src/world_streamer.cpp:197: warning: no matching class member found for 
+  WorldStreamer::WorldStreamer(string worldFolder, EntityFactory *entityFactory, float cellSize, unsigned int windowSize)
+Possible candidates:
+  WorldStreamer::WorldStreamer()
+  WorldStreamer::WorldStreamer(std::string worldFolder, EntityFactory *entityFactory, float cellSize=250.f, unsigned int windowSize=2)
+
+/home/tuket/prog/owman/src/renderer/graphics_component.hpp:71: warning: argument 'The' of command @param is not found in the argument list of GraphicsComponent::createXmlNode(rapidxml::xml_document<> *doc)=0
+/home/tuket/prog/owman/src/renderer/graphics_component.hpp:71: warning: The following parameters of GraphicsComponent::createXmlNode(rapidxml::xml_document<> *doc)=0 are not documented:
+  parameter 'doc'
+/home/tuket/prog/owman/src/i_world_streamer.hpp:45: warning: argument 'offset' of command @param is not found in the argument list of IWorldStreamer::update(const Vec2f &position, MainCharacter *mainCharacter)=0
+/home/tuket/prog/owman/src/i_world_streamer.hpp:45: warning: The following parameters of IWorldStreamer::update(const Vec2f &position, MainCharacter *mainCharacter)=0 are not documented:
+  parameter 'position'
+  parameter 'mainCharacter'
+/home/tuket/prog/owman/src/physics/physics_box.hpp:32: warning: argument 'The' of command @param is not found in the argument list of PhysicsBox::createXmlNode(rapidxml::xml_document<> *doc)
+/home/tuket/prog/owman/src/physics/physics_box.hpp:32: warning: The following parameters of PhysicsBox::createXmlNode(rapidxml::xml_document<> *doc) are not documented:
+  parameter 'doc'
+/home/tuket/prog/owman/src/physics/physics_component.hpp:25: warning: argument 'The' of command @param is not found in the argument list of PhysicsComponent::createXmlNode(rapidxml::xml_document<> *doc)=0
+/home/tuket/prog/owman/src/physics/physics_component.hpp:25: warning: The following parameters of PhysicsComponent::createXmlNode(rapidxml::xml_document<> *doc)=0 are not documented:
+  parameter 'doc'
+/home/tuket/prog/owman/src/renderer/sprite.hpp:63: warning: argument 'The' of command @param is not found in the argument list of Sprite::createXmlNode(rapidxml::xml_document<> *doc)
+/home/tuket/prog/owman/src/renderer/sprite.hpp:63: warning: The following parameters of Sprite::createXmlNode(rapidxml::xml_document<> *doc) are not documented:
+  parameter 'doc'
+/home/tuket/prog/owman/src/world_streamer.hpp:75: warning: argument 'cell' of command @param is not found in the argument list of WorldStreamer::update(const Vec2f &position, MainCharacter *mainCharacter)
+/home/tuket/prog/owman/src/world_streamer.hpp:75: warning: argument 'offset' of command @param is not found in the argument list of WorldStreamer::update(const Vec2f &position, MainCharacter *mainCharacter)
+/home/tuket/prog/owman/src/world_streamer.hpp:75: warning: The following parameters of WorldStreamer::update(const Vec2f &position, MainCharacter *mainCharacter) are not documented:
+  parameter 'position'
+  parameter 'mainCharacter'
