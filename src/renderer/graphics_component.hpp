@@ -33,7 +33,10 @@ protected:
 public:
 
 	GraphicsComponent()
-	:visible(true){}
+	:
+	visible(true),
+	priority(0)
+	{}
 
 	virtual void update(unsigned int delta) = 0;
 	virtual void draw()const = 0;

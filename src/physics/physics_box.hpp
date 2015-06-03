@@ -29,6 +29,9 @@ public:
     Vec2f getPosition()const;
     void setPosition(const Vec2f& v);
 
+    Vec2f getSpeed()const;
+    void setSpeed(const Vec2f& v);
+
     /** \brief Creates a physics XML node
      * Returns an XML node representing the class itself
      * \param The XML document

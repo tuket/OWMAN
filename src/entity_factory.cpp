@@ -49,43 +49,60 @@ Entity* EntityFactory::createEntity
 
 	// graphics
 	xml_node<> *graphics_node = node->first_node("graphics");
+	if( graphics_node )
+	{
+
 		xml_node<> *texture_node = graphics_node->first_node("texture");
 		string textureFileName( string("img/") + texture_node->value() );
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
 		xml_node<> *height_graphics_node = graphics_node->first_node("height");
 		float height_graphics = atof( height_graphics_node->value() );
+		xml_node<> *priority_node = graphics_node->first_node("priority");
+
+		GraphicsComponent* graphicsComponent =
+        myEngine->getGraphicsSystem()->createSprite
+        (
+            textureFileName,
+            Vec2f( width_graphics, height_graphics )
+        );
+
+        if( priority_node )
+		{
+            int priority = atoi( priority_node->value() );
+            graphicsComponent->setPriority( priority );
+		}
+
+        entity->setGraphicsComponent( graphicsComponent );
+
+    }
 
 	// physics
 	xml_node<> *physics_node = node->first_node("physics");
-            xml_node<> *shape_node = physics_node->first_node("shape");
-            string sShape( shape_node->value() );
-            xml_node<> *width_physics_node = physics_node->first_node("width");
-            float width_physics = atof( width_physics_node->value() );
-            xml_node<> *height_physics_node = physics_node->first_node("height");
-            float height_physics = atof( height_physics_node->value() );
-            xml_node<> *mass_node = physics_node->first_node("mass");
-            float mass = atof( mass_node->value() );
+	if( physics_node )
+	{
 
+        xml_node<> *shape_node = physics_node->first_node("shape");
+        string sShape( shape_node->value() );
+        xml_node<> *width_physics_node = physics_node->first_node("width");
+        float width_physics = atof( width_physics_node->value() );
+        xml_node<> *height_physics_node = physics_node->first_node("height");
+        float height_physics = atof( height_physics_node->value() );
+        xml_node<> *mass_node = physics_node->first_node("mass");
+        float mass = atof( mass_node->value() );
 
+        PhysicsComponent* physicsComponent =
+        myEngine->getPhysicsSystem()->createPhysicsBox
+        (
+            pos,
+            Vec2f(width_physics, height_physics),
+            mass
+        );
 
-	GraphicsComponent* graphicsComponent =
-	myEngine->getGraphicsSystem()->createSprite
-	(
-		textureFileName,
-		Vec2f( width_graphics, height_graphics )
-	);
+        entity->setPhysicsComponent( physicsComponent );
 
-	PhysicsComponent* physicsComponent =
-	myEngine->getPhysicsSystem()->createPhysicsBox
-	(
-        pos,
-        Vec2f(width_physics, height_physics),
-        mass
-    );
+    }
 
-	entity->setGraphicsComponent( graphicsComponent );
-	entity->setPhysicsComponent( physicsComponent );
 
 	entity->setPosition( pos );
 
@@ -124,61 +141,82 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 
 	// graphics
 	xml_node<> *graphics_node = node->first_node("graphics");
+	if( graphics_node )
+	{
+
 		xml_node<> *texture_node = graphics_node->first_node("texture");
 		string textureFileName( string("img/") + texture_node->value() );
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
 		xml_node<> *height_graphics_node = graphics_node->first_node("height");
 		float height_graphics = atof( height_graphics_node->value() );
+		xml_node<> *priority_node = graphics_node->first_node("priority");
+
+		GraphicsComponent* graphicsComponent =
+        myEngine->getGraphicsSystem()->createSprite
+        (
+            textureFileName,
+            Vec2f( width_graphics, height_graphics )
+        );
+
+        if( priority_node )
+		{
+            int priority = atoi( priority_node->value() );
+            graphicsComponent->setPriority( priority );
+		}
+
+        entity->setGraphicsComponent( graphicsComponent );
+
+    }
 
 	// physics
     xml_node<> *physics_node = node->first_node("physics");
-            xml_node<> *shape_node = physics_node->first_node("shape");
-            string sShape( shape_node->value() );
-            xml_node<> *width_physics_node = physics_node->first_node("width");
-            float width_physics = atof( width_physics_node->value() );
-            xml_node<> *height_physics_node = physics_node->first_node("height");
-            float height_physics = atof( height_physics_node->value() );
-            xml_node<> *mass_node = physics_node->first_node("mass");
-            float mass = atof( mass_node->value() );
 
+    if( physics_node )
+    {
 
+        xml_node<> *shape_node = physics_node->first_node("shape");
+        string sShape( shape_node->value() );
+        xml_node<> *width_physics_node = physics_node->first_node("width");
+        float width_physics = atof( width_physics_node->value() );
+        xml_node<> *height_physics_node = physics_node->first_node("height");
+        float height_physics = atof( height_physics_node->value() );
+        xml_node<> *mass_node = physics_node->first_node("mass");
+        float mass = atof( mass_node->value() );
 
-	GraphicsComponent* graphicsComponent =
-	myEngine->getGraphicsSystem()->createSprite
-	(
-		textureFileName,
-		Vec2f( width_graphics, height_graphics )
-	);
+        PhysicsComponent* physicsComponent =
+        myEngine->getPhysicsSystem()->createPhysicsBoxKinematic
+        (
+            pos,
+            Vec2f(width_physics, height_physics),
+            mass
+        );
 
-	PhysicsComponent* physicsComponent =
-	myEngine->getPhysicsSystem()->createPhysicsBoxKinematic
-	(
-        pos,
-        Vec2f(width_physics, height_physics),
-        mass
-    );
+        entity->setPhysicsComponent( physicsComponent );
 
-	entity->setGraphicsComponent( graphicsComponent );
-	entity->setPhysicsComponent( physicsComponent );
+    }
+
 
 	entity->setPosition( pos );
 	entity->setCell( Vec2i(cell_x, cell_y) );
 
 	return entity;
 
-
-
-
 }
 
 void EntityFactory::destroyEntity(Entity* entity)
 {
 
-    GraphicsComponent* gp = entity->getGraphicsComponent();
-	myEngine->getGraphicsSystem()->destroyGraphicsComponent( gp );
+    GraphicsComponent* gc = entity->getGraphicsComponent();
+    if( gc )
+    {
+        myEngine->getGraphicsSystem()->destroyGraphicsComponent( gc );
+    }
 
 	PhysicsComponent* pc = entity->getPhysicsComponent();
-	myEngine->getPhysicsSystem()->destroyPhysicsComponent(pc);
+	if( pc )
+	{
+        myEngine->getPhysicsSystem()->destroyPhysicsComponent(pc);
+    }
 
 }

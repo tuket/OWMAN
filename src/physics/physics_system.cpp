@@ -14,7 +14,7 @@ PhysicsSystem::PhysicsSystem()
 void PhysicsSystem::update(unsigned int delta)
 {
 
-    world->Step(delta/1000000.0f, 96, 40);
+    world->Step(delta/1000.0, 96, 40);
 
 }
 

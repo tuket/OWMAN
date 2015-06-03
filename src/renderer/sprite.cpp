@@ -68,6 +68,21 @@ xml_node<>* Sprite::createXmlNode(xml_document<>* doc)
     xml_node<>* height_node = doc->allocate_node(node_element, "height", s);
     root->append_node( height_node );
 
+    if( priority != 0 )
+    {
+
+        ss.str( string() );
+        ss.clear();
+
+        ss << priority;
+        string prio = ss.str();
+
+        s = doc->allocate_string( prio.c_str() );
+        xml_node<> *prio_node = doc->allocate_node(node_element, "priority", s);
+        root->append_node( prio_node );
+
+    }
+
     return root;
 
 }

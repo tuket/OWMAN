@@ -2,6 +2,7 @@
 #include "color.hpp"
 #include "../resource_manager/resource_manager.hpp"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -83,9 +84,23 @@ void GraphicsSystem::update(unsigned int delta)
 void GraphicsSystem::draw()
 {
 
+    vector<GraphicsComponent*> vec(components.begin(), components.end());
+
+    // sort by priority
+
+    sort
+    (
+        vec.begin(),
+        vec.end(),
+        [](GraphicsComponent* gc1, GraphicsComponent* gc2) -> bool
+        {
+            return gc1->getPriority() < gc2->getPriority();
+        }
+    );
+
 	renderer.clear();
-	set<GraphicsComponent*>::iterator it;
-	for( it=components.begin(); it != components.end(); ++it )
+	vector<GraphicsComponent*>::iterator it;
+	for( it=vec.begin(); it != vec.end(); ++it )
 	{
 
 		if( (*it)->isReady() )

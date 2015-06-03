@@ -20,7 +20,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBox( const Vec2f& position, const Ve
     bodyDef.fixedRotation = true;
     bodyDef.active = true;
     bodyDef.position.Set(position.x, position.y);
-    bodyDef.linearDamping = 0.1;
+    bodyDef.linearDamping = 0.2;
     res->body = world->CreateBody(&bodyDef);
 
     b2PolygonShape shape;
@@ -49,7 +49,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBoxKinematic( const Vec2f& position,
     bodyDef.fixedRotation = true;
     bodyDef.active = true;
     bodyDef.position.Set(position.x, position.y);
-    bodyDef.linearDamping = 0.1;
+    bodyDef.linearDamping = 0.01;
     res->body = world->CreateBody(&bodyDef);
 
     b2PolygonShape shape;

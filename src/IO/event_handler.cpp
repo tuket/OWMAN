@@ -1,5 +1,6 @@
 #include "event_handler.hpp"
 #include "../engine.hpp"
+#include "../physics/physics_component.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -15,8 +16,8 @@ void EventHandler::handle()
 {
 
     Entity* mc = engine->getMainCharacter();
-    float x = mc->getPosition().x;
-    float y = mc->getPosition().y;
+    float vx = 0;
+    float vy = 0;
 
 
 	switch (event.type) {
@@ -51,24 +52,28 @@ void EventHandler::handle()
                 break;
 
                 case SDLK_UP:
-                    y += 5;
+                    vy += 2000;
                 break;
                 case SDLK_DOWN:
-                    y -= 5;
+                    vy -= 2000;
                 break;
                 case SDLK_LEFT:
-                    x -= 5;
+                    vx -= 2000;
                 break;
                 case SDLK_RIGHT:
-                    x += 5;
+                    vx += 2000;
                 break;
+
+                default:
+                    vx = 0;
+                    vy = 0;
 
 			}
         break;
 
 	}
 
-    mc->setPosition( Vec2f(x, y) );
+    mc->getPhysicsComponent()->setSpeed( Vec2f(vx, vy) );
 
 }
 

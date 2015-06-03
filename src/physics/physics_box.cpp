@@ -16,6 +16,16 @@ void PhysicsBox::setPosition(const Vec2f& v)
     body->SetTransform( b2Vec2(v.x ,v.y), 0 );
 }
 
+Vec2f PhysicsBox::getSpeed()const
+{
+    return Vec2f( body->GetLinearVelocity().x, body->GetLinearVelocity().y);
+}
+
+void PhysicsBox::setSpeed(const Vec2f& v)
+{
+    body->SetLinearVelocity( b2Vec2( v.x, v.y ) );
+}
+
 xml_node<>* PhysicsBox::createXmlNode(xml_document<>* doc)
 {
 

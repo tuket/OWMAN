@@ -330,10 +330,23 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
 
                 // the cell is not loaded, what to do?
                 // --> load it
-                else
+                else if( availableCells.find(goodCell) != availableCells.end() )
                 {
 
-                    // TODO
+                    stringstream ss;
+                    ss << worldFolder
+                    << "/"
+                    << "cell_"
+                    << goodCell.x
+                    << "_"
+                    << goodCell.y
+                    << ".xml";
+
+                    string fileName = ss.str();
+
+                    ResourceManager* resMan = ResourceManager::getSingleton();
+                    ResourceCell* cellResource = resMan->obtainCell(fileName);
+                    loadingCellResources[ goodCell ] = cellResource;
 
                 }
 
@@ -472,7 +485,6 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
             << ".xml";
 
             string fileName = ss.str();
-            // cout << fileName << endl;
 
             ResourceManager* resMan = ResourceManager::getSingleton();
             ResourceCell* cellResource = resMan->obtainCell(fileName);
@@ -501,6 +513,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
         )
         {
 
+            /*
             // loaded late.
             // finally loaded but it is not needed anymore,
             // so release resource without parsing
@@ -512,18 +525,14 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 it->first.y > (int)(windowPos.y + worldWindow.windowSize)
             )
             {
-                /*
-                cout << "------" << endl;
-                cout << worldWindow.windowSize << endl;
-                cout << windowPos.x << ", " << windowPos.y << endl;
-                cout << it->first.x << ", " << it->first.y << endl;
-                */
+
                 ResourceManager* resMan = ResourceManager::getSingleton();
                 resMan->releaseCell( res );
                 loadingCellResources.erase( it );
                 continue;
 
             }
+            */
 
             WorldCell wc;
 
