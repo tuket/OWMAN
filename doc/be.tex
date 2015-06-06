@@ -8,6 +8,10 @@
 \usepackage{amsmath}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{listings}	% syntax highlight
+\usepackage{verbatim}
+\usepackage{minted}
+
 \graphicspath{ {img/} }
 \begin{document}
 
@@ -205,7 +209,7 @@ After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice
 
 \paragraph{World Of Warcraft - Blizzard (2004)}
 
-\emph{World of Warcraft} (\emph{WoW}) is an MMORPG (massively multiplayer online role-playing game). This game has a different type of world streaming from the one we have seen so far. In this case the information that provides the status of the entities doesn't come from the hard disk but from the network. World streaming in the network is even more challenging but, for instance, resource management is very similar. This has a big world and social interaction among players. Chatting, trading and fighting with other players is possible in \emph{WoW}.
+\emph{World of Warcraft} (\emph{WoW}) is an MMORPG (massively multiplayer online role-playing game). This game has a different type of world streaming from the one we have seen so far. In this case the information that provides the status of the entities doesn't come from the hard disk but from the network. World streaming in the network is even more challenging but, for instance, resource management is very similar. This game has a big world and social interaction between players. Chatting, trading and fighting with other players is possible in \emph{WoW}.
 
 
 \begin{figure}[H]
@@ -292,11 +296,158 @@ The bottleneck here is the access to disk. Access to disk blocks the CPU and req
 Our game engine will be composed by some subsystems.
 In order to work properly the components of the engine must interact with each other in some way.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{architecture.pdf}
+	\caption{Game engine architecture.}
+	\label{fig:arch}
+\end{figure}
 
+The picture above is a simplification of the architecture. Notice that in the diagram only two subsystems are represented. The graphics and physics components are the most important subsystems, but there could be others like sound or artificial intelligence (AI).
+
+\paragraph{Resource Manager:} The resource manager is the component in charge of accessing the file system. It runs on a separate thread so it does not interfere in the progress of other tasks. Also, it must assure that there will not be duplicated resources in main memory. The resource manager is used by all the other architecture components. So it takes the role of a servant for the others. In other to ease the access to this utility system, it is very convenient to implement it as a singleton.
+
+\paragraph{World Streamer:} It is the one. The brain of the architecture. The world streamer is in charge of telling the subsystems below (graphics and physics in our diagram) what to do. It must decide whether a given entity must be loaded or not. An inefficient implementation of the world streamer would decide that all the entities of the world must be loaded. And a useless implementation of would not load any entity. So the world streamer needs to compute the subset of entities that must be loaded at any time. This subset of loaded entities is what we find in the diagram as "List of active entities".
+
+\paragraph{Graphics System:} Might be called graphics engine too. It will get a list of entities that must be rendered from the world streamer. So it will be just told what should be displayed on the screen. The graphics system in independent from all the other components and does not care who is using it.
+
+\paragraph{Physics System} Very similar to the graphics system. In the diagram you can appreciate the difference between these two: an extra arrow. This arrow flows from the physics system to to the world streamer. The meaning of this arrow is the position of the main character. After each physics simulation step the position of the main character might have changed and the world streamer needs this information in order to recompute the set of active entities.
 
 \section{Implementation}
-TODO
 
+In this section I will explain briefly how I implemented the modules of the game engine.
+
+\subsection{Graphics System}
+
+The graphics system is implemented from scratch (there is a reason that will be explained later). Since implementing a graphics engine is not the purpose of this academic work, it does not have a big set of features.
+
+\subsubsection{Architecture}
+This graphics module is split in two layers. The first layer is the low-level layer. The low-level layer is the one that uses the OpenGL API (application programming interface). The purpose of the low-level layer is to provide a simple interface for the upper layer. This way the high-level layer does not need to understand any of OpenGL. So if we needed to deploy the application to a platform were DirectX performs better, we only would need to replace the low-level layer and the rest of the whole system would remain the same.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{renderer.pdf}
+	\caption{Graphics system architecture.}
+	\label{fig:renderer}
+\end{figure}
+
+The low-level renderer API is just a reduced set of functions that allows to draw things on the screen. On the other hand the high-level renderer provides a class-based mechanism to define the scene. That is, in the low-level renderer we would say: "draw texture A in position X" and it will be shown on the screen for just this frame. And in the -high-level renderer we would say: "there exists a sprite in X and it has priority P" and it would be drawn on the screen until it is removed.
+
+\subsubsection{Features}
+The renderer I have implemented is not very sophisticated but works fine for our purpose. Animations are not yet supported. You can assign priorities to the sprites in order to define what is drawn on top. There is an abstraction of the camera too. The low-level renderer uses OpenGL ES (embedded systems), so it could be ported to mobile platforms.
+
+\subsubsection{Why did I implement my own graphics engine?}
+
+There are three reasons I had to implement a custom graphics engine.
+
+\paragraph{Most graphics engines will manage resources automatically.}
+Automatic resource management is one of the main targets of this academic work. If we had the render engine to do this for us, we would be missing something important. Even though, the graphics engines only manage graphics related resources and we would like to have resource management unified. What is more important, the resource manager of the graphics engines might be blocking.
+
+\paragraph{OpenGL implementations do not support multithreading.}
+
+OpenGL does not allow you to call its functions from threads other than the main thread. If you try to do so the behavior will be completely undefined \cite{multiopengl}.
+
+Loading a graphics resource (like a texture) involves these steps:
+\begin{itemize}
+
+\item \textbf{Load the resource, which is stored in hard disk, to main memory.} This must be done by the secondary thread because we are accessing hard disk and that is slow.
+
+\item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM if fast enough, so it does not block other tasks.
+
+\item \textbf{Delete the resource in MM.} Once the resource is en VRAM we do not need it anymore en RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
+
+\end{itemize}
+
+Most graphics engines provide functions to load graphics resources. And these functions do all the steps that we mentioned in a single call. Therefore, if we used one of these graphics engines, we would not be able to split the work among the two threads. Probably, there are workarounds that would allow to split tasks but they might difficult to implement. This is the main reason I have decided to make my own render engine.
+
+\paragraph{I had personal interest in learning modern OpenGL.}
+
+Also, I wanted an excuse to learn modern OpenGL features like shaders. The version of OpenGL I used is OpenGL ES 2.0. This version of OpenGL is compatible with embedded systems like smartphones. In this version you are forced to use shaders because all the fixed pipeline functionality has been removed. I will dedicate a section to explain briefly how to use shaders in modern OpenGL.
+
+\subsubsection{Modern OpenGL programming}
+
+I do not pretend to make a tutorial on modern OpenGL nor shaders but just to summarize what I have done.
+I have used only the subset of API that is common to OpenGL 2.1 and OpenGL ES 2.0. In my testings, I used version 2.1, which is the one that runs on PC.
+
+Since OpenGL does not support fixed pipeline functions I had to use shaders. What are shaders? Basically , they are pieces of code that run in the graphics card. They are used to achieve custom visual effects\cite{shader}. In OpenGL shaders are written in a specific programming language called GLSL. GLSL is very similar to C\cite{glsl}].
+
+There are two types of shader.
+
+\begin{itemize}
+
+\item \textbf{Vertex shader.} Vertex shaders take as input one vertex and gives as output the position that vertex should take. It is used to achieve effects such as mesh deformation. One example where vertex shaders are used is the waves of the ocean. The vertex shader should change the position of vertices  so it fakes the water moving. In our 2D render engine, we do not need the vertex shader to do anything special: it just forwards the position as it is.
+
+\begin{minted}{c}
+
+#version 120
+
+/**
+ * In the vertex shader you are computing the position
+ * of the current vertex.
+ * Also you compute the texture coordinate corresponding
+ * to this vertex.
+ **/
+
+// these are the parameters received by the main program
+attribute vec2 inPosition;
+attribute vec2 inTexCoords;
+
+void main()
+{
+	
+	// compute the position of the current vertex
+	// In this case you are just forwarding the position,
+	// but this allows you to achieva cool effects like the
+	// mesh bending or the waves of the ocean
+	// The fouth coordinate is called W(1.0) and it is used
+	// for normalization purposes( read: 
+	// "http://stackoverflow.com/questions/2422750/
+	// in-opengl-vertex-shaders-what-is-w-and-why-do-i-divide-by-it" )
+    gl_Position = vec4(inPosition, 0.0, 1.0);
+    
+    // compute the texture coordina corresponding to this
+    // vertex
+    gl_TexCoord[0] = vec4(inTexCoords, 0, 0);
+    
+}
+
+
+\end{minted}
+
+\item \textbf{Fragment shader.} Also called pixel shader but this term is more used for DierectX. Fragment shader is executed for every pixel and it should output the desired color for the current pixel. In our code we will be returning the color of the corresponding texture coordinate.
+
+\begin{minted}{c}
+
+#version 120
+
+/**
+ * In the fragment shader you are computing
+ * which should be the color of the current pixel
+ * ( fragment and pixel are sinonyms in OpenGL,
+ * in fact in DirectX it is called pixel shader )
+ * 
+ * The output goes to -> gl_FragColor
+ * 
+ **/
+
+uniform sampler2D tex;
+
+void main()
+{
+	
+	// take the color of the texture pixel
+	vec4 color = texture2D(tex, gl_TexCoord[0].st);
+	
+	// output
+    gl_FragColor = color;
+    
+}
+
+\end{minted}
+
+
+\end{itemize} 
+  
 
 \bibliography{tfg}
 
@@ -325,13 +476,30 @@ TODO
 	GTA article at Wikipedia.
 	\newline
 	\url{http://en.wikipedia.org/wiki/Grand_Theft_Auto_%28video_game%29}
-		
 
 \bibitem{earnings}
-\hypertarget{earnings}
-Top 10 highest grossing videogames of all time.
-\newline
-\url{http://www.businessinsider.com/here-are-the-top-10-highest-grossing-video-games-of-all-time-2012-6?op=1}
+	\hypertarget{earnings}
+	Top 10 highest grossing videogames of all time.
+	\newline
+	\url{http://www.businessinsider.com/here-are-the-top-10-highest-grossing-video-games-of-all-time-2012-6?op=1}
+	
+\bibitem{multiopengl}
+	\hypertarget{multiopengl}
+	Stack Overflow post discouraging multithreaded rendering with OpenGL.
+	\newline
+	\url{http://stackoverflow.com/questions/11097170/multithreaded-rendering-on-opengl}
+	
+\bibitem{shader}
+	\hypertarget{shader}
+	Shaders on Wikipedia.
+	\newline
+	\url{http://en.wikipedia.org/wiki/Shader}
+	
+\bibitem{glsl}
+	\hypertarget{glsl}
+	GLSL on Wikipedia.
+	\newline
+	\url{http://en.wikipedia.org/wiki/OpenGL_Shading_Language}
 	
 \end{thebibliography}
 

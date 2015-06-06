@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="504px"
+   height="324px"
+   version="1.1"
+   content="&lt;mxfile userAgent=&quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0&quot; type=&quot;google&quot;&gt;&lt;diagram&gt;7VhLc9owEP41zLSHMPiBgWOSpumhmcmUQ9qjai+2ZmyLyiJAf31W0gq/SAh5lBzKSdqVd7XffruSGASXxeZasmV2IxLIB/4o2QyCLwPfn0zHw2mAAy3bWlkUhUNvYmWp5ImVerVgzv8CCUckXfEEqtZCJUSu+LItjEVZQqxasoXI2y6WLHXma8E8ZnlfescTlVnp1I9q+TfgaebceNHMaiq1dTYSWLBVrs6MCHVaXTBny0QVXCFsUgg0o0fF5hJyDZ0DJJxgPFMGAFPwExaeWSy+Pnf5LgwJJW31tSYpkHuWryjOOyERXT/K0cPFb4mjVI/mSgIrQM87mh5SmSpyHHk73T1IBUSf58Rg1lAA1yAKUHKL35AFf0oUIvJ5AaVxXafWczTLGmkdk4wRw9Kd6RoxHBBozwSQfDcANFXD42oPhttKQXF6BL1JG8EdoidBkEqtgeBttq0+NIDBjDb9IQB0jhoI9gCBMjmXUqxxFuesQngRmgZKiITc/sTJaDh20196qicbrqzKNzqcalUNLiS99nsIWtycWMmYPnusLSkmU3jMjqm8fooaKXBo78uAhJwpft/e9760kIdbwTGiuoTaFRR18mqDo2+a/bhjxn3nWlnHjI2/Z8YwZBfyC0lDIb8RaSYt1rySGk+m3WzzVGkPg0c657GJDzuHmO8M/4vU9w/9t0t9s2GYhdQtaN0pG4bp2f8bxktZQ3f+Bmu+80pvTSz6JzKLDVaY6lJxxfGmf/jQrjK21MNExKvC0OFinXEF8yUzeV/jxarNwso+K0ZDbzaKzOH0LhdOZO4+0JuHvX0AtJnT7Q1vc9iHRxVvKUoUNjF7cQWeqnKCIBzOmj9CYHf9p4fnsaUUBO20Tjs7e89aIs+NJP4A6m+9OrlhJb5P9z68rGQhTFg1AaI/K/0GNYozWyPnuMAbLTe10ln5VPEyzUGJ8rMziPFYm20/T5SuFKsyAR2uptiBqmUypv8DkCHvU7Jjx70dSYg0h2p2TOuOqFmc1m9+y476f5Pg6gE=&lt;/diagram&gt;&lt;/mxfile&gt;"
+   resource="https://drive.draw.io/#G0BwBC4DUnZLBXWVFCQ2lLbXdDanc"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="architecture.pdf">
+  <metadata
+     id="metadata74">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="972"
+     id="namedview72"
+     showgrid="false"
+     inkscape:zoom="1.1984127"
+     inkscape:cx="204.79686"
+     inkscape:cy="158.80857"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6" />
+  <defs
+     id="defs4" />
+  <g
+     transform="translate(0.5,0.5)"
+     id="g6">
+    <rect
+       x="110.83"
+       y="127.17"
+       width="110"
+       height="50"
+       fill="#ffffff"
+       stroke="#000000"
+       pointer-events="none"
+       id="rect8" />
+    <rect
+       x="0.83"
+       y="271.17"
+       width="110"
+       height="50"
+       fill="#ffffff"
+       stroke="#000000"
+       pointer-events="none"
+       id="rect18" />
+    <g
+       transform="translate(31,282)"
+       id="g20">
+      <switch
+         id="switch22">
+        <foreignObject
+           pointer-events="all"
+           width="49"
+           height="31"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+           id="foreignObject24">
+          <xhtml:div
+             style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+            <xhtml:div
+               style="display:inline-block;text-align:inherit;text-decoration:inherit;">Graphics<xhtml:br />
+
+System<xhtml:br />
+</xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+      </switch>
+    </g>
+    <rect
+       x="229.83"
+       y="271.17"
+       width="110"
+       height="50"
+       fill="#ffffff"
+       stroke="#000000"
+       pointer-events="none"
+       id="rect28" />
+    <g
+       transform="translate(264,282)"
+       id="g30">
+      <switch
+         id="switch32">
+        <foreignObject
+           pointer-events="all"
+           width="41"
+           height="31"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+           id="foreignObject34">
+          <xhtml:div
+             style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+            <xhtml:div
+               style="display:inline-block;text-align:inherit;text-decoration:inherit;">Physics<xhtml:br />
+
+System<xhtml:br />
+</xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+      </switch>
+    </g>
+    <path
+       d="M 138.33 177 L 60.03 266.38"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path38" />
+    <path
+       d="M 56.57 270.33 L 58.55 262.75 L 60.03 266.38 L 63.82 267.37 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path40" />
+    <path
+       d="M 260.83 271.17 L 197.04 182.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path42" />
+    <path
+       d="M 193.98 177.91 L 200.91 181.56 L 197.04 182.18 L 195.22 185.64 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path44" />
+    <path
+       d="M 220.83 164.5 L 308.35 266.34"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path46" />
+    <path
+       d="M 311.77 270.32 L 304.55 267.29 L 308.35 266.34 L 309.86 262.73 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path48" />
+    <path
+       d="M 105.83 1.17 L 225.83 1.17 L 225.83 73.54 Q 195.83 59.82 165.83 73.54 Q 135.83 87.27 105.83 73.54 L 105.83 8.79 Z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path50"
+       stroke="#000000"
+       fill="#ffffff" />
+    <g
+       transform="translate(125,27)"
+       id="g52">
+      <switch
+         id="switch54">
+        <foreignObject
+           pointer-events="all"
+           width="82"
+           height="31"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+           id="foreignObject56">
+          <xhtml:div
+             style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 82px; white-space: normal; text-align: center;">
+            <xhtml:div
+               style="display:inline-block;text-align:inherit;text-decoration:inherit;">List of<xhtml:br />
+
+active entities<xhtml:br />
+</xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="41"
+           y="22"
+           font-size="12px"
+           id="text58"
+           style="font-size:12px;text-anchor:middle;fill:#000000;font-family:Helvetica" />
+        <text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="104.73141"
+           y="10.395801"
+           id="text3831"
+           sodipodi:linespacing="125%"
+           transform="translate(-125.5,-27.5)"><tspan
+             sodipodi:role="line"
+             id="tspan3833"
+             x="104.73141"
+             y="10.395801">fweff</tspan><tspan
+             sodipodi:role="line"
+             x="104.73141"
+             y="60.395802"
+             id="tspan3835"> dfsfsd</tspan><tspan
+             sodipodi:role="line"
+             x="104.73141"
+             y="110.3958"
+             id="tspan3837">fds</tspan><tspan
+             sodipodi:role="line"
+             x="104.73141"
+             y="160.3958"
+             id="tspan3839" /></text>
+      </switch>
+    </g>
+    <path
+       d="M 165.83 128.17 L 165.83 72.17"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path60" />
+    <rect
+       x="380.83"
+       y="125.17"
+       width="120"
+       height="54"
+       rx="27"
+       ry="27"
+       fill="#ffffff"
+       stroke="#000000"
+       pointer-events="none"
+       id="rect62" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="165.99762"
+       y="29.041359"
+       id="text3009"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3011"
+         x="165.99762"
+         y="29.041359"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans">List of</tspan><tspan
+         sodipodi:role="line"
+         x="165.99762"
+         y="46.541359"
+         id="tspan3013"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans">active entities</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="166.17514"
+       y="149.57906"
+       id="text3009-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="166.17514"
+         y="149.57906"
+         id="tspan3013-1"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans">World</tspan><tspan
+         sodipodi:role="line"
+         x="166.17514"
+         y="167.07906"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans"
+         id="tspan3047">Streamer</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="54.298164"
+       y="295.18771"
+       id="text3009-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="54.298164"
+         y="295.18771"
+         id="tspan3013-0"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans">Graphics</tspan><tspan
+         sodipodi:role="line"
+         x="54.298164"
+         y="312.68771"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans"
+         id="tspan3062">System</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="285.00226"
+       y="293.41763"
+       id="text3009-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="285.00226"
+         y="293.41763"
+         id="tspan3013-4"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans">Physics</tspan><tspan
+         sodipodi:role="line"
+         x="285.00226"
+         y="310.91763"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans"
+         id="tspan3077">System</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="441.59177"
+       y="148.85876"
+       id="text3009-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="441.59177"
+         y="148.85876"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans"
+         id="tspan3092">Resource</tspan><tspan
+         sodipodi:role="line"
+         x="441.59177"
+         y="166.35876"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans"
+         id="tspan3096">Manager</tspan></text>
+  </g>
+</svg>
