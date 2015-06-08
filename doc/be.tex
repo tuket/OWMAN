@@ -449,6 +449,21 @@ void main()
 \end{itemize} 
   
 
+Shaders are compiled are runtime. In the following picture there is a summary of the steps that are required to make a shader program.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{shad.pdf}
+	\caption{The process to compile and use shaders.}
+	\label{fig:shad}
+\end{figure}
+
+Once you have built your shader program you can use it at any time. These are the tutorials I used \cite{shadtut} \cite{glmodtut} \cite{learngl}.
+
+Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have been removed I had to use one geometry library: GLM\cite{glm}. For window management I used SDL2\cite{glm}. And for texture loading I employed SOIL\cite{soil}.
+
+XML
+
 \bibliography{tfg}
 
 \begin{thebibliography}{99}
@@ -500,6 +515,43 @@ void main()
 	GLSL on Wikipedia.
 	\newline
 	\url{http://en.wikipedia.org/wiki/OpenGL_Shading_Language}
+	
+\bibitem{shadtut}
+	\hypertarget{shadtut}
+	GLSL tutorial
+	\newline
+	\url{http://www.lighthouse3d.com/tutorials/glsl-tutorial}
+	
+\bibitem{glmodtut}
+	\hypertarget{glmodtut}
+	Modern OpenGL tutorial.
+	\newline
+	\url{https://open.gl}
+	
+\bibitem{learngl}
+	\hypertarget{learngl}
+	Learn OpenGL.
+	\newline
+	\url{http://www.learnopengl.com}
+	
+\bibitem{glm}
+	\hypertarget{glm}
+	GLM official webpage.
+	\newline
+	\url{http://glm.g-truc.net}
+
+\bibitem{sdl}
+	\hypertarget{sdl}
+	SDL official webpage.
+	\newline
+	\url{https://www.libsdl.org}
+	
+\bibitem{soil}
+	\hypertarget{soil}
+	SOIL official webpage.
+	\newline
+	\url{http://www.lonesock.net/soil.html}
+	
 	
 \end{thebibliography}
 
