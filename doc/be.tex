@@ -59,7 +59,7 @@ We consider these requirements are the main target to accomplish.
 
 \item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space.
 
-\item \textbf{Easy to use:} It is important that making games with our game engine is as easy as any of the engines we are used to. If our engine was too difficult to use nobody would use it.
+\item \textbf{Easy to use:} It is important that making games with our game engine is as easy as with any of the engines we are used to. If our engine was too difficult to use nobody would use it.
 
 \item \textbf{Testable:} We want to be able to see if our engine is working as expected.
 
@@ -280,7 +280,7 @@ For our engine we are going to take a simpler approach and we will assume each n
 
 \subsection{Loading Resources is slow}
 
-Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cell (or node). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. Therefore, we have to solve this in some way.
+Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cell (or node). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
 
 The bottleneck here is the access to disk. Access to disk blocks the CPU and requires some time. So most of the time, when loading a new cell, the CPU would be idle while it could be doing important tasks (e.g. physics simulation or rendering). The solution that is suggested in the article of \emph{Scott Bilas} (and the one we have followed) is to use a separate thread for loading resources from disk. So if our main thread (the one that executes the main loop) needs to load a resource, instead of doing it itself, it asks the background thread to do it. This way, the main thread is never idle when there is job to be done and the secondary thread will be loading from disk at its own pace.
 
@@ -462,7 +462,7 @@ Once you have built your shader program you can use it at any time. These are th
 
 Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have been removed I had to use one geometry library: GLM\cite{glm}. For window management I used SDL2\cite{glm}. And for texture loading I employed SOIL\cite{soil}.
 
-XML
+\subsection{Physics System}
 
 \bibliography{tfg}
 
