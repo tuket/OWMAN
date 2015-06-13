@@ -11,6 +11,7 @@
 \usepackage{listings}	% syntax highlight
 \usepackage{verbatim}
 \usepackage{minted}
+\usepackage{pgfplots}
 
 \graphicspath{ {img/} }
 \begin{document}
@@ -464,6 +465,308 @@ Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have be
 
 \subsection{Physics System}
 
+The physics system we have implemented is not very complex. We have made a small wraper of Box2D. Box2D is a popular 2D physics engine\cite{box2d}. It is used by, the well known game engine, Unity.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{physics_wrapper.pdf}
+	\caption{Physics System Architecture.}
+	\label{fig:physics_wrapper}
+\end{figure}
+
+
+Our wraper consists of two main classes: PhysicsComponent and PhysicsSystem. The first one is an abstract class that represents a rigid body. In our engine entities are composed of components and PhysicsComponent is ine of them. An entity could have a PhysicsComponent or not.
+
+There is only one implementation of PhysicsComponent: PhysicsBox. It is just a rectagle shaped body. You can assign mass, dimansions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces.
+
+PhysicsComponent's are created by a request to the PhysicsSystem. When you are done with a PhysicsComponets request its deletion to the PhysicsSystem. The GraphicsSystem and the PhysicsSystem run at the same rate. So in the main loop you only have to call the update function of the two systems.
+
+\subsubsection{The issue of the precission}
+
+In the requirements section we stated that physics simulation was a main requirement because it was a challenge in big world games. Here it comes the reason. Floating point numbers can be imprecise when they become too high (or too low).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{float.pdf}
+	\caption{Float sampling representation.}
+	\label{fig:float}
+\end{figure}
+
+As you can see, floating point numbers are not distributed uniformly. The sampling rate is beter for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get gurther from the origin of coordinates. That affect mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
+
+So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section.
+
+\subsection{Resource Manager}
+
+The resource manager is the system that takes care of accessing the secondary storage memory. It provides all the other system components an interface to get resources when they need them without having to wait.
+So basically, the resource manger returns a handle to the resource when it gets a request. Even if the resource is not loaded, it should return a handle (instantaneously).
+
+The following comic shows in a friendly way how the resource manager works.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{resmancomic.pdf}
+	\caption{Comic of the resource manager.}
+	\label{fig:resmancomic}
+\end{figure}
+
+As you can see, even though the resource manager says that the requested resouce is not in RAM, he tells the requester that when it becomes loaded, he will find it at address 42 (that is the handle).
+
+Take a look at (this time more serious) representation.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{resman.pdf}
+	\caption{Diagram of the resource manager.}
+	\label{fig:resman}
+\end{figure}
+
+The resource handle is returned in all cases. The handle has an attribute that tells if the resource is loaded or not.
+
+So for instance, the renderer needs to draw a texture. Therefore, the graphics system requests to the resource manager that texture. Every frame, the graphics system will check if the resource has been loaded. And if it is, it will draw the texture.
+
+The resource manager needs to keep track of how many handles are pointing to each resource. When to number of handles for one resource becomes zero, the resource is released.
+
+If one resource needs to be loaded, that is enqueued in a special queue. What is so special about this queue is that it is prepared for being accesed by severan threads (thread safe queue). This type of queue is usually called work queue.
+
+In our implementation there is the abstract class Resource. These are the classes that inherit from Resource:
+
+\begin{itemize}
+
+\item{\emph{ResourceText.}} It represents a text file on disk. When loaded you will be able to read the file using "getText()".
+
+\item{\emph{ResourceTexture}} This is resouce that will be required by the sprites. When loaded you can call "getTexture()" and you will be given a "LowLevelRenderer::Texture*".
+
+\item{\emph{ResourceCell.}} This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a ResourceCell it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
+
+\end{itemize}
+
+The resource manager is a singleton and needs to be initialized al the beginning of the application. In order to do so, just call "launch()". That will start the secondary thread.
+
+In order to implement the work queue I used pthreads and I got inspired by this article\cite{workqueue}.
+
+\subsection{World Streamer}
+
+The world stremer is in charge of teling which entities should be loaded and which ones should be deleted. The world is divided in equally sized squares and inside each of these cells we will place the entities.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{grid.pdf}
+	\caption{When changing of cell some cells are loaded and some other become deleted.}
+	\label{fig:grid}
+\end{figure}
+
+Each cell is represented in an XML file and they are named as "cell\_X\_Y.xml".
+Take a look at this example of XML file:
+
+\begin{minted}{xml}
+
+<cell>
+	<entity>
+		<position>
+			<x>109.925</x>
+			<y>180.015</y>
+		</position>
+		<graphics>
+			<texture>tukifoc.png</texture>
+			<width>120</width>
+			<height>120</height>
+		</graphics>
+		<physics>
+			<shape>box</shape>
+			<width>120</width>
+			<height>120</height>
+			<mass>60</mass>
+		</physics>
+	</entity>
+	<entity>
+		<position>
+			<x>9.91001</x>
+			<y>112.793</y>
+		</position>
+		<graphics>
+			<texture>wood_box.png</texture>
+			<width>80</width>
+			<height>80</height>
+		</graphics>
+		<physics>
+			<shape>box</shape>
+			<width>80</width>
+			<height>80</height>
+			<mass>60</mass>
+		</physics>
+	</entity>
+</cell>
+
+\end{minted}
+
+In this example you can see there are two entities attached to the root node (cell). Each entity has position, graphics component and physics component. Inside the graphics component there is the texture and the dimensions. In some cases, you will find "priority" for the graphics component. If the priority is not specified, zero will be assumed.
+
+At he beginning the world streamer will search in the "world\_folder" directory for all files named like "cell\_X\_Y.xml" (where X and Y are integers). The are no restrictions in the shape of the world. All the following shapes are valid.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{validworlds.pdf}
+	\caption{Examples of valid world shapes.}
+	\label{fig:validworlds}
+\end{figure}
+
+If an entity gets out of a cell and gets in a space where there is no cell (what is not green in the previous picture), the entity is stored in the last valid cell it was. So it is the job of the designer to make sure no entity will get outside of the map.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{comic2.pdf}
+	\caption{World streamer realizes that the main character has changed of cell.}
+	\label{fig:comic2}
+\end{figure}
+
+The world stremer implements the \emph{IWorldStreamer} interface, so you can have several implementations for the world streamer. In the early beginning, when the \emph{WorldStreamer} was not still implemented, we wrote \emph{TestWorldStremer}. This class just streams one entity and its implementation was pretty strightforward. This way of programming allowed us to make a fast prototype and check that all the system components were interacting properly. The main functions of this interface are: \emph{init()}, \emph{update()} and \emph{getEntitties()}.
+
+The implementation of the \emph{update()} function is the core of the system. It determines the list of active entities. Its implementation is one of the longest but it is not as diffucult as it might seem at first. The following diagram sums up what this function does.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{worldstreamer.pdf}
+	\caption{Flow diagram of the update function of the WorldStreamer.}
+	\label{fig:worldstreamer}
+\end{figure}
+
+In each frame we check for cells (XML files) that have been loaded and we parse them. After parsing, we create the new entities
+
+Deleting a cell involves creating an XML tree, removing all entities and finally requesting the resource manager to release the XML file (thus saving it).
+
+Also we must handle when the user closes the application. So when the user closes the window or presses \emph{Esc} we must save all the active cells.
+
+In order to parse XML and modify the trees, we have used RapidXml. This library claims to be the fastest out there. There is also a high-level wrapper of this library in the famous Boost library collection but I realized later. Anyhow, I have found it to be pleasant to use. The only pitfall I have found with this library is a small compiling error there is when generating the text of the tree. I seems to be a bug that can be easily solved\cite{rapidxmlbug}.
+
+When I had to implement the code that looks cell files in a certain directory, I had to use a external library: Boost Filesystem. I decided to use this library because of its good portability. Also the Boost libraries are guarantee of quality.
+
+\section{Result and testing}
+
+The final application consists of a stable game engine. Yet not fully-featured.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{screenshot1.png}
+	\caption{Demo screenshot.}
+	\label{fig:screenshot1}
+\end{figure}
+
+\subsection{Demo}
+
+As you can see we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
+
+In dorder to test our system intensively, we have written an script that generates a random world. We have made our tests with a world of 1 million cells (which is about 4GB of XML files). The files must be located in the "\emph{world\_folder}" directory. In the same folder there is the main character file (\emph{main\_character.xml}). In this file you can configure the aparence, position and other stuff of the main character.
+
+Our application allows to zoom in and zoom out the camera using the mouse weel. When you open the application you will see something like in figure 26.
+
+If you zoom out the camera you will be able to see the boundaries of the visualization.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{screenshot2.png}
+	\caption{Zooming out.}
+	\label{fig:screenshot2}
+\end{figure}
+
+
+So if you zoom in enough, the player will not realize that the entities are being loaded a he walks.
+
+You can watch this video of the demo  \url{https://youtu.be/ymecWxF886U}.
+
+\subsection{Performance}
+
+The memory consumption is very low. Running with one million of cells we get a RAM consumption of ~70MB.
+
+The world window is the space that will determine the set of entities that are loaded at any given time. We can configure the size of the world window in \emph{init\_file.xml}. The world window is always square shaped and the side is always odd. The number you have to put in the configuration file is not the side of the world window, it is $(side-1)/2$. This way, the introduced number is always valid.
+
+The following pictures show diffrent world window sizes.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{size1.png}
+	\caption{Window size = 1.}
+	\label{fig:windowsize1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{size2.png}
+	\caption{Window size = 2.}
+	\label{fig:windowsize2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{size3.png}
+	\caption{Window size = 3.}
+	\label{fig:windowsize3}
+\end{figure}
+
+We have found that a window size of three is a good balance between performance and playability. Maybe four for high resolution screens
+
+\begin{table}[H]
+	\centering
+	
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Window size & CPU & RAM    \\ \hline
+        1           & ~1\% &  70.3MB \\ 
+        2           & ~2\% &  70.3MB \\
+        3			& ~4\% &  70.4MB \\
+        4			& ~6\% &  70.6MB \\
+        5			& ~9\% &  72.7MB \\
+        6			& ~12\% & 74.4MB \\
+        10			& ~24\% & 85.0MB \\
+        \hline
+    \end{tabular}
+    \caption{Performance tests.}
+\end{table}
+
+The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. That might be because our tests have been made on a system without dedicated graphics card. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
+
+Speaking about RAM consumtion, the amount of RAM used increases very slowly compared to CPU. That is indeed the prove that our resource manager is taking care of duplicates.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.78]{size10.png}
+	\caption{Window size = 10.}
+	\label{fig:windowsize10}
+\end{figure}
+
+
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={CPU consumption},
+    xlabel={Window size},
+    ylabel={CPU usage},
+    xmin=0, xmax=10,
+    ymin=0, ymax=30,
+    xtick={0, 2, 4, 6, 8, 10},
+    ytick={0, 5, 10, 15, 20, 25, 30},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+ 
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (1, 1)(2, 2)(3, 4)(4, 6)(5, 9)(6, 12)(10, 24)
+    };
+ 
+\end{axis}
+\end{tikzpicture}
+
+By observing the graph, we can notice that the asymptotic cost is close to linear but not axactly. It might be something between linear and quadratic. That is a great achievement considering that the number of entities grows like O($(2n+1)^2$), that is highly quadratical (\emph{n} is the window size).
+
+\section{Conclus}
+
+
 \bibliography{tfg}
 
 \begin{thebibliography}{99}
@@ -552,6 +855,23 @@ Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have be
 	\newline
 	\url{http://www.lonesock.net/soil.html}
 	
+\bibitem{box2d}
+	\hypertarget{box2d}
+	Box2D official webpage.
+	\newline
+	\url{http://box2d.org}
+	
+\bibitem{workqueue}
+	\hypertarget{workqueue}
+	Multithreaded Work Queue in C++.
+	\newline
+	\url{http://vichargrave.com/multithreaded-work-queue-in-c}
+	
+\bibitem{rapidxmlbug}
+	\hypertarget{rapidxmlbug}
+	Solution to RapidXml bug at StackOverflow.
+	\newline
+	\url{http://stackoverflow.com/questions/14113923/rapidxml-print-header-has-undefined-methods}
 	
 \end{thebibliography}
 
