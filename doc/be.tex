@@ -766,7 +766,23 @@ By observing the graph, we can notice that the asymptotic cost is close to linea
 
 \section{Conclusion}
 
-We have developed a game engine that supports big worlds. The performance if good, so it could be ported to mobile platforms (we have carefully chosen the dependencies for this purpose). We wanted to create a engine that would show to overcome the challenges of big world games and I think that that goal has been acomplished.
+We have developed a game engine that supports big worlds. The performance is good, so it could be ported to mobile platforms (we have carefully chosen the dependencies for this purpose). We wanted to create a engine that would show how to overcome the technological challenges of big world games and I think that the goal has been acomplished.
+
+In addition of creating the engine, we have been able to create a demo that tests the engine intensively. Thanks to this, we have proved that our engine is stable and, apparenty, has no bugs.
+
+We have successfuly integrated graphics and physics.
+
+Phyics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wraped a physics engine but all the concepts used are applicable to any other physics engine.
+
+We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to evercome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applyed then.
+
+Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have dealt with it.
+
+The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer if configurable, so it can be adapted to the hardware capabilities.
+
+I was not a main requirement but we also managed so the modifications of the world are persistent. 
+
+The code is well documented using doxygen syntax. Hopefully, any developer who is interested in learning or contributing could understand the code and extend the engine.
 
 \bibliography{tfg}
 
