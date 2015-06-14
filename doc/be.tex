@@ -54,11 +54,11 @@ We consider these requirements are the main target to accomplish.
 
 \begin{itemize}
 
-\item \textbf{Visualization:} We said that requirements that are common for any game engine? will be treated as secondary requirements. But this is an exception. It is very important to have some kind of visual feedback. We need visualization to test our system. Also, it is important in order to prove that our engine is working properly. So we need to implement a graphical interface even if it is not very fancy. The graphics will be 2-dimensional.
+\item \textbf{Visualization:} We said that requirements that are common for any game engine will be treated as secondary requirements. But this is an exception. It is very important to have some kind of visual feedback. We need visualization to test our system. Also, it is important in order to prove that our engine is working properly. So we need to implement a graphical interface even if it is not very fancy. The graphics will be 2-dimensional.
 
 \item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The tick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set textures, we must accomplish that each texture is in RAM at most once.
 
-\item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space.
+\item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space ~(\ref{sec:precission}).
 
 \item \textbf{Easy to use:} It is important that making games with our game engine is as easy as with any of the engines we are used to. If our engine was too difficult to use nobody would use it.
 
@@ -68,7 +68,7 @@ We consider these requirements are the main target to accomplish.
 
 \subsection{Secondary Requirements}
 
-These requirements would be great to implement for a commercial game engine but not the main target of this academic work.
+These requirements would be great to be implemented for a commercial game engine but not the main target of this academic work.
 
 \begin{itemize}
 
@@ -133,13 +133,13 @@ In \emph{Terraria} the player can move in four directions (up, down, left, right
 \subsection{Examples of games using world streaming}
 
 "Streaming is the backbone of everything we do. Everyone at the company understands how it's structured." said Adam Fowler, the Technical director at Rockstar North \cite{rockstar}.
-Companies, such as Rockstar, know that world streaming is the technology that supports their success.
+Companies, such as \emph{Rockstar}, know that world streaming is the technology that supports their success.
 
 In this section we are going to show some of the most relevant games supported by the world streaming technology.
 
-\paragraph{Hunter - Paul Holmes (1991)}
+\paragraph{\emph{Hunter} - Paul Holmes (1991)}
 
-Hunter is one of the main influences of GTA (Grand Theft Auto). Hunter is a 3D action-adventure game in which the player could travel around a pretty big world. The degree of freedom in this game was enormous. There were many vehicles (bicycles, cars, ships, tanks, airplanes), places, and weapons. It is certainly not the first open world game but from the information we have I could affirm it might be the first game that used some kind of world streaming.
+\emph{Hunter} is one of the main influences of GTA (\emph{Grand Theft Auto}). \emph{Hunter} is a 3D action-adventure game in which the player could travel around a pretty big world. The degree of freedom in this game was enormous. There were many vehicles (bicycles, cars, ships, tanks, airplanes), places, and weapons. It is certainly not the first open world game but from the information we have I could affirm it might be the first game that used some kind of world streaming.
 
 \begin{figure}[H]
 	\centering
@@ -153,9 +153,9 @@ In this game there were missions that could be completed but it was the player w
 Hunter was released for Amiga and Atari. The acceptance of the game was great and magazines ranked it with high scores.
 
 
-\paragraph{Grand Theft Auto - Tarantula Studios (1997)}
+\paragraph{\emph{Grand Theft Auto} - \emph{Tarantula Studios} (1997)}
 
-This was the first Grand Theft Auto. With an enormous city and \emph{mainly} 2D graphics, GTA was the one that started the famous series of violent games. The player takes the role of a criminal that can drive all around the city without loading screens.
+This was the first \emph{Grand Theft Auto}. With an enormous city and \emph{mainly} 2D graphics, GTA was the one that started the famous series of violent games. The player takes the role of a criminal that can drive all around the city without loading screens.
 
 \begin{figure}[H]
 	\centering
@@ -164,12 +164,12 @@ This was the first Grand Theft Auto. With an enormous city and \emph{mainly} 2D 
 	\label{fig:gta}
 \end{figure}
 
-The game was released in 1997 for PC and PlayStation, and in 1998 for GameBoy Color. The GBC (GameBoy Color) version is considered to be a great technological achievement due to the hardware limitations of the portable console. The first GTA was successful in sells mainly thanks to the GBC version but magazines and users rated it low\cite{gta1}.
+The game was released in 1997 for \emph{PC} and \emph{PlayStation}, and in 1998 for \emph{GameBoy Color}. The \emph{GBC} (\emph{GameBoy Color}) version is considered to be a great technological achievement due to the hardware limitations of the portable console. The first \emph{GTA} was successful in sells mainly thanks to the \emph{GBC} version but magazines and users rated it low\cite{gta1}.
 
 
-\paragraph{Midnight Club: Street Racing - Angel Studios (2000)}
+\paragraph{\emph{Midnight Club: Street Racing} - \emph{Angel Studios} (2000)}
 
-Midnight Club is a series of open world racing games. In this game you take the role of an urban street racer. The player can drive all around \emph{The Big Apple} and challenge other street racers. In the missions you will have to defeat your enemies and scape from the cops. Completing missions will provide you respect and money to buy new cars. But you can skip missions and just enjoy driving around New York.
+\emph{Midnight Club} is a series of open world racing games. In this game you take the role of an urban street racer. The player can drive all around \emph{The Big Apple} and challenge other street racers. In the missions you will have to defeat your enemies and scape from the cops. Completing missions will provide you respect and money to buy new cars. But you can skip missions and just enjoy driving around New York.
 
 \begin{figure}[H]
 	\centering
@@ -178,11 +178,11 @@ Midnight Club is a series of open world racing games. In this game you take the 
 	\label{fig:midnight1}
 \end{figure}
 
-This first Midnight Club was released in the same year that the PS2 (PlayStation 2) was commercialised. The acceptance of the public was good but sells were less than expected. One year later they released the GBA (GameBoy Advance) version which was rated poorly. Despite of its unfortunate sales this game is the one that started a successful saga.
+This first \emph{Midnight Club} was released in the same year that the \emph{PS2} (\emph{PlayStation 2}) was commercialised. The acceptance of the public was good but sells were less than expected. One year later they released the \emph{GBA} version which was rated poorly. Despite of its unfortunate sales this game is the one that started a successful saga.
 
-\paragraph{Dungeon Siege - Gas Powered Games (2002)}
+\paragraph{\emph{Dungeon Siege} - \emph{Gas Powered Games} (2002)}
 
-Dungeon Siege is a role-playing videogame very similar to \emph{Diablo} series. Scott Bilas, one of the developers of the game, published a very inspiring article about how the team managed to develop a game with such a big world\cite{worldbilas}. Thats to its flexible scripting engine the community was able to make modifications of the game, and even some people used the engine to make their own game. Despite the main story of the game is very linear there are many secondary missions and the player has quite freedom to move around. The greatest achievement of this game was avoiding all loading screens except for the initial one. Even taking portals is instantaneous. Graphics were impressive for the time being.
+\emph{Dungeon Siege} is a role-playing videogame very similar to \emph{Diablo} series. Scott Bilas, one of the developers of the game, published a very inspiring article about how the team managed to develop a game with such a big world\cite{worldbilas}. Thanks to its flexible scripting engine the community was able to make modifications of the game, and even some people used the engine to make their own game. Despite the main story of the game is very linear there are many secondary missions and the player has quite freedom to move around. The greatest achievement of this game was avoiding all loading screens except for the initial one. Even taking portals is instantaneous. Graphics were impressive for the time being.
 
 \begin{figure}[H]
 	\centering
@@ -191,11 +191,11 @@ Dungeon Siege is a role-playing videogame very similar to \emph{Diablo} series. 
 	\label{fig:dungeonsiege1}
 \end{figure}
 
-Dungeon Siege had an online mode too. In the online mode you could grab your friends and complete the adventure in company.
+\emph{Dungeon Siege} had an online mode too. In the online mode you could grab your friends and complete the adventure in company.
 
-Dungeon Siege had good sales but maybe not as much as it deserved for its technological quality and good graphics design
+\emph{Dungeon Siege} had good sales but maybe not as much as it deserved for its technological quality and good graphics design
 
-\paragraph{Grand Theft Auto: San Andreas - Rockstar North (2004)}
+\paragraph{\emph{Grand Theft Auto: San Andreas} - \emph{Rockstar North} (2004)}
 
 After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice City}, it came an even more sold game: \emph{GTA: San Andreas}. Take the role of \emph{Carl Johnson}, the feared gangster. This game has one of the biggest maps in the history of videogames. There is complete freedom to wander around any of the tree enormous cities.
 
@@ -206,11 +206,11 @@ After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice
 	\label{fig:sanan}
 \end{figure}
 
-\emph{San Andreas} is the most sold PS2 game ever. Very successful for the PC and XBOX platforms too. And not only that, the game is still having good sales for PC and Android.
+\emph{San Andreas} is the most sold \emph{PS2} game ever. Very successful for the \emph{PC} and \emph{XBOX} platforms too. And not only that, the game is still having good sales for \emph{PC} and \emph{Android}.
 
 \paragraph{World Of Warcraft - Blizzard (2004)}
 
-\emph{World of Warcraft} (\emph{WoW}) is an MMORPG (massively multiplayer online role-playing game). This game has a different type of world streaming from the one we have seen so far. In this case the information that provides the status of the entities doesn't come from the hard disk but from the network. World streaming in the network is even more challenging but, for instance, resource management is very similar. This game has a big world and social interaction between players. Chatting, trading and fighting with other players is possible in \emph{WoW}.
+\emph{World of Warcraft} (\emph{WoW}) is an MMORPG (massively multiplayer online role-playing game). This game has a different type of world streaming from the one we have seen so far. In this case the information that provides the status of the entities does not come from the hard disk but from the network. World streaming in the network is even more challenging but, for instance, resource management is very similar. This game has a big world and social interaction between players. Chatting, trading and fighting with other players is possible in \emph{WoW}.
 
 
 \begin{figure}[H]
@@ -220,11 +220,11 @@ After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice
 	\label{fig:wow}
 \end{figure}
 
-WoW has been the most played multiplayer game for many years and it is the game that provided most earnings of all times(\$10 billion)\cite{earnings}.
+\emph{WoW} has been the most played multiplayer game for many years and it is the game that provided most earnings of all times(\$10 billion)\cite{earnings}.
 
-\paragraph{Fallout 3 - Bethesda Softworks (2008)}
+\paragraph{\emph{Fallout 3} - \emph{Bethesda Softworks} (2008)}
 
-World streaming is a feature present in many of the new-generation videogames. Fallout is just one of them that has an enormous world and impressive graphics.
+World streaming is a feature present in many of the new-generation videogames. \emph{Fallout 3} is just one of them that has an enormous world and impressive graphics.
 
 \begin{figure}[H]
 	\centering
@@ -234,7 +234,7 @@ World streaming is a feature present in many of the new-generation videogames. F
 \end{figure}
 
 
-\paragraph{Minecraft - Mojang (2011)}
+\paragraph{\emph{Minecraft} - \emph{Mojang} (2011)}
 
 \emph{Minecraft} is the sandbox MMO that proved that games are not all about graphics.
 
@@ -275,7 +275,7 @@ But there are cases in which two adjacent nodes could not be connected (e.g. the
 	\label{fig:connections2}
 \end{figure}
 
-This node-based approach is the one used in Dungeon siege. The designers of the game used a custom tool that would allow to manage the connections of the nodes.
+This node-based approach is the one used in \emph{Dungeon siege}. The designers of the game used a custom tool that would allow them to manage the connections of the nodes.
 
 For our engine we are going to take a simpler approach and we will assume each node is connected to all the surrounding nodes (i.e 8 nodes at most). This will simplify the job of the designers of the game. With our approach taking portals will require a loading screen (which is very common current games).
 
@@ -308,7 +308,7 @@ The picture above is a simplification of the architecture. Notice that in the di
 
 \paragraph{Resource Manager:} The resource manager is the component in charge of accessing the file system. It runs on a separate thread so it does not interfere in the progress of other tasks. Also, it must assure that there will not be duplicated resources in main memory. The resource manager is used by all the other architecture components. So it takes the role of a servant for the others. In other to ease the access to this utility system, it is very convenient to implement it as a singleton.
 
-\paragraph{World Streamer:} It is the one. The brain of the architecture. The world streamer is in charge of telling the subsystems below (graphics and physics in our diagram) what to do. It must decide whether a given entity must be loaded or not. An inefficient implementation of the world streamer would decide that all the entities of the world must be loaded. And a useless implementation of would not load any entity. So the world streamer needs to compute the subset of entities that must be loaded at any time. This subset of loaded entities is what we find in the diagram as "List of active entities".
+\paragraph{World Streamer:} It is the one. The brain of the architecture. The world streamer is in charge of telling the subsystems below (graphics and physics in our diagram) what to do. It must decide whether a given entity must be loaded or not. An inefficient implementation of the world streamer would decide that all the entities of the world must be loaded. And a useless implementation would not load any entity. So the world streamer needs to compute the subset of entities that must be loaded at any time. This subset of loaded entities is what we find in the diagram as "List of active entities".
 
 \paragraph{Graphics System:} Might be called graphics engine too. It will get a list of entities that must be rendered from the world streamer. So it will be just told what should be displayed on the screen. The graphics system in independent from all the other components and does not care who is using it.
 
@@ -353,7 +353,7 @@ Loading a graphics resource (like a texture) involves these steps:
 
 \item \textbf{Load the resource, which is stored in hard disk, to main memory.} This must be done by the secondary thread because we are accessing hard disk and that is slow.
 
-\item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM if fast enough, so it does not block other tasks.
+\item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM is fast enough, so it does not block other tasks.
 
 \item \textbf{Delete the resource in MM.} Once the resource is en VRAM we do not need it anymore en RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
 
@@ -459,7 +459,7 @@ Shaders are compiled are runtime. In the following picture there is a summary of
 	\label{fig:shad}
 \end{figure}
 
-Once you have built your shader program you can use it at any time. These are the tutorials I used \cite{shadtut} \cite{glmodtut} \cite{learngl}.
+Once you have built your shader program you can use it at any time. These are the tutorials I read \cite{shadtut} \cite{glmodtut} \cite{learngl}.
 
 Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have been removed I had to use one geometry library: GLM\cite{glm}. For window management I used SDL2\cite{glm}. And for texture loading I employed SOIL\cite{soil}.
 
@@ -482,6 +482,7 @@ There is only one implementation of PhysicsComponent: PhysicsBox. It is just a r
 PhysicsComponent's are created by a request to the PhysicsSystem. When you are done with a PhysicsComponets request its deletion to the PhysicsSystem. The GraphicsSystem and the PhysicsSystem run at the same rate. So in the main loop you only have to call the update function of the two systems.
 
 \subsubsection{The issue of the precission}
+\label{sec:precission}
 
 In the requirements section we stated that physics simulation was a main requirement because it was a challenge in big world games. Here it comes the reason. Floating point numbers can be imprecise when they become too high (or too low).
 
@@ -492,9 +493,9 @@ In the requirements section we stated that physics simulation was a main require
 	\label{fig:float}
 \end{figure}
 
-As you can see, floating point numbers are not distributed uniformly. The sampling rate is beter for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get gurther from the origin of coordinates. That affect mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
+As you can see, floating point numbers are not distributed uniformly. The sampling rate is beter for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get further from the origin of coordinates. That affects mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
 
-So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section.
+So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section (\ref{sec:worldstreamer}).
 
 \subsection{Resource Manager}
 
@@ -541,18 +542,19 @@ In our implementation there is the abstract class Resource. These are the classe
 
 \end{itemize}
 
-The resource manager is a singleton and needs to be initialized al the beginning of the application. In order to do so, just call "launch()". That will start the secondary thread.
+The resource manager is a singleton and needs to be initialized at the beginning of the application. In order to do so, just call "launch()". That will start the secondary thread.
 
-In order to implement the work queue I used pthreads and I got inspired by this article\cite{workqueue}.
+In order to implement the work queue, I used pthreads and I got inspired by this article\cite{workqueue}.
 
 \subsection{World Streamer}
+\label{sec:worldstreamer}
 
 The world stremer is in charge of teling which entities should be loaded and which ones should be deleted. The world is divided in equally sized squares and inside each of these cells we will place the entities.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{grid.pdf}
-	\caption{When changing of cell some cells are loaded and some other become deleted.}
+	\caption{When changing of cell some cells are loaded and some others become deleted.}
 	\label{fig:grid}
 \end{figure}
 
@@ -620,7 +622,7 @@ If an entity gets out of a cell and gets in a space where there is no cell (what
 	\label{fig:comic2}
 \end{figure}
 
-The world stremer implements the \emph{IWorldStreamer} interface, so you can have several implementations for the world streamer. In the early beginning, when the \emph{WorldStreamer} was not still implemented, we wrote \emph{TestWorldStremer}. This class just streams one entity and its implementation was pretty strightforward. This way of programming allowed us to make a fast prototype and check that all the system components were interacting properly. The main functions of this interface are: \emph{init()}, \emph{update()} and \emph{getEntitties()}.
+The world stremer implements the \emph{IWorldStreamer} interface, so you can have several implementations for the world streamer. In the early beginning, when the \emph{WorldStreamer} was not still implemented, we wrote \emph{TestWorldStreamer}. This class just streams one entity and its implementation was pretty strightforward. This way of programming allowed us to make a fast prototype and check that all the system components were interacting properly. The main functions of this interface are: \emph{init()}, \emph{update()} and \emph{getEntitties()}.
 
 The implementation of the \emph{update()} function is the core of the system. It determines the list of active entities. Its implementation is one of the longest but it is not as diffucult as it might seem at first. The following diagram sums up what this function does.
 
@@ -632,7 +634,7 @@ The implementation of the \emph{update()} function is the core of the system. It
 	\label{fig:worldstreamer}
 \end{figure}
 
-In each frame we check for cells (XML files) that have been loaded and we parse them. After parsing, we create the new entities
+In each frame we check for cells (XML files) that have been loaded and we parse them. After parsing, we create the new entities.
 
 Deleting a cell involves creating an XML tree, removing all entities and finally requesting the resource manager to release the XML file (thus saving it).
 
@@ -648,7 +650,7 @@ The final application consists of a stable game engine. Yet not fully-featured.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.40]{screenshot1.png}
+	\includegraphics[scale=0.38]{screenshot1.png}
 	\caption{Demo screenshot.}
 	\label{fig:screenshot1}
 \end{figure}
@@ -776,13 +778,83 @@ Phyics simulation is accurate thanks to the, moving the origin of coordinates, s
 
 We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to evercome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applyed then.
 
-Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have dealt with it.
+Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have successfuly dealt with it.
 
 The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer if configurable, so it can be adapted to the hardware capabilities.
 
 I was not a main requirement but we also managed so the modifications of the world are persistent. 
 
 The code is well documented using doxygen syntax. Hopefully, any developer who is interested in learning or contributing could understand the code and extend the engine.
+
+In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an apropiate engine is a lot of work, but also because a lot of content and resources have to be produced. I said difficult, not impossible. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in some years.
+
+\section{License}
+
+The developed software is open source. It is licensed under the MIT License.
+
+The project is hosted in a pulic repository:\newline \url{https://github.com/tuket/OWMAN}.
+
+\section{Tools and dependencies}
+
+\subsection{Used tools}
+
+\begin{itemize}
+
+\item{\textbf{Code::Blocks.}} Used as the main IDE (integrated development environment).
+\newline
+\url{www.codeblocks.org}
+
+\item{\textbf{Doxygen.}} Automatic generation of documentation from code coments.
+\newline
+\url{www.doxygen.org}
+
+\item{\textbf{Apitrace.}} OpenGL debugger.
+\newline
+\url{apitrace.github.io}
+
+\end{itemize}
+
+\subsection{Dependencies}
+
+\begin{itemize}
+
+\item{\textbf{Boost FileSystem.}} Allows accessing the file system.
+\newline
+\url{www.boost.org/libs/filesystem}
+
+\item{\textbf{OpenGL.}} Graphics API.
+\newline
+\url{www.opengl.org}
+
+\item{\textbf{SDL2.}} As window manager.
+\newline
+\url{www.libsdl.org}
+
+\item{\textbf{RapidXML.}} For parsing XML and modifiying the tree.
+\newline
+\url{rapidxml.sourceforge.net}
+
+\item{\textbf{Box2d.}} As the physics engine.
+\newline
+\url{box2d.org}
+
+\item{\textbf{POSIX Threads.}} For creating threads.
+\newline
+\url{pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html}
+
+\item{\textbf{SOIL.}} A small library that allows to load textures.
+\newline
+\url{www.lonesock.net/soil.html}
+
+\item{\textbf{GLEW.}} Necessary if you want to use modern OpenGL.
+\newline
+\url{glew.sourceforge.net}
+
+\item{\textbf{GLM.}} A mathematic library for OpenGL.
+\newline
+\url{http://glm.g-truc.net}
+\end{itemize}
+
 
 \bibliography{tfg}
 
@@ -889,6 +961,20 @@ The code is well documented using doxygen syntax. Hopefully, any developer who i
 	Solution to RapidXml bug at StackOverflow.
 	\newline
 	\url{http://stackoverflow.com/questions/14113923/rapidxml-print-header-has-undefined-methods}
+
+\bibitem{gamecodingcomplte}
+	\hypertarget{gamecodingcomplte}
+	Game Coding Complete - Mike McShaffry and David Graham.
+	\newline
+	\url{http://www.mcshaffry.com/GameCode}
+
+\bibitem{gameenginearchitecture}
+	\hypertarget{gameenginearchitecture}
+	Game Engine Architecture - Jason Gregory
+	\newline
+	\url{http://www.gameenginebook.com}
+	 
+
 	
 \end{thebibliography}
 
