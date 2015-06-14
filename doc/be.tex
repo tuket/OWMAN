@@ -465,7 +465,7 @@ Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have be
 
 \subsection{Physics System}
 
-The physics system we have implemented is not very complex. We have made a small wraper of Box2D. Box2D is a popular 2D physics engine\cite{box2d}. It is used by, the well known game engine, Unity.
+The physics system we have implemented is not very complex. We have made a small wrapper of Box2D. Box2D is a popular 2D physics engine\cite{box2d}. It is used by, the well known game engine, Unity.
 
 \begin{figure}[H]
 	\centering
@@ -475,9 +475,9 @@ The physics system we have implemented is not very complex. We have made a small
 \end{figure}
 
 
-Our wraper consists of two main classes: PhysicsComponent and PhysicsSystem. The first one is an abstract class that represents a rigid body. In our engine entities are composed of components and PhysicsComponent is ine of them. An entity could have a PhysicsComponent or not.
+Our wrapper consists of two main classes: PhysicsComponent and PhysicsSystem. The first one is an abstract class that represents a rigid body. In our engine entities are composed of components and PhysicsComponent is one of them. An entity could have a PhysicsComponent or not.
 
-There is only one implementation of PhysicsComponent: PhysicsBox. It is just a rectagle shaped body. You can assign mass, dimansions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces.
+There is only one implementation of PhysicsComponent: PhysicsBox. It is just a rectangle shaped body. You can assign mass, dimensions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces.
 
 PhysicsComponent's are created by a request to the PhysicsSystem. When you are done with a PhysicsComponets request its deletion to the PhysicsSystem. The GraphicsSystem and the PhysicsSystem run at the same rate. So in the main loop you only have to call the update function of the two systems.
 
@@ -493,7 +493,7 @@ In the requirements section we stated that physics simulation was a main require
 	\label{fig:float}
 \end{figure}
 
-As you can see, floating point numbers are not distributed uniformly. The sampling rate is beter for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get further from the origin of coordinates. That affects mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
+As you can see, floating point numbers are not distributed uniformly. The sampling rate is better for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get further from the origin of coordinates. That affects mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
 
 So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section (\ref{sec:worldstreamer}).
 
@@ -511,7 +511,7 @@ The following comic shows in a friendly way how the resource manager works.
 	\label{fig:resmancomic}
 \end{figure}
 
-As you can see, even though the resource manager says that the requested resouce is not in RAM, he tells the requester that when it becomes loaded, he will find it at address 42 (that is the handle).
+As you can see, even though the resource manager says that the requested resource is not in RAM, he tells the requester that when it becomes loaded, he will find it at address 42 (that is the handle).
 
 Take a look at (this time more serious) representation.
 
@@ -528,7 +528,7 @@ So for instance, the renderer needs to draw a texture. Therefore, the graphics s
 
 The resource manager needs to keep track of how many handles are pointing to each resource. When to number of handles for one resource becomes zero, the resource is released.
 
-If one resource needs to be loaded, that is enqueued in a special queue. What is so special about this queue is that it is prepared for being accesed by severan threads (thread safe queue). This type of queue is usually called work queue.
+If one resource needs to be loaded, that is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
 
 In our implementation there is the abstract class Resource. These are the classes that inherit from Resource:
 
@@ -536,7 +536,7 @@ In our implementation there is the abstract class Resource. These are the classe
 
 \item{\emph{ResourceText.}} It represents a text file on disk. When loaded you will be able to read the file using "getText()".
 
-\item{\emph{ResourceTexture}} This is resouce that will be required by the sprites. When loaded you can call "getTexture()" and you will be given a "LowLevelRenderer::Texture*".
+\item{\emph{ResourceTexture}} This is resource that will be required by the sprites. When loaded you can call "getTexture()" and you will be given a "LowLevelRenderer::Texture*".
 
 \item{\emph{ResourceCell.}} This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a ResourceCell it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
 
@@ -549,7 +549,7 @@ In order to implement the work queue, I used pthreads and I got inspired by this
 \subsection{World Streamer}
 \label{sec:worldstreamer}
 
-The world stremer is in charge of teling which entities should be loaded and which ones should be deleted. The world is divided in equally sized squares and inside each of these cells we will place the entities.
+The world streamer is in charge of telling which entities should be loaded and which ones should be deleted. The world is divided in equally sized squares and inside each of these cells we will place the entities.
 
 \begin{figure}[H]
 	\centering
@@ -622,9 +622,9 @@ If an entity gets out of a cell and gets in a space where there is no cell (what
 	\label{fig:comic2}
 \end{figure}
 
-The world stremer implements the \emph{IWorldStreamer} interface, so you can have several implementations for the world streamer. In the early beginning, when the \emph{WorldStreamer} was not still implemented, we wrote \emph{TestWorldStreamer}. This class just streams one entity and its implementation was pretty strightforward. This way of programming allowed us to make a fast prototype and check that all the system components were interacting properly. The main functions of this interface are: \emph{init()}, \emph{update()} and \emph{getEntitties()}.
+The world streamer implements the \emph{IWorldStreamer} interface, so you can have several implementations for the world streamer. In the early beginning, when the \emph{WorldStreamer} was not still implemented, we wrote \emph{TestWorldStreamer}. This class just streams one entity and its implementation was pretty strightforward. This way of programming allowed us to make a fast prototype and check that all the system components were interacting properly. The main functions of this interface are: \emph{init()}, \emph{update()} and \emph{getEntities()}.
 
-The implementation of the \emph{update()} function is the core of the system. It determines the list of active entities. Its implementation is one of the longest but it is not as diffucult as it might seem at first. The following diagram sums up what this function does.
+The implementation of the \emph{update()} function is the core of the system. It determines the list of active entities. Its implementation is one of the longest but it is not as difficult as it might seem at first. The following diagram sums up what this function does.
 
 
 \begin{figure}[H]
@@ -659,9 +659,9 @@ The final application consists of a stable game engine. Yet not fully-featured.
 
 As you can see we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
 
-In dorder to test our system intensively, we have written an script that generates a random world. We have made our tests with a world of 1 million cells (which is about 4GB of XML files). The files must be located in the "\emph{world\_folder}" directory. In the same folder there is the main character file (\emph{main\_character.xml}). In this file you can configure the aparence, position and other stuff of the main character.
+In order to test our system intensively, we have written an script that generates a random world. We have made our tests with a world of 1 million cells (which is about 4GB of XML files). The files must be located in the "\emph{world\_folder}" directory. In the same folder there is the main character file (\emph{main\_character.xml}). In this file you can configure the appearance, position and other stuff of the main character.
 
-Our application allows to zoom in and zoom out the camera using the mouse weel. When you open the application you will see something like in figure 26.
+Our application allows to zoom in and zoom out the camera using the mouse wheel. When you open the application you will see something like in figure 26.
 
 If you zoom out the camera you will be able to see the boundaries of the visualization.
 
@@ -683,7 +683,7 @@ The memory consumption is very low. Running with one million of cells we get a R
 
 The world window is the space that will determine the set of entities that are loaded at any given time. We can configure the size of the world window in \emph{init\_file.xml}. The world window is always square shaped and the side is always odd. The number you have to put in the configuration file is not the side of the world window, it is $(side-1)/2$. This way, the introduced number is always valid.
 
-The following pictures show diffrent world window sizes.
+The following pictures show different world window sizes.
 
 \begin{figure}[H]
 	\centering
@@ -728,7 +728,7 @@ We have found that a window size of three is a good balance between performance 
 
 The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. That might be because our tests have been made on a system without dedicated graphics card. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
 
-Speaking about RAM consumtion, the amount of RAM used increases very slowly compared to CPU. That is indeed the prove that our resource manager is taking care of duplicates.
+Speaking about RAM consumption, the amount of RAM used increases very slowly compared to CPU. That is indeed the prove that our resource manager is taking care of duplicates.
 
 \begin{figure}[H]
 	\centering
@@ -764,21 +764,21 @@ Speaking about RAM consumtion, the amount of RAM used increases very slowly comp
 \end{axis}
 \end{tikzpicture}
 
-By observing the graph, we can notice that the asymptotic cost is close to linear but not axactly. It might be something between linear and quadratic. That is a great achievement considering that the number of entities grows like O($(2n+1)^2$), that is highly quadratical (\emph{n} is the window size).
+By observing the graph, we can notice that the asymptotic cost is close to linear but not exactly. It might be something between linear and quadratic. That is a great achievement considering that the number of entities grows like O($(2n+1)^2$), that is highly quadratical (\emph{n} is the window size).
 
 \section{Conclusion}
 
-We have developed a game engine that supports big worlds. The performance is good, so it could be ported to mobile platforms (we have carefully chosen the dependencies for this purpose). We wanted to create a engine that would show how to overcome the technological challenges of big world games and I think that the goal has been acomplished.
+We have developed a game engine that supports big worlds. The performance is good, so it could be ported to mobile platforms (we have carefully chosen the dependencies for this purpose). We wanted to create a engine that would show how to overcome the technological challenges of big world games and I think that the goal has been accomplished.
 
-In addition of creating the engine, we have been able to create a demo that tests the engine intensively. Thanks to this, we have proved that our engine is stable and, apparenty, has no bugs.
+In addition of creating the engine, we have been able to create a demo that tests the engine intensively. Thanks to this, we have proved that our engine is stable and, apparently, has no bugs.
 
-We have successfuly integrated graphics and physics.
+We have successfully integrated graphics and physics.
 
-Phyics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wraped a physics engine but all the concepts used are applicable to any other physics engine.
+Physics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wrapped a physics engine but all the concepts used are applicable to any other physics engine.
 
-We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to evercome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applyed then.
+We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied then.
 
-Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have successfuly dealt with it.
+Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have successfully dealt with it.
 
 The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer if configurable, so it can be adapted to the hardware capabilities.
 
@@ -786,7 +786,7 @@ I was not a main requirement but we also managed so the modifications of the wor
 
 The code is well documented using doxygen syntax. Hopefully, any developer who is interested in learning or contributing could understand the code and extend the engine.
 
-In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an apropiate engine is a lot of work, but also because a lot of content and resources have to be produced. I said difficult, not impossible. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in some years.
+In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an appropriate engine is a lot of work, but also because a lot of content and resources have to be produced. I said difficult, not impossible. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in some years.
 
 \section{License}
 
