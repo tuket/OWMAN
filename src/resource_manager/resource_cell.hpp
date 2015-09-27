@@ -19,8 +19,6 @@ class ResourceCell : public Resource
     friend class ResourceCellFactory;
 	friend class ResourceManager;
 
-    ResourceCellFactory* myFactory;
-
 	char* text;
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<> *node;
@@ -36,8 +34,6 @@ public:
 
 	rapidxml::xml_node<>* getNode();
 	rapidxml::xml_document<>* getDocument();
-
-	void destroyDispatcher();
 
 	~ResourceCell(){}
 

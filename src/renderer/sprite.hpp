@@ -1,6 +1,12 @@
+#ifndef SPRITE
+#define SPRITE
+
 #include "graphics_component.hpp"
 #include "low_level_renderer_2d.hpp"
 #include "../math/vec2f.hpp"
+#include <map>
+#include <vector>
+#include "animation.hpp"
 
 #ifndef SPRITE_FACTORY
 class SpriteFactory;
@@ -13,9 +19,6 @@ class ResourceTexture;
 #ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
 #endif
-
-#ifndef SPRITE
-#define SPRITE
 
 /** \brief Represents a static sprite
  * This sprite has no animations
@@ -30,7 +33,10 @@ class Sprite : public GraphicsComponent
 
 	SpriteFactory* myFactory;
 
-	ResourceTexture* resourceTexture;
+    std::map<std::string, unsigned> textureNameToId;
+	std::vector<ResourceTexture*> resourceTextures;
+
+	std::vector<Animation> animations;
 
 public:
 

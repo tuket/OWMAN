@@ -161,6 +161,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="math/aarect.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="math/aarect.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="math/vec2f.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -208,6 +216,22 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="physics/physics_system.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/animation.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/animation.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/animation_frame.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/animation_frame.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -283,15 +307,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_cell_factory.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_factory.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -303,11 +319,19 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="resource_manager/resource_manager_templates.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="resource_manager/resource_request.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="resource_manager/resource_request.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="resource_manager/resource_sprite.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -339,10 +363,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_text_factory.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_texture.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -352,10 +372,6 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="resource_manager/resource_texture_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_texture_factory.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
