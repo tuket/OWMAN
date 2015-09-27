@@ -30,9 +30,6 @@ class ResourceManager
     pthread_mutex_t mutexTable;     //< mutex for accessing the table
 
 	ResourceTable resourceTable;
-	ResourceTextFactory resourceTextFactory;
-	ResourceTextureFactory resourceTextureFactory;
-	ResourceCellFactory resourceCellFactory;
 	WorkQueue<ResourceRequest> workQueue;
 	bool _stop;
 
@@ -44,40 +41,16 @@ public:
 
 	ResourceManager(){}
 
-	/**
-	 * \brief launches the resurce manger in its own thread
+    /**
+	 * \brief request a pointer to a resource
 	 */
-	void launch();
-
-	/**
-	 * \brief request a pointer to a text resource
-	 */
-	ResourceText* obtainText(std::string name);
-
-	/**
-	 * \brief release a pointer to a text resource
-	 */
-	void releaseText(ResourceText* resource);
-
-	/**
-	 * \brief request a pointer to a texture resource
-	 */
-	ResourceTexture* obtainTexture(std::string name);
-
-	/**
-	 * \brief release a pointer to a texture resource
-	 */
-	void releaseTexture(ResourceTexture* resource);
+    template <typename R>
+	R* obtain<R>(std::string name);
 
     /**
-	 * \brief request a pointer to a cell resource
+	 * \brief release a pointer to a resource
 	 */
-	ResourceCell* obtainCell(std::string name);
-
-    /**
-	 * \brief release a pointer to a cell resource
-	 */
-	void releaseCell(ResourceCell* resource);
+	void release(Resource* resource);
 
 	/**
 	 * \brief stop the resource manager thread
@@ -85,8 +58,6 @@ public:
 	void stop();
 
 	bool hasStopped();
-
-	void setRenderer(LowLevelRenderer2D* renderer);
 
 private:
 

@@ -152,7 +152,7 @@ LowLevelRenderer2D::LowLevelRenderer2D
 		SDL_WINDOW_OPENGL
 	);
 
-	SDL_GLContext context = SDL_GL_CreateContext(window);
+	/*SDL_GLContext context = */SDL_GL_CreateContext(window);
 
 	// init glew
 	GLenum err = glewInit();

@@ -24,7 +24,6 @@ public:
 		QUEUED,
 		LOADING,
 		LOADED,
-		READY,
 		SAVING
 	};
 
