@@ -2,7 +2,7 @@
 #define RESOURCE_MANAGER_TEMPLATES
 
 template <typename T>
-T* ResourceManager::obtainCell(std::string name)
+T* ResourceManager::obtain(std::string name)
 {
     pthread_mutex_lock(&mutexTable);
         unsigned int count = resourceTable.getCount( name );

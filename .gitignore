@@ -1,2 +1,6 @@
 /src/resource_manager/resource_texture_factory.o
 *.o
+bin/world_folder
+bin/Debug
+*.depend
+*.layout

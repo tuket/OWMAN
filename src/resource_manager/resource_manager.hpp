@@ -44,8 +44,8 @@ public:
     /**
 	 * \brief request a pointer to a resource
 	 */
-    template <typename R>
-	R* obtain<R>(std::string name);
+    template <typename T>
+	T* obtain<T>(std::string name);
 
     /**
 	 * \brief release a pointer to a resource
@@ -75,5 +75,7 @@ private:
 	static void* staticLoop(void* object);
 
 };
+
+#include "resource_manager_templates.hpp"
 
 #endif
