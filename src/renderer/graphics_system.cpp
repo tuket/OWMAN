@@ -29,7 +29,6 @@ spriteFactory(this)
 
 	camera.myGraphicsSystem = this;
 	ResourceManager* resMan = ResourceManager::getSingleton();
-	resMan->setRenderer(&renderer);
 
 }
 

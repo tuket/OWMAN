@@ -1,9 +1,6 @@
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
-#include "resource_text_factory.hpp"
-#include "resource_texture_factory.hpp"
-#include "resource_cell_factory.hpp"
 #include <pthread.h>
 #include <string>
 
@@ -42,10 +39,15 @@ public:
 	ResourceManager(){}
 
     /**
+    * \brief launches the resurce manger in its own thread
+    */
+    void launch();
+
+    /**
 	 * \brief request a pointer to a resource
 	 */
     template <typename T>
-	T* obtain<T>(std::string name);
+	T* obtain(std::string name);
 
     /**
 	 * \brief release a pointer to a resource

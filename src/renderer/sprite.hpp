@@ -29,23 +29,21 @@ class Sprite : public GraphicsComponent
 	friend class Entity;
 	friend class GraphicsSystem;
 
-	friend class SpriteFactory;
-
-	SpriteFactory* myFactory;
+	SpriteManager* myManager;
 
     std::map<std::string, unsigned> textureNameToId;
-	std::vector<ResourceTexture*> resourceTextures;
+	std::vector<Texture*> textures;
 
 	std::vector<Animation> animations;
 
 public:
 
-	Sprite(SpriteFactory* factory)
+	Sprite(SpriteManager* manager)
 	:GraphicsComponent(),
-	myFactory(factory){}
+	myManager(manager){}
 
 	void update(unsigned int delta){}
-	void draw()const;
+	void draw(SpriteStatus* status)const;
 
     /** \brief return if this components is ready
      * To be ready means that is has been loaded to video \
