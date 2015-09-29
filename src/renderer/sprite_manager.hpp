@@ -9,13 +9,27 @@
 class GraphicsSystem
 #endif
 
+// We use this struct to keep track of how many
+// sprite statuses use each sprite
+struct SpriteRefCountEntry
+{
+    SpriteRefCountEntry()
+    :count(0), sprite(0)
+    {}
+
+    int count;
+    Sprite* sprite;
+};
+
 class SpriteManager
 {
+
+    static const std::string spritesPath = "sprites";
 
     friend class GraphicsSystem
 
     GraphicsSystem* graphicsSystem;
-    std::map<std::string, Sprite*> sprites;
+    std::map<std::string, SpriteRefCountEntry> sprites;
     std::vector<SpriteStatus*> spriteStatuses;
 
     SpriteManager(){}
