@@ -15,7 +15,7 @@ SpriteStatus* SpriteManager::instanceSprite(const std::string name)
 
     // sprite not instanced, need to create
     else{
-
+        sprite = new Sprite(this);
     }
 
     // increment reference count to the sprite

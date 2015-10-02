@@ -8,16 +8,20 @@
 #include <vector>
 #include "animation.hpp"
 
-#ifndef SPRITE_FACTORY
-class SpriteFactory;
+#ifndef RESOURCE_TEXT
+class ResourceText;
 #endif
 
-#ifndef RESOURCE_TEXTURE
-class ResourceTexture;
+#ifndef RESOURCE_MANAGER
+class ResourceManager;
 #endif
 
 #ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
+#endif
+
+#ifndef SPRITE_MANAGER
+class SpriteManager;
 #endif
 
 /** \brief Represents a static sprite
@@ -26,8 +30,7 @@ class GraphicsSystem;
 class Sprite : public GraphicsComponent
 {
 
-	friend class Entity;
-	friend class GraphicsSystem;
+	friend class SpriteManager;
 
 	SpriteManager* myManager;
 
@@ -36,40 +39,27 @@ class Sprite : public GraphicsComponent
 
 	std::vector<Animation> animations;
 
+	bool ready;
+    ResourceText* resourceText;
+
 public:
 
 	Sprite(SpriteManager* manager)
 	:GraphicsComponent(),
-	myManager(manager){}
+	myManager(manager),
+	ready(false){}
 
-	void update(unsigned int delta){}
+	void update();
+
 	void draw(SpriteStatus* status)const;
 
-    /** \brief return if this components is ready
-     * To be ready means that is has been loaded to video \
-     * memory
-     */
+    /** \brief return if can be rendered already
+	 */
 	bool isReady()const;
 
-	/** \brief return if this component is loaded
-	 * To be loaded means that it has been loaded to main \
-	 * memory
+	/** \brief return if can be rendered already
 	 */
-	bool isLoaded()const;
-
-    /** \brief load to video memory
-     * Once the resource of this component has been loaded \
-     * into main memory it has to be loaded to video memory \
-     * this functions loads it into video memory
-     */
 	void becomeReady()const;
-
-    /** \brief Creates a graphics XML node
-     * Returns an XML node representing the class itself
-     * \param The XML document
-     * \return The XML node
-     */
-	rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 
 	~Sprite();
 

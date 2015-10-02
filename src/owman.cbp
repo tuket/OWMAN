@@ -279,11 +279,19 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="renderer/sprite_factory.cpp">
+		<Unit filename="renderer/sprite_manager.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="renderer/sprite_factory.hpp">
+		<Unit filename="renderer/sprite_manager.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/texture.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/texture_manager.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -303,14 +311,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_cell_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_manager.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -319,7 +319,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_manager_templates.cpp">
+		<Unit filename="resource_manager/resource_manager_templates.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -359,19 +359,11 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_text_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_texture.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="resource_manager/resource_texture.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_texture_factory.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

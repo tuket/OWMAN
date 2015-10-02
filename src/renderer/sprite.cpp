@@ -11,17 +11,19 @@ using namespace rapidxml;
 
 bool Sprite::isReady()const
 {
-	return resourceTexture->getStatus() == Resource::Status::READY;
+	return ready;
 }
 
-bool Sprite::isLoaded()const
+void Sprite::update()
 {
-	return resourceTexture->getStatus() == Resource::Status::LOADED;
-}
+    if( !ready )
+    {
+        if( resourceText->getStatus() == Resource::Status::LOADED )
+        {
+            string text = resourceText->getText();
 
-void Sprite::becomeReady()const
-{
-	resourceTexture->loadToGraphicsCard();
+        }
+    }
 }
 
 void Sprite::draw()const
@@ -29,61 +31,6 @@ void Sprite::draw()const
 
 	LowLevelRenderer2D* renderer = myFactory->getGraphicsSystem()->getRenderer();
 	renderer->draw(position, scale, resourceTexture->getTexture());
-
-}
-
-xml_node<>* Sprite::createXmlNode(xml_document<>* doc)
-{
-
-    char* s;
-    xml_node<>* root = doc->allocate_node(node_element, "graphics");
-
-    string textureName = resourceTexture->getName();
-    unsigned int i = textureName.size()-1;
-    while( textureName[i] != '/' && i >= 0 ) i--;
-    if( textureName[i] == '/' ) i++;
-    string tn;
-    while( i < textureName.size() ) tn += textureName[i++];
-
-    s = doc->allocate_string(tn.c_str());
-    xml_node<>* texture_node = doc->allocate_node(node_element, "texture", s);
-    root->append_node( texture_node );
-
-    Vec2f scale = getScale();
-    stringstream ss;
-    ss << scale.x;
-    string width = ss.str();
-
-    ss.str( string() );
-    ss.clear();
-
-    ss << scale.y;
-    string height = ss.str();
-
-    s = doc->allocate_string(width.c_str());
-    xml_node<>* width_node = doc->allocate_node(node_element, "width", s);
-    root->append_node( width_node );
-
-    s = doc->allocate_string(height.c_str());
-    xml_node<>* height_node = doc->allocate_node(node_element, "height", s);
-    root->append_node( height_node );
-
-    if( priority != 0 )
-    {
-
-        ss.str( string() );
-        ss.clear();
-
-        ss << priority;
-        string prio = ss.str();
-
-        s = doc->allocate_string( prio.c_str() );
-        xml_node<> *prio_node = doc->allocate_node(node_element, "priority", s);
-        root->append_node( prio_node );
-
-    }
-
-    return root;
 
 }
 
