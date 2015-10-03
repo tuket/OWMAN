@@ -1,6 +1,9 @@
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
+#include "resource_text_factory.hpp"
+#include "resource_texture_factory.hpp"
+#include "resource_cell_factory.hpp"
 #include <pthread.h>
 #include <string>
 
@@ -27,6 +30,9 @@ class ResourceManager
     pthread_mutex_t mutexTable;     //< mutex for accessing the table
 
 	ResourceTable resourceTable;
+	ResourceTextFactory resourceTextFactory;
+	ResourceTextureFactory resourceTextureFactory;
+	ResourceCellFactory resourceCellFactory;
 	WorkQueue<ResourceRequest> workQueue;
 	bool _stop;
 

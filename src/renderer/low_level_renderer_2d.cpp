@@ -149,7 +149,7 @@ LowLevelRenderer2D::LowLevelRenderer2D
 		windowTitle.c_str(),
 		40, 40,
 		width, height,
-		SDL_WINDOW_OPENGL
+		SDL_WINDOW_OPENGL | (fullScreen?SDL_WINDOW_FULLSCREEN:0)
 	);
 
 	/*SDL_GLContext context = */SDL_GL_CreateContext(window);
@@ -425,6 +425,12 @@ LowLevelRenderer2D::LowLevelRenderer2D
 
 }
 
+void LowLevelRenderer2D::setFullScreen(bool b)
+{
+    if(b) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    else SDL_SetWindowFullscreen(window, 0);
+}
+
 // Get reference to camera
 LowLevelRenderer2D::Camera* LowLevelRenderer2D::getCamera()
 {
@@ -593,4 +599,11 @@ void loadTexture(string fileName, int* width, int* height)
 
 	SOIL_free_image_data(image);
 
+}
+
+void LowLevelRenderer2D::end()
+{
+    setFullScreen(false);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
