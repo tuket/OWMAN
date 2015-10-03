@@ -594,7 +594,7 @@ void loadTexture(string fileName, int* width, int* height)
 		0,					// border (must be 0)
 		GL_RGBA,			// format of the pixel data
 		GL_UNSIGNED_BYTE,	// data type of the pixel data
-		image				// pointer to iamge data
+		image				// pointer to image data
 	);
 
 	SOIL_free_image_data(image);
