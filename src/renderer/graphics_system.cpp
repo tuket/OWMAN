@@ -33,6 +33,11 @@ spriteFactory(this)
 
 }
 
+void GraphicsSystem::setFullScreen(bool b)
+{
+    renderer.setFullScreen(b);
+}
+
 void GraphicsSystem::update(unsigned int delta)
 {
 
@@ -184,4 +189,11 @@ LowLevelRenderer2D* GraphicsSystem::getRenderer()
 Camera* GraphicsSystem::getCamera()
 {
 	return &camera;
+}
+
+void GraphicsSystem::end()
+{
+
+    renderer.end();
+
 }

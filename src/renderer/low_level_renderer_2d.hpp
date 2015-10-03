@@ -94,6 +94,8 @@ public:
 		bool fullScreen
 	);
 
+	void setFullScreen(bool b);
+
 	Camera* getCamera();
 
 	Texture createTexture(unsigned char* image, int width, int height);
@@ -103,6 +105,8 @@ public:
 	void draw(const Vec2f& pos, const Vec2f& scale, Texture* texture);
 	void drawColorSquare(const Vec2f& pos, const Vec2f& scale, const Color& color);
 	void swap();
+
+	void end();
 
 };
 
