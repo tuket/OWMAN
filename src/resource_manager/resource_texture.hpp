@@ -28,10 +28,7 @@ class ResourceTexture : public Resource
 	friend class ResourceManager;
 
 	unsigned char* imageData;
-	LowLevelRenderer2D::Texture texture;
 	int width, height;
-
-	ResourceTextureFactory* myFactory;
 
 protected:
 
@@ -42,9 +39,9 @@ public:
 
 	ResourceTexture();
 
-	LowLevelRenderer2D::Texture* getTexture();
-
-	void loadToGraphicsCard();
+	const unsigned char* getTextureData()const;
+	int getWidth()const;
+	int getHeight()const;
 
 	void destroyDispatcher();
 
