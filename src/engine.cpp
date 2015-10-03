@@ -30,8 +30,6 @@ eventHandler( this )
 		cerr << "Error loading initialization file: "
 		<< initFile << endl;
 
-		graphicsSystem = new GraphicsSystem( string("OWMAN"), 400, 400, false );
-
 		return;
 
 	}
@@ -211,6 +209,7 @@ float Engine::getCellSize()const
 void Engine::endGame()
 {
     worldStreamer->end();
+    graphicsSystem->end();
     end = true;
 }
 

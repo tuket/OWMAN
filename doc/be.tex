@@ -56,7 +56,7 @@ We consider these requirements are the main target to accomplish.
 
 \item \textbf{Visualization:} We said that requirements that are common for any game engine will be treated as secondary requirements. But this is an exception. It is very important to have some kind of visual feedback. We need visualization to test our system. Also, it is important in order to prove that our engine is working properly. So we need to implement a graphical interface even if it is not very fancy. The graphics will be 2-dimensional.
 
-\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The tick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set textures, we must accomplish that each texture is in RAM at most once.
+\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The trick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set of textures, we must accomplish that each texture is in RAM at most once.
 
 \item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space ~(\ref{sec:precission}).
 
@@ -90,7 +90,7 @@ These requirements would be great to be implemented for a commercial game engine
 
 
 Traditionally games have been structured in levels.
-In this kind of games the player must complete the current level to advance to the next one. Once one level is completed that level doesn't need to remain in main memory therefore resources can be deleted.
+In this kind of games the player must complete the current level to advance to the next one. Once one level is completed that level doesn't need to remain in main memory. Therefore, resources can be deleted.
 The mechanics of this type of games allows to manage the resources of the game in an easy and efficient way.
 
 \begin{figure}[H]
@@ -197,7 +197,7 @@ This first \emph{Midnight Club} was released in the same year that the \emph{PS2
 
 \paragraph{\emph{Grand Theft Auto: San Andreas} - \emph{Rockstar North} (2004)}
 
-After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice City}, it came an even more sold game: \emph{GTA: San Andreas}. Take the role of \emph{Carl Johnson}, the feared gangster. This game has one of the biggest maps in the history of videogames. There is complete freedom to wander around any of the tree enormous cities.
+After the \emph{Rockstar}'s successful titles \emph{GTA III} and \emph{GTA: Vice City}, it came an even more sold game: \emph{GTA: San Andreas}. Take the role of \emph{Carl Johnson}, the feared gangster. This game has one of the biggest maps in the history of videogames. There is complete freedom to wander around any of the three enormous cities.
 
 \begin{figure}[H]
 	\centering
@@ -376,7 +376,7 @@ There are two types of shader.
 
 \begin{itemize}
 
-\item \textbf{Vertex shader.} Vertex shaders take as input one vertex and gives as output the position that vertex should take. It is used to achieve effects such as mesh deformation. One example where vertex shaders are used is the waves of the ocean. The vertex shader should change the position of vertices  so it fakes the water moving. In our 2D render engine, we do not need the vertex shader to do anything special: it just forwards the position as it is.
+\item \textbf{Vertex shader.} Vertex shaders take as input one vertex and gives as output the position (or other properties like normal) that vertex should take. It is used to achieve effects such as mesh deformation. One example where vertex shaders are used is the waves of the ocean. The vertex shader should change the position of vertices  so it fakes the water moving. In our 2D render engine, we do not need the vertex shader to do anything special: it just forwards the position as it is.
 
 \begin{minted}{c}
 
@@ -528,7 +528,7 @@ So for instance, the renderer needs to draw a texture. Therefore, the graphics s
 
 The resource manager needs to keep track of how many handles are pointing to each resource. When to number of handles for one resource becomes zero, the resource is released.
 
-If one resource needs to be loaded, that is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
+If one resource needs to be loaded, that request is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
 
 In our implementation there is the abstract class Resource. These are the classes that inherit from Resource:
 
@@ -774,7 +774,7 @@ In addition of creating the engine, we have been able to create a demo that test
 
 We have successfully integrated graphics and physics.
 
-Physics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wrapped a physics engine but all the concepts used are applicable to any other physics engine.
+Physics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wrapped a particular physics engine but all the concepts used are applicable to any other physics engine.
 
 We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied then.
 

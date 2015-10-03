@@ -54,6 +54,10 @@ public:
      */
 	void update(unsigned int delta);
 
+    /** \brief set fullscreen mode
+     */
+    void setFullScreen(bool b);
+
 	void draw();
 
 	/** \brief Swap buffers
@@ -69,6 +73,8 @@ public:
 
 	LowLevelRenderer2D* getRenderer();
 	Camera* getCamera();
+
+	void end();
 
 };
 
