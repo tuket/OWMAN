@@ -30,22 +30,17 @@ class ResourceManager
     pthread_mutex_t mutexTable;     //< mutex for accessing the table
 
 	ResourceTable resourceTable;
-	ResourceTextFactory resourceTextFactory;
-	ResourceTextureFactory resourceTextureFactory;
-	ResourceCellFactory resourceCellFactory;
 	WorkQueue<ResourceRequest> workQueue;
 	bool _stop;
 
 public:
-
-	static void init();
 
 	static ResourceManager* getSingleton();
 
 	ResourceManager(){}
 
     /**
-    * \brief launches the resurce manger in its own thread
+    * \brief launches the resource manger in its own thread
     */
     void launch();
 

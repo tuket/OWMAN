@@ -5,13 +5,6 @@ using namespace std;
 
 ResourceManager ResourceManager::uniqueInstance;
 
-void ResourceManager::init()
-{
-
-
-
-}
-
 ResourceManager* ResourceManager::getSingleton()
 {
 	return &uniqueInstance;
@@ -35,7 +28,7 @@ void ResourceManager::launch()
 
 }
 
-void ResourceManager::releaseCell(ResourceCell* resource)
+void ResourceManager::release(Resource* resource)
 {
 
     string name = resource->getName();
