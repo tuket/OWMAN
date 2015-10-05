@@ -28,23 +28,20 @@ class Sprite : public GraphicsComponent
 
 	friend class Entity;
 	friend class GraphicsSystem;
-
-	friend class SpriteFactory;
-
-	SpriteFactory* myFactory;
+	friend class SpriteManager;
 
     std::map<std::string, unsigned> textureNameToId;
-	std::vector<ResourceTexture*> resourceTextures;
+	std::vector<Texture*> textures;
 
 	std::vector<Animation> animations;
 
 public:
 
-	Sprite(SpriteFactory* factory)
-	:GraphicsComponent(),
-	myFactory(factory){}
+	Sprite()
+	:GraphicsComponent()
+	{}
 
-	void update(unsigned int delta){}
+	void update(){}
 	void draw()const;
 
     /** \brief return if this components is ready

@@ -1,9 +1,6 @@
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
-#include "resource_text_factory.hpp"
-#include "resource_texture_factory.hpp"
-#include "resource_cell_factory.hpp"
 #include <pthread.h>
 #include <string>
 

@@ -104,7 +104,6 @@ void Engine::init()
 
     SDL_Init(SDL_INIT_TIMER);
 
-    ResourceManager::init();
     ResourceManager* resourceManager = ResourceManager::getSingleton();
     resourceManager->launch();
 

@@ -96,7 +96,6 @@ void ResourceManager::loop()
 			pthread_mutex_unlock(&mutexTable);
 
 			resource->free();
-            resourceCellFactory.destroyResource(resource);
 
             pthread_mutex_lock(&mutexTable);
                 resourceTable.removeEntry(name);
