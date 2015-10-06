@@ -9,6 +9,10 @@
 class GraphicsSystem
 #endif
 
+#ifndef SPRITE_STATUS
+class SpriteStatus;
+#endif
+
 // We use this struct to keep track of how many
 // sprite statuses use each sprite
 struct SpriteRefCountEntry
