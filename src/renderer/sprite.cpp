@@ -16,21 +16,10 @@ bool Sprite::isReady()const
 
 void Sprite::update()
 {
-    if( !ready )
-    {
-        if( resourceText->getStatus() == Resource::Status::LOADED )
-        {
-            string text = resourceText->getText();
-
-        }
-    }
 }
 
 void Sprite::draw()const
 {
-
-	LowLevelRenderer2D* renderer = myFactory->getGraphicsSystem()->getRenderer();
-	renderer->draw(position, scale, resourceTexture->getTexture());
 
 }
 
