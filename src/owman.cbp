@@ -283,7 +283,27 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="renderer/sprite_factory.hpp">
+		<Unit filename="renderer/sprite_manager.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite_manager.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite_status.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/sprite_status.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/texture.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="renderer/texture_manager.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
