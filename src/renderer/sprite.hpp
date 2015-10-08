@@ -26,6 +26,14 @@ class GraphicsSystem;
 class Sprite : public GraphicsComponent
 {
 
+    enum class Status
+    {
+        START,
+        LOADING_XML,
+        LOADING_TEXTURES,
+        EVERYTHING_LOADED
+    };
+
 	friend class Entity;
 	friend class GraphicsSystem;
 	friend class SpriteManager;
@@ -34,6 +42,10 @@ class Sprite : public GraphicsComponent
 	std::vector<Texture*> textures;
 
 	std::vector<Animation> animations;
+
+    Status status;
+	ResourceText* resouceText;
+	std::vector<ResourceTexture*> resourceTextures;
 
 public:
 
