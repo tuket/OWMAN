@@ -8,17 +8,11 @@
 #include <vector>
 #include "animation.hpp"
 
-#ifndef SPRITE_FACTORY
 class SpriteFactory;
-#endif
-
-#ifndef RESOURCE_TEXTURE
 class ResourceTexture;
-#endif
-
-#ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
-#endif
+class Texture;
+class ResourceText;
 
 /** \brief Represents a static sprite
  * This sprite has no animations
@@ -44,7 +38,8 @@ class Sprite : public GraphicsComponent
 	std::vector<Animation> animations;
 
     Status status;
-	ResourceText* resouceText;
+	ResourceText* resourceText;
+	std::string xmlText;
 	std::vector<ResourceTexture*> resourceTextures;
 
 public:
@@ -53,7 +48,7 @@ public:
 	:GraphicsComponent()
 	{}
 
-	void update(){}
+	void update();
 	void draw()const;
 
     /** \brief return if this components is ready

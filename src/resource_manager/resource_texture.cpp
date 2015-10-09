@@ -5,16 +5,13 @@
 
 using namespace std;
 
-ResourceTexture::ResourceTexture()
+ResourceTexture::ResourceTexture(const string& name)
 {
 	status = Resource::Status::STORED;
+	this->name = name;
 }
 
-LowLevelRenderer2D::Texture* ResourceTexture::getTexture()
-{
-	return &texture;
-}
-
+/*
 void ResourceTexture::loadToGraphicsCard()
 {
 
@@ -27,6 +24,7 @@ void ResourceTexture::loadToGraphicsCard()
 	SOIL_free_image_data(imageData);
 
 }
+*/
 
 // this function is called by the resource manager thread
 void ResourceTexture::load()
@@ -61,9 +59,7 @@ void ResourceTexture::load()
 void ResourceTexture::free()
 {
 
-	LowLevelRenderer2D* renderer;
-	renderer = myFactory->getRenderer();
-	renderer->destroyTexture(&texture);
+	SOIL_free_image_data(imageData);
 
 }
 

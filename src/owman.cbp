@@ -299,6 +299,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="renderer/texture.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="renderer/texture.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

@@ -4,3 +4,4 @@ bin/world_folder
 bin/Debug
 *.depend
 *.layout
+*~

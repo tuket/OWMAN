@@ -37,7 +37,7 @@ protected:
 
 public:
 
-	ResourceTexture();
+	ResourceTexture(const std::string& name);
 
 	const unsigned char* getTextureData()const;
 	int getWidth()const;
