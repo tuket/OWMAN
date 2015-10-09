@@ -40,7 +40,6 @@ class Sprite : public GraphicsComponent
     Status status;
 	ResourceText* resourceText;
 	std::string xmlText;
-	std::vector<ResourceTexture*> resourceTextures;
 
 public:
 

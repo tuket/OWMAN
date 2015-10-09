@@ -5,6 +5,7 @@
 #include <SOIL/SOIL.h>
 #include "../math/vec2f.hpp"
 #include <string>
+#include <array>
 #include "color.hpp"
 
 #ifndef LOW_LEVEL_RENDERER_2D
@@ -50,6 +51,15 @@ public:
 
 	public:
 
+	    enum FilterMode
+	    {
+	        LINEAR,
+	        NEAREST,
+
+	        NUM_FILTER_MODES
+	    };
+	    static const std::array<GLuint, NUM_FILTER_MODES> filterModesGL;
+
 		Texture(){}
 		Texture operator=(const Texture& texture);
 		~Texture();
@@ -59,6 +69,8 @@ public:
 
 		void setWidth(float width);
 		void setHeight(float height);
+
+		void setFilterMode(FilterMode filterMode);
 
 	};
 
@@ -109,5 +121,7 @@ public:
 	void end();
 
 };
+
+typedef LowLevelRenderer2D::Texture::FilterMode LLRFilterMode;
 
 #endif
