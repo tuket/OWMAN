@@ -43,7 +43,9 @@ void ResourceText::free()
 
 }
 
+/*
 void ResourceText::destroyDispatcher()
 {
     myFactory->destroyResource(this);
 }
+*/

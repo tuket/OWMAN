@@ -63,7 +63,9 @@ void ResourceTexture::free()
 
 }
 
+/*
 void ResourceTexture::destroyDispatcher()
 {
     myFactory->destroyResource(this);
 }
+*/

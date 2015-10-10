@@ -43,7 +43,7 @@ public:
 	int getWidth()const;
 	int getHeight()const;
 
-	void destroyDispatcher();
+	//void destroyDispatcher();
 
 	~ResourceTexture(){}
 

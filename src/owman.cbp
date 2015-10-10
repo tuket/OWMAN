@@ -307,6 +307,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="renderer/texture_manager.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="renderer/texture_manager.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

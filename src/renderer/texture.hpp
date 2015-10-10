@@ -4,22 +4,39 @@
 #include "low_level_renderer_2d.hpp"
 #include "../math/aarect.hpp"
 
-class GraphicsSystem;
+class TextureManager;
 class ResourceTexture;
 
 class Texture
 {
-    LowLevelRenderer2D::Texture llTexture;
-    ResourceTexture* resourceTexture;
+    friend class TextureManager;
 
 public:
 
+    const static std::string texturesPath = "textures"
+
     enum class FilterMode
     {
-        LINEAR,
-        NEAREST
+        NOT_SET = 0,
+        LINEAR = 1,
+        NEAREST = NOT_SET,
     };
 
+    enum class Status
+    {
+        START,
+        LOADING,
+        LOADED,
+        READY,
+    };
+
+    Texture(){}
+
+    Texture(TextureManager* TextureManager, const std::string& name);
+
+    /**
+    * \brief set the filter mode
+    */
     void setFilterMode(FilterMode filterMode);
 
     /**
@@ -33,6 +50,14 @@ public:
     bool isReady()const;
 
     /**
+    * \brief load this texture to RAM
+    * The brings the texture resource from disk to MM.\
+    * You will know that the secondary thread of the resource manager
+    * has finished loading this resource when isLoaded() returns true.
+    */
+    void loadResource();
+
+    /**
     * \brief load this texture to the GPU
     * The texture data will remain in MM unless you
     * release it with releaseResource()
@@ -44,6 +69,21 @@ public:
     * You should call this function after using loadToGPU().
     */
     void releaseResource();
+
+    /**
+    * \brief release from GPU
+    * Call this *only* after loadToGPU
+    */
+    void release();
+
+private:
+
+    std::string name;
+    Status status;
+    FilterMode filterMode;
+
+    LowLevelRenderer2D::Texture llTexture;
+    ResourceTexture* resourceTexture;
 
 };
 

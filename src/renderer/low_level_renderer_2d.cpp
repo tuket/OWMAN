@@ -471,7 +471,8 @@ LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(unsigned char* ima
 
 void LowLevelRenderer2D::destroyTexture(Texture* texture)
 {
-
+    // TODO: I think these two following lines are not needed
+    // check if they are not and remove them if so
 	glUseProgram(textureShaderProgram);
 	glBindVertexArray(texVAO);
 

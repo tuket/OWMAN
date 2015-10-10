@@ -24,11 +24,11 @@ GraphicsSystem::GraphicsSystem
 	width, height,
 	fullScreen
 ),
-spriteFactory(this)
+textureManager(this),
+spriteManager(this)
 {
 
 	camera.myGraphicsSystem = this;
-	ResourceManager* resMan = ResourceManager::getSingleton();
 
 }
 

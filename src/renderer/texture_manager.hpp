@@ -6,8 +6,11 @@
 #include <string>
 #include <vector>
 
+class GraphicsSystem;
+
 class TextureRefCountEntry
 {
+    friend class TextureManager;
     Texture* texture;
     unsigned count;
 };
@@ -15,12 +18,19 @@ class TextureRefCountEntry
 class TextureManager
 {
 
+    GraphicsSystem* graphicsSystem;
     std::map<std::string, TextureRefCountEntry> textures;
 
 public:
 
-    Texture* getTexture();
+    TextureManager(GraphicsSystem* graphicsSystem);
+
+    Texture* getTexture(const std::string &name);
     void releaseTexture(Texture* texture);
+
+    GraphicsSystem* getGraphicsSystem();
+
+    void update();
 
 };
 
