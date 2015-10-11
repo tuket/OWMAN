@@ -1,5 +1,7 @@
+#ifndef GRAPHICS_SYSTEM
+#define GRAPHICS_SYSTEM
+
 #include "low_level_renderer_2d.hpp"
-#include "sprite_factory.hpp"
 #include <string>
 #include <set>
 #include <vector>
@@ -9,8 +11,13 @@
 class Engine;
 #endif
 
-#ifndef GRAPHICS_SYSTEM
-#define GRAPHICS_SYSTEM
+#ifndef GRAPHICS_COMPONENT
+class GraphicsComponent;
+#endif
+
+#ifndef SPRITE
+class Sprite;
+#endif
 
 class GraphicsSystem
 {
@@ -37,9 +44,6 @@ class GraphicsSystem
 	LowLevelRenderer2D renderer;
 
 	std::set<GraphicsComponent*> components;
-
-	// Factories
-	SpriteFactory spriteFactory;
 
 public:
 

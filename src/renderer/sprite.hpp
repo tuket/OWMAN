@@ -8,23 +8,25 @@
 #include <vector>
 #include "animation.hpp"
 
-#ifndef SPRITE_FACTORY
 class SpriteFactory;
-#endif
-
-#ifndef RESOURCE_TEXTURE
 class ResourceTexture;
-#endif
-
-#ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
-#endif
+class Texture;
+class ResourceText;
 
 /** \brief Represents a static sprite
  * This sprite has no animations
  */
 class Sprite : public GraphicsComponent
 {
+
+    enum class Status
+    {
+        START,
+        LOADING_XML,
+        LOADING_TEXTURES,
+        EVERYTHING_LOADED
+    };
 
 	friend class Entity;
 	friend class GraphicsSystem;
@@ -35,40 +37,22 @@ class Sprite : public GraphicsComponent
 
 	std::vector<Animation> animations;
 
+    Status status;
+	ResourceText* resourceText;
+	std::string xmlText;
+
 public:
 
 	Sprite()
 	:GraphicsComponent()
 	{}
 
-	void update(){}
+	void update();
 	void draw()const;
 
     /** \brief return if this components is ready
-     * To be ready means that is has been loaded to video \
-     * memory
      */
 	bool isReady()const;
-
-	/** \brief return if this component is loaded
-	 * To be loaded means that it has been loaded to main \
-	 * memory
-	 */
-	bool isLoaded()const;
-
-    /** \brief load to video memory
-     * Once the resource of this component has been loaded \
-     * into main memory it has to be loaded to video memory \
-     * this functions loads it into video memory
-     */
-	void becomeReady()const;
-
-    /** \brief Creates a graphics XML node
-     * Returns an XML node representing the class itself
-     * \param The XML document
-     * \return The XML node
-     */
-	rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 
 	~Sprite();
 

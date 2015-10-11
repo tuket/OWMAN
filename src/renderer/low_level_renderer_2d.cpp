@@ -1,6 +1,7 @@
 #include "low_level_renderer_2d.hpp"
 #include "graphics_system.hpp"
 #include <iostream>
+#include <array>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -81,6 +82,24 @@ LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height
 		image				// pointer to iamge data
 	);
 
+}
+
+const array<GLuint, LLRFilterMode::NUM_FILTER_MODES>
+    LowLevelRenderer2D::Texture:: filterModesGL =
+(
+    []() -> array<GLuint, FilterMode::NUM_FILTER_MODES>
+    {
+        std::array<GLuint, FilterMode::NUM_FILTER_MODES> a = {0};
+        a[FilterMode::LINEAR] = GL_LINEAR;
+        a[FilterMode::NEAREST] = GL_NEAREST;
+        return a;
+    }
+)();
+
+void LowLevelRenderer2D::Texture::setFilterMode(FilterMode filterMode)
+{
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterModesGL[filterMode]);
 }
 
 LowLevelRenderer2D::Texture
@@ -452,7 +471,8 @@ LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(unsigned char* ima
 
 void LowLevelRenderer2D::destroyTexture(Texture* texture)
 {
-
+    // TODO: I think these two following lines are not needed
+    // check if they are not and remove them if so
 	glUseProgram(textureShaderProgram);
 	glBindVertexArray(texVAO);
 

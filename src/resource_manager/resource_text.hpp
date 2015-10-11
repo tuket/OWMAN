@@ -33,7 +33,7 @@ public:
 
 	std::string getText()const;
 
-	void destroyDispatcher();
+	//void destroyDispatcher();
 
 	~ResourceText(){}
 

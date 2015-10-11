@@ -1,7 +1,7 @@
-#ifndef SPRITE_STATUS_HPP_INCLUDED
-#define SPRITE_STATUS_HPP_INCLUDED
+#ifndef SPRITE_STATUS
+#define SPRITE_STATUS
 
-#ifndef SPRITE_HPP
+#ifndef SPRITE
 class Sprite;
 #endif
 
@@ -26,4 +26,4 @@ public:
 
 };
 
-#endif // SPRITE_STATUS_HPP_INCLUDED
+#endif // SPRITE_STATUS
