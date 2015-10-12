@@ -84,7 +84,7 @@ void Sprite::update()
     }
 }
 
-void Sprite::draw()const
+void Sprite::draw(const SpriteStatus& status)const
 {
 
 }

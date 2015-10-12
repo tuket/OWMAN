@@ -29,6 +29,7 @@ void ResourceTexture::loadToGraphicsCard()
 // this function is called by the resource manager thread
 void ResourceTexture::load()
 {
+    status = Status::LOADING;
 
 	LowLevelRenderer2D* renderer;
 	renderer = myFactory->getRenderer();

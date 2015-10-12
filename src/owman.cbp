@@ -279,10 +279,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="renderer/sprite_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="renderer/sprite_manager.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

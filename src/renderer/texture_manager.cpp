@@ -40,6 +40,7 @@ void TextureManager::releaseTexture(Texture* texture)
     if(entry.count == 1)
     {
         // last reference
+        // what if the texture if not in MM yet?
         entry.texture->release();
         textures.erase(it);
     }
@@ -62,15 +63,27 @@ void TextureManager::update()
         TextureRefCountEntry& entry = it->second;
         Texture* texture = entry.texture;
 
+        if(texture->status == Texture::Status::LOADING)
+        {
+            if(texture->resourceTexture->getStatus() == Resource::Status::LOADED)
+            {
+                texture->status = Texture::Status::LOADED;
+            }
+        }
+
         if(texture->isLoaded())
         {
             // must upload to VRAM
             texture->loadToGPU();
             texture->releaseResource();
+            texture->status = Texture::Status::READY;
         }
         else if(texture->status == Texture::Status::START)
         {
             // must upload to RAM
+            ResourceManager* resMan = ResourceManager::getSingleton();
+            texture->resourceTexture = resMan->obtain<ResourceTexture>(texture->name);
+            texture->status = Texture::Status::LOADING;
         }
     }
 }

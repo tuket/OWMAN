@@ -48,7 +48,7 @@ public:
 	{}
 
 	void update();
-	void draw()const;
+	void draw(const SpriteStatus& status)const;
 
     /** \brief return if this components is ready
      */
