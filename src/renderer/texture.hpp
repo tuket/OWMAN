@@ -17,9 +17,8 @@ public:
 
     enum class FilterMode
     {
-        NOT_SET = 0,
-        LINEAR = 1,
-        NEAREST = NOT_SET,
+        LINEAR = 0,
+        NEAREST,
     };
 
     enum class Status

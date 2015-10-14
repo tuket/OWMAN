@@ -8,7 +8,7 @@ Texture::Texture(TextureManager* textureManager, const std::string& name)
     status = Status::START;
     llTexture = 0;
     resourceTexture = 0;
-    filterMode = FilterMode::NOT_SET;
+    filterMode = FilterMode::NEAREST;
 }
 
 void Texture::setFilterMode(FilterMode filterMode)
@@ -28,7 +28,10 @@ bool Texture::isReady()const
 
 void Texture::loadResource()
 {
-    // TODO
+    assert(resourceTexture == 0);
+    ResourceManager* resMan = ResourceManager::getSingleton();
+    resourceTexture = resMan->obtain<ResourceTexture>(texturesPath + "/" + name);
+    status = Status::LOADING;
 }
 
 void Texture::loadToGPU()
