@@ -11,15 +11,18 @@ SpriteStatus* SpriteManager::instanceSprite(const std::string name)
     if(it != sprites.end())
     {
         sprite = it->second.sprite;
+        // increment reference count to the sprite
+    it->second.count++;
     }
 
     // sprite not instanced, need to create
     else{
         sprite = new Sprite(this);
+        SpriteRefCountEntry entry;
+        entry.sprite = sprite;
+        entry.count = 1;
+        sprites[name] = entry;
     }
-
-    // increment reference count to the sprite
-    it->second.count++;
 
     SpriteStatus* spriteStatus = new SpriteStatus(sprite);
     return spriteStatus;
@@ -39,6 +42,9 @@ void SpriteManager::releaseSpriteInstance(SpriteStatus* spriteStatus)
     SpriteRefCountEntry& entry = it->second;
     if(entry.count == 1)
     {
+        // TODO
+        entry.count = 0;
+        entry.sprite->//kill
         sprites.erase(it);
     }
     else

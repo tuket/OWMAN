@@ -5,3 +5,10 @@ bin/Debug
 *.depend
 *.layout
 *~
+
+bin/bin/
+doc/be.aux
+doc/be.log
+doc/be.out
+doc/be.synctex.gz
+doc/be.toc

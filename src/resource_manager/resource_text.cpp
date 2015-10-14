@@ -18,6 +18,8 @@ std::string ResourceText::getText()const
 void ResourceText::load()
 {
 
+    status = Status::LOADING;
+
 	fstream fs;
 	fs.open(name.c_str(), fstream::in);
 	fs.seekg(0, fs.end);
