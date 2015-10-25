@@ -1,6 +1,11 @@
 #include "graphics_component.hpp"
 #include "graphics_system.hpp"
 
+GraphicsSystem* GraphicsComponent::getGraphicsSystem()
+{
+    return graphicssystem;
+}
+
 bool GraphicsComponent::isVisible()const
 {
 	return visible;

@@ -13,6 +13,7 @@ class ResourceTexture;
 class GraphicsSystem;
 class Texture;
 class ResourceText;
+class SpriteStatus;
 
 /** \brief Represents a static sprite
  * This sprite has no animations
@@ -32,9 +33,12 @@ class Sprite : public GraphicsComponent
 	friend class GraphicsSystem;
 	friend class SpriteManager;
 
+	SpriteManager* mySpriteManager;
+
     std::map<std::string, unsigned> textureNameToId;
 	std::vector<Texture*> textures;
 
+    std::map<std::string, unsigned> animNameToIndex;
 	std::vector<Animation> animations;
 
     Status status;
@@ -43,9 +47,9 @@ class Sprite : public GraphicsComponent
 
 public:
 
-	Sprite()
-	:GraphicsComponent()
-	{}
+	Sprite(SpriteManager* spriteManager);
+
+	SpriteManager* getSpriteManager();
 
 	void update();
 	void draw(const SpriteStatus& status)const;

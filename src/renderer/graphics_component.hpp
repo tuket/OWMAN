@@ -32,11 +32,14 @@ protected:
 
 public:
 
-	GraphicsComponent()
+	GraphicsComponent(GraphicsSystem* graphicsSystem)
 	:
 	visible(true),
-	priority(0)
+	priority(0),
+	myGraphicsSystem(graphicsSystem)
 	{}
+
+	GraphicsSystem* getGraphicsSystem();
 
 	virtual void update(unsigned int delta) = 0;
 	virtual void draw()const = 0;

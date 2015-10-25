@@ -12,6 +12,18 @@
 using namespace std;
 using namespace rapidxml;
 
+Sprite::Sprite(SpriteManager* spriteManager)
+:GraphicsComponent()
+{
+    myGraphicsSystem = spriteManager->getGraphicsSystem();
+    mySpriteManager = spriteManager;
+}
+
+SpriteManager* Sprite::getSpriteManager()
+{
+    return mySpriteManager;
+}
+
 bool Sprite::isReady()const
 {
 	return Status::EVERYTHING_LOADED == status;
@@ -24,14 +36,16 @@ void Sprite::update()
         if(Resource::Status::LOADED == resourceText->getStatus())
         {
             ResourceManager* resMan = ResourceManager::getSingleton();
+            TextureManager* texMan =
             // parse XML
-            xmlText = string(resourceText->getText());
+            xmlText = resourceText->getText();
             xml_document<> doc;
             doc.parse<0>((char*)xmlText.c_str());
 
             xml_node<>* root = doc.first_node("sprite");
             if(0 == root) throw Exception("expected <sprite> node");
 
+            // parse textures
             xml_node<>* nodeTextures = root->first_node("textures");
             if(0 == nodeTextures) throw Exception("expected <textures> node");
 
@@ -52,6 +66,10 @@ void Sprite::update()
             }
             while(0 != nodeTex);
 
+            resourceTextures.reserve( idToName.size() );
+            textures.reserve( idToName.size() );
+
+            unsigned i = 0;
             for
             (
                 map<string, string>::iterator it = idToName.begin();
@@ -61,9 +79,13 @@ void Sprite::update()
             {
                 string name = it->second;
                 ResourceTexture* res = resMan->obtain<ResourceTexture>(name);
+                resourceTextures.push_back(res);
+                textureNameToId[name] = i;
+                i++;
             }
 
         }
+
     }
     else if(Status::LOADING_TEXTURES == status)
     {
@@ -79,6 +101,11 @@ void Sprite::update()
 
         if(allLoaded)
         {
+
+            for(unsigned i=0; i<resourceTextures.size(); i++)
+            {
+                Texture texture;
+            }
 
         }
     }

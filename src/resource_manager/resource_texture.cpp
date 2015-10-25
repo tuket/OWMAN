@@ -31,9 +31,6 @@ void ResourceTexture::load()
 {
     status = Status::LOADING;
 
-	LowLevelRenderer2D* renderer;
-	renderer = myFactory->getRenderer();
-
 	imageData =
 	SOIL_load_image
 	(
@@ -43,9 +40,6 @@ void ResourceTexture::load()
 		0,					// pointer where num of chanel will be saved
 		SOIL_LOAD_RGBA		// RGB
 	);
-
-	texture.setWidth(width);
-	texture.setHeight(height);
 
 	if(imageData == 0)
 	{
