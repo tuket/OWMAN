@@ -33,12 +33,15 @@ class SpriteManager
     friend class GraphicsSystem
 
     GraphicsSystem* graphicsSystem;
+
     std::map<std::string, SpriteRefCountEntry> sprites;
     std::vector<SpriteStatus*> spriteStatuses;
 
     SpriteManager(){}
 
 public:
+
+    GraphicsSystem* getGraphicsSystem();
 
     SpriteStatus* instanceSprite(const std::string name);
     void releaseSpriteInstance(SpriteStatus* spriteStatus);

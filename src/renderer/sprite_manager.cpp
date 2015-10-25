@@ -2,6 +2,11 @@
 #include "resource_manager.hpp"
 #include <cassert>
 
+GraphicsSystem* SpriteManager::getGraphicsSystem()
+{
+    return
+}
+
 SpriteStatus* SpriteManager::instanceSprite(const std::string name)
 {
     auto it = sprites.find(name);
@@ -12,7 +17,7 @@ SpriteStatus* SpriteManager::instanceSprite(const std::string name)
     {
         sprite = it->second.sprite;
         // increment reference count to the sprite
-    it->second.count++;
+        it->second.count++;
     }
 
     // sprite not instanced, need to create
