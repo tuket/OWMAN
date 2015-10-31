@@ -53,10 +53,23 @@ void Texture::loadToGPU()
 
 void Texture::releaseResource()
 {
-    resourceTexture->free();
+    ResourceManager* resMan = ResourceManager::getSingleton();
+    resMan->release(resourceTexture);
 }
 
 void Texture::release()
 {
-    // TODO
+    if( isReady() )
+    {
+        // the texture is un VRAM
+        GraphicsSystem* gs = textureManager->getGraphicsSystem();
+        LowLevelRenderer2D* llr = gs->getRenderer();
+        llr->destroyTexture(llTexture);
+    }
+    else
+    {
+        // Even if the resource is still loading the ResourceManager will
+        // take care of this
+        releaseResource();
+    }
 }

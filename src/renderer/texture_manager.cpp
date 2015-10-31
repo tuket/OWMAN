@@ -40,7 +40,8 @@ void TextureManager::releaseTexture(Texture* texture)
     if(entry.count == 1)
     {
         // last reference
-        // what if the texture if not in MM yet?
+        // what if the texture is not in MM yet?
+        // this problem is solved in the release function
         entry.texture->release();
         textures.erase(it);
     }
