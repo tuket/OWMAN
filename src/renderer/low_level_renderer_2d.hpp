@@ -47,7 +47,7 @@ public:
 		GLuint textureID;
 		int width, height;
 
-		Texture(unsigned char* image, int width, int height);
+		Texture(const unsigned char* image, int width, int height);
 
 	public:
 
@@ -110,7 +110,7 @@ public:
 
 	Camera* getCamera();
 
-	Texture createTexture(unsigned char* image, int width, int height);
+	Texture createTexture(const unsigned char* image, int width, int height);
 	void destroyTexture(Texture* texture);
 
 	void clear();

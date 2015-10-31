@@ -13,13 +13,9 @@ class Texture
 
 public:
 
-    const static std::string texturesPath = "textures"
+    const static std::string texturesPath;
 
-    enum class FilterMode
-    {
-        LINEAR = 0,
-        NEAREST,
-    };
+    typedef LowLevelRenderer2D::Texture::FilterMode FilterMode;
 
     enum class Status
     {
@@ -76,6 +72,8 @@ public:
     void release();
 
 private:
+
+    TextureManager* textureManager;
 
     std::string name;
     Status status;

@@ -1,12 +1,18 @@
 #include "texture.hpp"
 #include "texture_manager.hpp"
+#include <cassert>
+#include "../resource_manager/resource_manager.hpp"
+#include "../resource_manager/resource_texture.hpp"
+#include "graphics_system.hpp"
+
+const std::string texturesPath = "textures";
 
 Texture::Texture(TextureManager* textureManager, const std::string& name)
 {
     this->textureManager = textureManager;
     this->name = name;
     status = Status::START;
-    llTexture = 0;
+    llTexture = LowLevelRenderer2D::Texture();
     resourceTexture = 0;
     filterMode = FilterMode::NEAREST;
 }
@@ -37,7 +43,7 @@ void Texture::loadResource()
 void Texture::loadToGPU()
 {
     assert(resourceTexture != 0);
-    assert(isLoaded && resourceTexture->getStatus() == ResourceTexture::Status::LOADED);
+    assert(isLoaded() && resourceTexture->getStatus() == ResourceTexture::Status::LOADED);
 
     GraphicsSystem* gs = textureManager->getGraphicsSystem();
     LowLevelRenderer2D* llr = gs->getRenderer();
@@ -48,7 +54,7 @@ void Texture::loadToGPU()
         resourceTexture->getWidth(),
         resourceTexture->getHeight()
     );
-    llTexture->setFilterMode(filterMode);
+    llTexture.setFilterMode(filterMode);
 }
 
 void Texture::releaseResource()
@@ -64,7 +70,7 @@ void Texture::release()
         // the texture is un VRAM
         GraphicsSystem* gs = textureManager->getGraphicsSystem();
         LowLevelRenderer2D* llr = gs->getRenderer();
-        llr->destroyTexture(llTexture);
+        llr->destroyTexture(&llTexture);
     }
     else
     {

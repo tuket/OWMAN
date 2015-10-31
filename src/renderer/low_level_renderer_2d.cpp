@@ -53,7 +53,7 @@ void LowLevelRenderer2D::Camera::setHeight(float height)
 //  TEXTURE
 // ---------
 
-LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height)
+LowLevelRenderer2D::Texture::Texture(const unsigned char* image, int width, int height)
 {
 
 	this->width = width;
@@ -457,7 +457,7 @@ LowLevelRenderer2D::Camera* LowLevelRenderer2D::getCamera()
 }
 
 
-LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(unsigned char* image, int width, int height)
+LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(const unsigned char* image, int width, int height)
 {
 
 	glBindVertexArray(texVAO);
