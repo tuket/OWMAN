@@ -101,7 +101,7 @@ The mechanics of this type of games allows to manage the resources of the game i
 \end{figure}
 
 It is well know that computers(and other gaming devices) usually have two types of memory.
-The first memory is the one we usually call main memory. Main memory is fast and slow.
+The first memory is the one we usually call main memory. Main memory is fast and small.
 The second memory is the secondary storage memory. This one is slow and big. Changing of level requires loading all the resources of the next level from secondary memory and, therefore, it is slow. That's why in most level-based games changing of level will pop-up a loading screen.and the player has to wait for a while.
 
 \begin{figure}[H]
@@ -310,7 +310,7 @@ The picture above is a simplification of the architecture. Notice that in the di
 
 \paragraph{World Streamer:} It is the one. The brain of the architecture. The world streamer is in charge of telling the subsystems below (graphics and physics in our diagram) what to do. It must decide whether a given entity must be loaded or not. An inefficient implementation of the world streamer would decide that all the entities of the world must be loaded. And a useless implementation would not load any entity. So the world streamer needs to compute the subset of entities that must be loaded at any time. This subset of loaded entities is what we find in the diagram as "List of active entities".
 
-\paragraph{Graphics System:} Might be called graphics engine too. It will get a list of entities that must be rendered from the world streamer. So it will be just told what should be displayed on the screen. The graphics system in independent from all the other components and does not care who is using it.
+\paragraph{Graphics System:} Might be called graphics engine too. It will get a list of entities that must be rendered from the world streamer. So it will be just told what should be displayed on the screen. The graphics system is independent from all the other components and does not care who is using it.
 
 \paragraph{Physics System} Very similar to the graphics system. In the diagram you can appreciate the difference between these two: an extra arrow. This arrow flows from the physics system to to the world streamer. The meaning of this arrow is the position of the main character. After each physics simulation step the position of the main character might have changed and the world streamer needs this information in order to recompute the set of active entities.
 
@@ -323,7 +323,7 @@ In this section I will explain briefly how I implemented the modules of the game
 The graphics system is implemented from scratch (there is a reason that will be explained later). Since implementing a graphics engine is not the purpose of this academic work, it does not have a big set of features.
 
 \subsubsection{Architecture}
-This graphics module is split in two layers. The first layer is the low-level layer. The low-level layer is the one that uses the OpenGL API (application programming interface). The purpose of the low-level layer is to provide a simple interface for the upper layer. This way the high-level layer does not need to understand any of OpenGL. So if we needed to deploy the application to a platform were DirectX performs better, we only would need to replace the low-level layer and the rest of the whole system would remain the same.
+This graphics module is split in two layers. The first layer is the low-level layer. The low-level layer is the one that uses the OpenGL API (application programming interface). The purpose of the low-level layer is to provide a simple interface for the upper layer. This way the high-level layer does not need to understand any of OpenGL. So if we needed to deploy the application to a platform were DirectX performs better, we would only need to replace the low-level layer and the rest of the whole system would remain the same.
 
 \begin{figure}[H]
 	\centering
@@ -355,7 +355,7 @@ Loading a graphics resource (like a texture) involves these steps:
 
 \item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM is fast enough, so it does not block other tasks.
 
-\item \textbf{Delete the resource in MM.} Once the resource is en VRAM we do not need it anymore en RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
+\item \textbf{Delete the resource in MM.} Once the resource is en VRAM, we do not need it anymore in RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
 
 \end{itemize}
 
@@ -450,7 +450,7 @@ void main()
 \end{itemize} 
   
 
-Shaders are compiled are runtime. In the following picture there is a summary of the steps that are required to make a shader program.
+Shaders are compiled at runtime. In the following picture there is a summary of the steps that are required to make a shader program.
 
 \begin{figure}[H]
 	\centering
@@ -526,7 +526,7 @@ The resource handle is returned in all cases. The handle has an attribute that t
 
 So for instance, the renderer needs to draw a texture. Therefore, the graphics system requests to the resource manager that texture. Every frame, the graphics system will check if the resource has been loaded. And if it is, it will draw the texture.
 
-The resource manager needs to keep track of how many handles are pointing to each resource. When to number of handles for one resource becomes zero, the resource is released.
+The resource manager needs to keep track of how many handles are pointing to each resource. When the number of handles for one resource becomes zero, the resource is released.
 
 If one resource needs to be loaded, that request is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
 
@@ -638,7 +638,7 @@ In each frame we check for cells (XML files) that have been loaded and we parse 
 
 Deleting a cell involves creating an XML tree, removing all entities and finally requesting the resource manager to release the XML file (thus saving it).
 
-Also we must handle when the user closes the application. So when the user closes the window or presses \emph{Esc} we must save all the active cells.
+Also, we must handle when the user closes the application. So when the user closes the window or presses \emph{Esc} we must save all the active cells.
 
 In order to parse XML and modify the trees, we have used RapidXml. This library claims to be the fastest out there. There is also a high-level wrapper of this library in the famous Boost library collection but I realized later. Anyhow, I have found it to be pleasant to use. The only pitfall I have found with this library is a small compiling error there is when generating the text of the tree. I seems to be a bug that can be easily solved\cite{rapidxmlbug}.
 
