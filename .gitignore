@@ -1,2 +1,7 @@
 /src/resource_manager/resource_texture_factory.o
 *.o
+*.toc
+*.aux
+*.log
+*.out
+*.synctex.gz
