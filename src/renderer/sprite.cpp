@@ -12,11 +12,11 @@
 using namespace std;
 using namespace rapidxml;
 
-Sprite::Sprite(SpriteManager* spriteManager)
-:GraphicsComponent()
+Sprite::Sprite(SpriteManager* spriteManager, const std::string& name)
+:GraphicsComponent(spriteManager->getGraphicsSystem())
 {
-    myGraphicsSystem = spriteManager->getGraphicsSystem();
     mySpriteManager = spriteManager;
+    this->name = name;
 }
 
 SpriteManager* Sprite::getSpriteManager()
@@ -114,6 +114,11 @@ void Sprite::update()
 void Sprite::draw(const SpriteStatus& status)const
 {
 
+}
+
+const std::string& Sprite::getName()const
+{
+    return name;
 }
 
 Sprite::~Sprite()

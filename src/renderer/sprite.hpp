@@ -35,6 +35,8 @@ class Sprite : public GraphicsComponent
 
 	SpriteManager* mySpriteManager;
 
+	std::string name;
+
     std::map<std::string, unsigned> textureNameToId;
 	std::vector<Texture*> textures;
 
@@ -47,7 +49,7 @@ class Sprite : public GraphicsComponent
 
 public:
 
-	Sprite(SpriteManager* spriteManager);
+	Sprite(SpriteManager* spriteManager, const std::string& name);
 
 	SpriteManager* getSpriteManager();
 
@@ -57,6 +59,8 @@ public:
     /** \brief return if this components is ready
      */
 	bool isReady()const;
+
+	const std::string& getName()const;
 
 	~Sprite();
 

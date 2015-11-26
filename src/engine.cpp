@@ -3,6 +3,7 @@
 #include "dependencies/rapidxml/rapidxml.hpp"
 #include "util/file_to_string.hpp"
 #include "physics/physics_component.hpp"
+#include "renderer/graphics_component.hpp"
 #include <string>
 #include <sstream>
 #include <cstdio>

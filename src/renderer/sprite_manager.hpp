@@ -3,14 +3,19 @@
 
 #include <vector>
 #include <string>
-#incldue <map>
+#include <map>
+#include <set>
 
 #ifndef GRAPHICS_SYSTEM
-class GraphicsSystem
+class GraphicsSystem;
 #endif
 
 #ifndef SPRITE_STATUS
 class SpriteStatus;
+#endif
+
+#ifndef SPRITE
+class Sprite;
 #endif
 
 // We use this struct to keep track of how many
@@ -23,23 +28,44 @@ struct SpriteRefCountEntry
 
     int count;
     Sprite* sprite;
+
 };
+
+struct CompareSpriteByName
+(
+    bool operator()(const SpriteRefCountEntry& entry1, const SpriteRefCountEntry& entry2)
+    {
+
+    }
+);
+
+typedef
+std::set<SpriteRefCountEntry, decltype(SpriteRefCountEntry::compareSpriteByName)>
+SpritesSet;
 
 class SpriteManager
 {
 
-    static const std::string spritesPath = "sprites";
+    // constants
+    static const std::string spritesPath;
 
-    friend class GraphicsSystem
+    // friendship
+    friend class GraphicsSystem;
 
+    // members
     GraphicsSystem* graphicsSystem;
 
-    std::map<std::string, SpriteRefCountEntry> sprites;
+    SpritesSet sprites;
     std::vector<SpriteStatus*> spriteStatuses;
 
+    // functiones
     SpriteManager(){}
 
+    SpritesSet::iterator getSpriteByName(const std::string& name);
+
 public:
+
+    SpriteManager(GraphicsSystem* graphicsSystem);
 
     GraphicsSystem* getGraphicsSystem();
 

@@ -1,10 +1,33 @@
 #include "sprite_manager.hpp"
-#include "resource_manager.hpp"
+#include "../resource_manager/resource_manager.hpp"
 #include <cassert>
+
+using namespace std;
+
+// constants
+const std::string spritesPath = "sprites";
+
+// private
+SpritesSet::iterator getSpriteByName(const std::string& name)
+{
+    Sprite spr(0, name);    //< temporal sprite
+    SpriteRefCountEntry entry;  //< temporal entry
+    entr.sprite = &spr;
+    SpriteSet::iterator it;
+    it = sprites.find(entry);
+    return it;
+}
+
+//public
+SpriteManager::SpriteManager(GraphicsSystem* graphicsSystem)
+{
+    this->graphicsSystem = graphicsSystem;
+    sprites = set<SpriteRefCountEntry, decltype(compareSpriteByName)>(compareSpriteByName);
+}
 
 GraphicsSystem* SpriteManager::getGraphicsSystem()
 {
-    return
+    return graphicsSystem;
 }
 
 SpriteStatus* SpriteManager::instanceSprite(const std::string name)
@@ -41,7 +64,7 @@ void SpriteManager::releaseSpriteInstance(SpriteStatus* spriteStatus)
     assert
     (
         it != sprites.end() &&
-        "Attempt to release a sprite status whose sprite is not in the table"
+        "Attempt to release a SpriteStatus whose sprite is not in the table"
     );
 
     SpriteRefCountEntry& entry = it->second;
