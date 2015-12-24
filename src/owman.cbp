@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-D_DEBUG_" />
 				</Compiler>
 				<Linker>
 					<Add option="-lSDL2" />
@@ -169,6 +170,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="math/functions.hpp" />
 		<Unit filename="math/vec2f.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -327,14 +329,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_cell_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_manager.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -343,10 +337,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_manager_templates.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="resource_manager/resource_manager_templates.hpp" />
 		<Unit filename="resource_manager/resource_request.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -383,19 +374,11 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="resource_manager/resource_text_factory.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="resource_manager/resource_texture.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="resource_manager/resource_texture.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="resource_manager/resource_texture_factory.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -423,6 +406,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="util/time_conversions.hpp" />
 		<Unit filename="world_cell.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

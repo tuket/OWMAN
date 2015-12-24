@@ -8,7 +8,7 @@
 class Animation
 {
 
-    friend class Sprite;
+public:
 
     std::string name;
     std::vector<AnimationFrame> frames;

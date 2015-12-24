@@ -88,6 +88,8 @@ eventHandler( this )
 
     char* mcFileText = fileToString(mcFileName.c_str());
 
+    assert(mcFileText && "main_character.xml not found");
+
     xml_document<> mcDoc;
     mcDoc.parse<0>( mcFileText );
 

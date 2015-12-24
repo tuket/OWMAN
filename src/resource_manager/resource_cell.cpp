@@ -1,15 +1,15 @@
 #include "resource_cell.hpp"
 #include "../dependencies/rapidxml/rapidxml_print.hpp"
-#include "resource_cell_factory.hpp"
 #include <iostream>
 #include <fstream>
 
 using namespace rapidxml;
 using namespace std;
 
-ResourceCell::ResourceCell()
+ResourceCell::ResourceCell(const string& name)
+:
+    Resource(name)
 {
-    status = Resource::Status::STORED;
 }
 
 void ResourceCell::load()
@@ -66,7 +66,3 @@ rapidxml::xml_document<>* ResourceCell::getDocument()
     return &doc;
 }
 
-void ResourceCell::destroyDispatcher()
-{
-    myFactory->destroyResource(this);
-}

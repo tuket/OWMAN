@@ -1,8 +1,12 @@
 #include "texture_manager.hpp"
 #include "texture.hpp"
 #include <cassert>
+#include "../resource_manager/resource_texture.hpp"
+#include "../resource_manager/resource_manager.hpp"
 
 using namespace std;
+
+const string TextureManager::texturesPath = "img/";
 
 TextureManager::TextureManager(GraphicsSystem* graphicsSystem)
 {
@@ -16,7 +20,7 @@ Texture* TextureManager::getTexture(const std::string &name)
     Texture* tex;
     if(it == textures.end())
     {
-        tex = new Texture();
+        tex = new Texture(this, name);
         TextureRefCountEntry entry;
         entry.texture = tex;
         entry.count = 1;

@@ -1,0 +1,38 @@
+<sprite>
+
+<textures>
+	<tex id="sp1">sheet.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>144</x> <y>0</y>
+				<w>144</w> <h>144</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>288</x> <y>0</y>
+				<w>144</w> <h>144</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>432</x> <y>0</y>
+				<w>144</w> <h>144</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+	</anim>
+	
+</animations>
+
+</sprite>

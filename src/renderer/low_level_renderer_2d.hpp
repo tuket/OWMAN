@@ -1,3 +1,6 @@
+#ifndef LOW_LEVEL_RENDERER_2D
+#define LOW_LEVEL_RENDERER_2D
+
 #define NO_SDL_GLEXT
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -8,8 +11,7 @@
 #include <array>
 #include "color.hpp"
 
-#ifndef LOW_LEVEL_RENDERER_2D
-#define LOW_LEVEL_RENDERER_2D
+class AARect;
 
 class LowLevelRenderer2D
 {
@@ -74,9 +76,34 @@ public:
 
 	};
 
+	class SpriteVbo
+	{
+
+        friend class LowLevelRenderer2D;
+
+        GLuint VBO;
+
+        static GLfloat verts[];
+
+    public:
+
+        SpriteVbo(){}
+        SpriteVbo(const AARect& rect);
+        SpriteVbo(const SpriteVbo& spriteVbo);
+
+        const SpriteVbo& operator=(const SpriteVbo&);
+
+    private:
+
+        void setRectVerts(const AARect& rect);
+
+	};
+
 private:
 
 	static LowLevelRenderer2D uniqueInstance;
+
+	static const GLuint posAttrib, texAttrib;
 
 	Camera camera;
 	GLuint textureShaderProgram;
@@ -91,9 +118,8 @@ private:
 	GLint colProjMatrix;
 	GLint color;
 
-	GLuint texVAO;
-	GLuint colVAO;
-
+    GLuint colVBO;
+    GLuint EBO;     //< the default EBO
 
 public:
 
@@ -114,7 +140,13 @@ public:
 	void destroyTexture(Texture* texture);
 
 	void clear();
-	void draw(const Vec2f& pos, const Vec2f& scale, Texture* texture);
+	void draw
+	(
+        const Vec2f& pos,
+        const Vec2f& scale,
+        const Texture& texture,
+        const SpriteVbo& sVao
+    );
 	void drawColorSquare(const Vec2f& pos, const Vec2f& scale, const Color& color);
 	void swap();
 
@@ -123,5 +155,6 @@ public:
 };
 
 typedef LowLevelRenderer2D::Texture::FilterMode LLRFilterMode;
+typedef LowLevelRenderer2D::SpriteVbo LLRSpriteVbo;
 
 #endif

@@ -6,17 +6,9 @@
 #include <map>
 #include <set>
 
-#ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
-#endif
-
-#ifndef SPRITE_STATUS
 class SpriteStatus;
-#endif
-
-#ifndef SPRITE
 class Sprite;
-#endif
 
 // We use this struct to keep track of how many
 // sprite statuses use each sprite
@@ -26,29 +18,28 @@ struct SpriteRefCountEntry
     :count(0), sprite(0)
     {}
 
-    int count;
+    mutable int count;  //< this variable is not involved in the comp function
     Sprite* sprite;
 
 };
 
 struct CompareSpriteByName
-(
-    bool operator()(const SpriteRefCountEntry& entry1, const SpriteRefCountEntry& entry2)
-    {
-
-    }
-);
+{
+    bool operator()(const SpriteRefCountEntry& entry1, const SpriteRefCountEntry& entry2);
+};
 
 typedef
-std::set<SpriteRefCountEntry, decltype(SpriteRefCountEntry::compareSpriteByName)>
+std::set<SpriteRefCountEntry, CompareSpriteByName>
 SpritesSet;
 
 class SpriteManager
 {
 
+public:
     // constants
     static const std::string spritesPath;
 
+private:
     // friendship
     friend class GraphicsSystem;
 
@@ -56,12 +47,19 @@ class SpriteManager
     GraphicsSystem* graphicsSystem;
 
     SpritesSet sprites;
-    std::vector<SpriteStatus*> spriteStatuses;
+    //std::vector<SpriteStatus*> spriteStatuses;
 
-    // functiones
+    // functions
     SpriteManager(){}
 
     SpritesSet::iterator getSpriteByName(const std::string& name);
+
+    /**
+    * \brief release a sprite and all its resources
+    * This should called only by SpriteManager when releaseSpriteInstance
+    * reaches 0
+    */
+    void releaseSprite(Sprite* sprite);
 
 public:
 

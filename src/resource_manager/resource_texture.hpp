@@ -1,17 +1,12 @@
+#ifndef RESOURCE_TEXTURE
+#define RESOURCE_TEXTURE
+
 #include "resource.hpp"
 #include "../renderer/low_level_renderer_2d.hpp"
 
-#ifndef RESOURCE_TEXTURE_FACTORY
 class ResourceTextureFactory;
-#endif
-
-#ifndef RESOURCE_MANAGER
 class ResourceManager;
-#endif
 
-
-#ifndef RESOURCE_TEXTURE
-#define RESOURCE_TEXTURE
 
 /** \brief Represents a resource texture
  * Since OpenGL does not allow to make any call

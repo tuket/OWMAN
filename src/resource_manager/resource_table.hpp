@@ -1,9 +1,9 @@
+#ifndef RESOURCE_TABLE
+#define RESOURCE_TABLE
+
 #include "resource_table_entry.hpp"
 #include <map>
 #include <string>
-
-#ifndef RESOURCE_TABLE
-#define RESOURCE_TABLE
 
 class ResourceTable
 {

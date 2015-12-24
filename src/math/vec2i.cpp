@@ -1,9 +1,22 @@
 #include "vec2i.hpp"
+#include "vec2f.hpp"
 
 Vec2i::Vec2i(int x, int y)
 {
 	this->x = x;
 	this->y = y;
+}
+
+Vec2i::Vec2i(const Vec2i& v)
+{
+    this->x = v.x;
+    this->y = v.y;
+}
+
+Vec2i::Vec2i(const Vec2f& v)
+{
+   this->x = v.x;
+   this->y = v.y;
 }
 
 Vec2i Vec2i::operator=(const Vec2i& vec)

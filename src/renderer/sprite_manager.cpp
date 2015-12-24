@@ -1,28 +1,41 @@
 #include "sprite_manager.hpp"
 #include "../resource_manager/resource_manager.hpp"
+#include "sprite.hpp"
+#include "sprite_status.hpp"
 #include <cassert>
 
 using namespace std;
 
 // constants
-const std::string spritesPath = "sprites";
+const std::string SpriteManager::spritesPath = "sprites";
 
 // private
-SpritesSet::iterator getSpriteByName(const std::string& name)
+SpritesSet::iterator SpriteManager::getSpriteByName(const std::string& name)
 {
+    /* TODO: This is the fast way of implementing \
+    * but it is inefficient since we have to create \
+    * a temporal sprite to search. We could improve this \
+    * by implementing a custom RB tree
+    */
     Sprite spr(0, name);    //< temporal sprite
     SpriteRefCountEntry entry;  //< temporal entry
-    entr.sprite = &spr;
-    SpriteSet::iterator it;
+    entry.sprite = &spr;
+    SpritesSet::iterator it;
     it = sprites.find(entry);
     return it;
+}
+
+void SpriteManager::releaseSprite(Sprite* sprite)
+{
+    sprite->release();
+    delete sprite;
 }
 
 //public
 SpriteManager::SpriteManager(GraphicsSystem* graphicsSystem)
 {
     this->graphicsSystem = graphicsSystem;
-    sprites = set<SpriteRefCountEntry, decltype(compareSpriteByName)>(compareSpriteByName);
+    sprites = set<SpriteRefCountEntry, CompareSpriteByName>(CompareSpriteByName());
 }
 
 GraphicsSystem* SpriteManager::getGraphicsSystem()
@@ -32,24 +45,24 @@ GraphicsSystem* SpriteManager::getGraphicsSystem()
 
 SpriteStatus* SpriteManager::instanceSprite(const std::string name)
 {
-    auto it = sprites.find(name);
+    SpritesSet::iterator it = getSpriteByName(name);
     Sprite* sprite;
 
     // if is already instanced
     if(it != sprites.end())
     {
-        sprite = it->second.sprite;
+        sprite = it->sprite;
         // increment reference count to the sprite
-        it->second.count++;
+        (it->count)++;
     }
 
     // sprite not instanced, need to create
     else{
-        sprite = new Sprite(this);
+        sprite = new Sprite(this, name);
         SpriteRefCountEntry entry;
         entry.sprite = sprite;
         entry.count = 1;
-        sprites[name] = entry;
+        sprites.insert(entry);
     }
 
     SpriteStatus* spriteStatus = new SpriteStatus(sprite);
@@ -59,7 +72,8 @@ SpriteStatus* SpriteManager::instanceSprite(const std::string name)
 
 void SpriteManager::releaseSpriteInstance(SpriteStatus* spriteStatus)
 {
-    auto it = sprites.find(spriteStatus->sprite->getName());
+    SpritesSet::iterator it;
+    it = getSpriteByName(spriteStatus->getSprite()->getName());
 
     assert
     (
@@ -67,25 +81,41 @@ void SpriteManager::releaseSpriteInstance(SpriteStatus* spriteStatus)
         "Attempt to release a SpriteStatus whose sprite is not in the table"
     );
 
-    SpriteRefCountEntry& entry = it->second;
-    if(entry.count == 1)
+    if(it->count == 1)
     {
         // TODO
-        entry.count = 0;
-        entry.sprite->//kill
+        it->count = 0;
+        releaseSprite(it->sprite);
         sprites.erase(it);
     }
     else
     {
-        entry.count--;
+        it->count--;
     }
+
+    delete spriteStatus;
 
 }
 
 void SpriteManager::update(float delta)
 {
-    // 1: check if resoruces have been laoded
+    SpritesSet::iterator it;
+    for(it = sprites.begin(); it != sprites.end(); ++it)
+    {
+        it->sprite->update();
+    }
 
-    // 2: handle animations
+    // the sprite statuses are not updated here but in GraphicsSystem
+}
 
+
+// CompareSpriteByName functor
+
+bool CompareSpriteByName::operator()
+(
+    const SpriteRefCountEntry& entry1,
+    const SpriteRefCountEntry& entry2
+)
+{
+    return entry1.sprite->getName() < entry2.sprite->getName();
 }

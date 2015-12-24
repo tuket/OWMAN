@@ -30,6 +30,11 @@ public:
     Texture(TextureManager* TextureManager, const std::string& name);
 
     /**
+    * \brief get the name of the texture file
+    */
+    const std::string& getName()const;
+
+    /**
     * \brief set the filter mode
     */
     void setFilterMode(FilterMode filterMode);
@@ -70,6 +75,25 @@ public:
     * Call this *only* after loadToGPU
     */
     void release();
+
+    /**
+    * \brief draw a texture in the screen
+    */
+    void draw
+    (
+        const Vec2f& pos,
+        const Vec2f& scale,
+        const LowLevelRenderer2D::SpriteVbo& sVbo
+    )const;
+
+    /**
+    * \brief draw a texture in the screen
+    */
+    void draw
+    (
+        const Vec2f& pos,
+        const LowLevelRenderer2D::SpriteVbo& sVbo
+    )const;
 
 private:
 

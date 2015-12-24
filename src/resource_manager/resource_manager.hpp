@@ -1,16 +1,13 @@
+#ifndef RESOURCE_MANAGER
+#define RESOURCE_MANAGER
+
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
 #include <pthread.h>
 #include <string>
 
-#ifndef LOW_LEVEL_RENDERER_2D
 class LowLevelRenderer2D;
-#endif
-
-
-#ifndef RESOURCE_MANAGER
-#define RESOURCE_MANAGER
 
 /** \brief This is the singleton you should use
  * Requesting resources will deliver a resource pointer

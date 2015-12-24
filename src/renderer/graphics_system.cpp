@@ -1,16 +1,13 @@
 #include "graphics_system.hpp"
+#include "graphics_component.hpp"
+#include "sprite_status.hpp"
 #include "color.hpp"
 #include "../resource_manager/resource_manager.hpp"
 #include <iostream>
 #include <algorithm>
+#include "../util/time_conversions.hpp"
 
 using namespace std;
-
-GraphicsSystem::PendingTask::PendingTask(const PendingTaskType& type, void* pointer)
-{
-	this->pendingTaskType = type;
-	this->pointer = pointer;
-}
 
 GraphicsSystem::GraphicsSystem
 (
@@ -18,14 +15,15 @@ GraphicsSystem::GraphicsSystem
 	unsigned int width, unsigned int height,
 	bool fullScreen
 )
-:renderer
+:
+textureManager(this),
+spriteManager(this),
+renderer
 (
 	windowTitle,
 	width, height,
 	fullScreen
-),
-textureManager(this),
-spriteManager(this)
+)
 {
 
 	camera.myGraphicsSystem = this;
@@ -40,46 +38,16 @@ void GraphicsSystem::setFullScreen(bool b)
 void GraphicsSystem::update(unsigned int delta)
 {
 
-	// process pending tasks
-	for(unsigned int i=0; i<pendingTasks.size(); i++)
-	{
+    float deltaSeconds = ticksToSeconds(delta);
 
-		if( pendingTasks[i].pendingTaskType == PendingTaskType::DESTROY_SPRITE )
-		{
-
-			Sprite* sprite = (Sprite*)(pendingTasks[i].pointer);
-
-			// the sprite has been laoded
-			// we can now remove it and unmark the pending task
-			if( sprite->isReady() )
-			{
-
-				destroySprite(sprite);
-
-				// this technique allow to delete one element in constant
-				// time if you do not care about the order of the elements
-				pendingTasks[i] = pendingTasks[pendingTasks.size()-1];
-				pendingTasks.pop_back();
-
-				i--;
-
-			}
-
-		}
-
-
-		// I think that it could be a good idea to process only one of
-		// these pending tasks per frame so it is less likely to have
-		// fps drops
-		break;
-
-	}
+	textureManager.update();
+	spriteManager.update(deltaSeconds);
 
 	set<GraphicsComponent*>::iterator it;
 	for( it=components.begin(); it != components.end(); ++it )
 	{
 
-		(*it)->update(delta);
+		(*it)->update(deltaSeconds);
 
 	}
 
@@ -91,7 +59,7 @@ void GraphicsSystem::draw()
     vector<GraphicsComponent*> vec(components.begin(), components.end());
 
     // sort by priority
-
+    // TODO: avoid sorting in each frame, but its difficult to implement
     sort
     (
         vec.begin(),
@@ -107,29 +75,10 @@ void GraphicsSystem::draw()
 	for( it=vec.begin(); it != vec.end(); ++it )
 	{
 
-		if( (*it)->isReady() )
-		{
-			if( (*it)->isVisible() )
-			{
-				(*it)->draw();
-			}
-		}
-		else
-		{
-
-			// loaded -> must upload to graphics card
-			if((*it)->isLoaded())
-			{
-				(*it)->becomeReady();
-			}
-
-			// not loaded -> just wait
-			else
-			{
-				renderer.drawColorSquare((*it)->position, (*it)->scale, Color(1,0.5,0.5));
-			}
-
-		}
+        if( (*it)->isVisible() )
+        {
+            (*it)->draw();
+        }
 
 	}
 
@@ -142,40 +91,26 @@ void GraphicsSystem::swap()
 
 }
 
-Sprite* GraphicsSystem::createSprite(std::string fileName, const Vec2f& scale)
+SpriteStatus* GraphicsSystem::instanceSprite(std::string fileName, const Vec2f& scale)
 {
-	Sprite* sprite = spriteFactory.createSprite(fileName, scale);
-	sprite->myGraphicsSystem = this;
+	SpriteStatus* sprite = spriteManager.instanceSprite(fileName);
+	sprite->setScale(scale);    // < TODO
 	components.insert(sprite);
 	return sprite;
 }
 
-void GraphicsSystem::destroySprite(Sprite* sprite)
+void GraphicsSystem::destroySpriteInstance(SpriteStatus* sprite)
 {
-	// what if this function is called before the texture
-	// is loaded?
 
-	// the texture of the sprite has already been loaded
-	// to RAM and to video memory
-	if(sprite->isReady())
-	{
-		components.erase(sprite);
-		spriteFactory.destroySprite(sprite);
-	}
-
-	// the texture is not loaded to the video memory yet
-	// we must wait for it to be loaded in order to unload it
-	else
-	{
-		PendingTask destroyLaterTask(PendingTaskType::DESTROY_SPRITE, sprite);
-		pendingTasks.push_back(destroyLaterTask);
-	}
+    components.erase(sprite);
+    spriteManager.releaseSpriteInstance(sprite);
 
 }
 
 void GraphicsSystem::destroyGraphicsComponent(GraphicsComponent* graphicsComponent)
 {
 
+    components.erase(graphicsComponent);
     graphicsComponent->destroyDispatcher();
 
 }
@@ -188,6 +123,15 @@ LowLevelRenderer2D* GraphicsSystem::getRenderer()
 Camera* GraphicsSystem::getCamera()
 {
 	return &camera;
+}
+
+TextureManager* GraphicsSystem::getTextureManager()
+{
+    return &textureManager;
+}
+SpriteManager* GraphicsSystem::getSpriteManager()
+{
+    return &spriteManager ;
 }
 
 void GraphicsSystem::end()

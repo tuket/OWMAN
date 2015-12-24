@@ -5,7 +5,7 @@
 #include "../resource_manager/resource_texture.hpp"
 #include "graphics_system.hpp"
 
-const std::string texturesPath = "textures";
+const std::string Texture::texturesPath = "textures";
 
 Texture::Texture(TextureManager* textureManager, const std::string& name)
 {
@@ -15,6 +15,11 @@ Texture::Texture(TextureManager* textureManager, const std::string& name)
     llTexture = LowLevelRenderer2D::Texture();
     resourceTexture = 0;
     filterMode = FilterMode::NEAREST;
+}
+
+const std::string& Texture::getName()const
+{
+    return name;
 }
 
 void Texture::setFilterMode(FilterMode filterMode)
@@ -55,6 +60,7 @@ void Texture::loadToGPU()
         resourceTexture->getHeight()
     );
     llTexture.setFilterMode(filterMode);
+    status = Status::READY;
 }
 
 void Texture::releaseResource()
@@ -78,4 +84,24 @@ void Texture::release()
         // take care of this
         releaseResource();
     }
+}
+
+void Texture::draw
+(
+    const Vec2f& pos,
+    const Vec2f& scale,
+    const LowLevelRenderer2D::SpriteVbo& sVbo
+)const
+{
+    LowLevelRenderer2D* ren = textureManager->getGraphicsSystem()->getRenderer();
+    ren->draw(pos, scale, llTexture, sVbo);
+}
+
+void Texture::draw
+(
+    const Vec2f& pos,
+    const LowLevelRenderer2D::SpriteVbo& sVbo
+)const
+{
+    draw(pos, Vec2f(1, 1), sVbo);
 }

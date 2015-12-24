@@ -18,6 +18,12 @@ class TextureRefCountEntry
 class TextureManager
 {
 
+public:
+
+    static const std::string texturesPath;
+
+private:
+
     GraphicsSystem* graphicsSystem;
     std::map<std::string, TextureRefCountEntry> textures;
 

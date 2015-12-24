@@ -6,9 +6,24 @@
 using namespace std;
 
 ResourceTexture::ResourceTexture(const string& name)
+:
+    Resource(name)
 {
-	status = Resource::Status::STORED;
-	this->name = name;
+}
+
+const unsigned char* ResourceTexture::getTextureData()const
+{
+    return imageData;
+}
+
+int ResourceTexture::getWidth()const
+{
+    return width;
+}
+
+int ResourceTexture::getHeight()const
+{
+    return height;
 }
 
 /*

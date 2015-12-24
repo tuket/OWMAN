@@ -8,7 +8,7 @@
 #include <vector>
 #include "animation.hpp"
 
-class SpriteFactory;
+class SpriteManager;
 class ResourceTexture;
 class GraphicsSystem;
 class Texture;
@@ -18,7 +18,7 @@ class SpriteStatus;
 /** \brief Represents a static sprite
  * This sprite has no animations
  */
-class Sprite : public GraphicsComponent
+class Sprite
 {
 
     enum class Status
@@ -32,12 +32,13 @@ class Sprite : public GraphicsComponent
 	friend class Entity;
 	friend class GraphicsSystem;
 	friend class SpriteManager;
+	friend class SpriteStatus;
 
 	SpriteManager* mySpriteManager;
 
 	std::string name;
 
-    std::map<std::string, unsigned> textureNameToId;
+    std::map<std::string, unsigned> textureNameToIndex;
 	std::vector<Texture*> textures;
 
     std::map<std::string, unsigned> animNameToIndex;
@@ -52,11 +53,11 @@ public:
 	Sprite(SpriteManager* spriteManager, const std::string& name);
 
 	SpriteManager* getSpriteManager();
+	GraphicsSystem* getGraphicsSystem();
 
 	void update();
-	void draw(const SpriteStatus& status)const;
 
-    /** \brief return if this components is ready
+    /** \brief return if this component is ready
      */
 	bool isReady()const;
 
@@ -64,10 +65,13 @@ public:
 
 	~Sprite();
 
-    /** \brief this will call to the corresponding GraphicsSystem function \
-     * in charge of deleting this GraphicsComponent
-     */
-	void destroyDispatcher();
+private:
+
+    /**
+    * \brief release all the resources of this sprite
+    * This function is only to be called by SpriteManager::releaseSprite
+    */
+    void release();
 
 };
 

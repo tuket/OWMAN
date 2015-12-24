@@ -6,39 +6,21 @@
 #include <set>
 #include <vector>
 #include "camera.hpp"
+#include "texture_manager.hpp"
+#include "sprite_manager.hpp"
 
-#ifndef ENGINE
 class Engine;
-#endif
-
-#ifndef GRAPHICS_COMPONENT
 class GraphicsComponent;
-#endif
-
-#ifndef SPRITE
 class Sprite;
-#endif
+class SpriteStatus;
 
 class GraphicsSystem
 {
 
-	enum class PendingTaskType
-	{
-		DESTROY_SPRITE
-	};
-
-	class PendingTask
-	{
-	public:
-		PendingTask(const PendingTaskType& type, void* pointer);
-
-		PendingTaskType pendingTaskType;
-		void* pointer;
-	};
-
-	std::vector<PendingTask> pendingTasks;
-
 	Engine* myEngine;
+
+	TextureManager textureManager;
+	SpriteManager spriteManager;
 
 	Camera camera;
 	LowLevelRenderer2D renderer;
@@ -70,13 +52,15 @@ public:
 	 */
 	void swap();
 
-	Sprite* createSprite(std::string fileName, const Vec2f& scale);
-	void destroySprite(Sprite* sprite);
+	SpriteStatus* instanceSprite(std::string fileName, const Vec2f& scale = Vec2f(1, 1));
+	void destroySpriteInstance(SpriteStatus* sprite);
 
 	void destroyGraphicsComponent(GraphicsComponent* graphicsComponent);
 
 	LowLevelRenderer2D* getRenderer();
 	Camera* getCamera();
+	TextureManager* getTextureManager();
+	SpriteManager* getSpriteManager();
 
 	void end();
 

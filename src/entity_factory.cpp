@@ -4,6 +4,7 @@
 #include "physics/physics_component.hpp"
 #include "physics/physics_box.hpp"
 #include "engine.hpp"
+#include "renderer/sprite_status.hpp"
 #include <string>
 
 using namespace rapidxml;
@@ -52,7 +53,7 @@ Entity* EntityFactory::createEntity
 	if( graphics_node )
 	{
 
-		xml_node<> *texture_node = graphics_node->first_node("texture");
+		xml_node<> *texture_node = graphics_node->first_node("sprite");
 		string textureFileName( string("img/") + texture_node->value() );
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
@@ -61,7 +62,7 @@ Entity* EntityFactory::createEntity
 		xml_node<> *priority_node = graphics_node->first_node("priority");
 
 		GraphicsComponent* graphicsComponent =
-        myEngine->getGraphicsSystem()->createSprite
+        myEngine->getGraphicsSystem()->instanceSprite
         (
             textureFileName,
             Vec2f( width_graphics, height_graphics )
@@ -144,8 +145,8 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 	if( graphics_node )
 	{
 
-		xml_node<> *texture_node = graphics_node->first_node("texture");
-		string textureFileName( string("img/") + texture_node->value() );
+		xml_node<> *texture_node = graphics_node->first_node("sprite");
+		string textureFileName( string("sprites/") + texture_node->value() + ".xml" );
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
 		xml_node<> *height_graphics_node = graphics_node->first_node("height");
@@ -153,7 +154,7 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 		xml_node<> *priority_node = graphics_node->first_node("priority");
 
 		GraphicsComponent* graphicsComponent =
-        myEngine->getGraphicsSystem()->createSprite
+        myEngine->getGraphicsSystem()->instanceSprite
         (
             textureFileName,
             Vec2f( width_graphics, height_graphics )

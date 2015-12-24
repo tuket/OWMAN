@@ -2,14 +2,15 @@
 #define ANIMATION_FRAME
 
 #include "../math/aarect.hpp"
+#include "low_level_renderer_2d.hpp"
 
 class AnimationFrame
 {
 
-    friend class Animation;
+public:
 
     unsigned textureIndex;
-    AARect rect;
+    LowLevelRenderer2D::SpriteVbo vbo;
     float frameDuration;
 
 };

@@ -1,17 +1,10 @@
-#include "resource.hpp"
-
-#ifndef RESOURCE_TEXT_FACTORY
-class ResourceTextFactory;
-#endif
-
-#ifndef RESOURCE_MANAGER
-class ResourceManager;
-#endif
-
-
-
 #ifndef RESOURCE_TEXT
 #define RESOURCE_TEXT
+
+#include "resource.hpp"
+
+class ResourceTextFactory;
+class ResourceManager;
 
 class ResourceText : public Resource
 {
@@ -29,7 +22,7 @@ protected:
 
 public:
 
-	ResourceText();
+	ResourceText(const std::string& name);
 
 	std::string getText()const;
 

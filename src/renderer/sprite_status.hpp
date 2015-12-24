@@ -1,11 +1,12 @@
 #ifndef SPRITE_STATUS
 #define SPRITE_STATUS
 
-#ifndef SPRITE
-class Sprite;
-#endif
+#include "graphics_component.hpp"
 
-class SpriteStatus
+class Sprite;
+class SpriteManager;
+
+class SpriteStatus : public GraphicsComponent
 {
     int currentAnimation;
     int currentFrame;
@@ -23,6 +24,15 @@ public:
     void setElapsedTime(float time);
 
     Sprite* getSprite();
+    SpriteManager* getSpriteManager();
+
+    bool isReady()const;
+    void update(float delta);
+    void draw()const;
+
+    rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
+
+    void destroyDispatcher();
 
 };
 

@@ -1,16 +1,11 @@
+#ifndef GRAPHICS_COMPONENT
+#define GRAPHICS_COMPONENT
+
 #include "../math/vec2f.hpp"
 #include "../dependencies/rapidxml/rapidxml.hpp"
 
-#ifndef ENTITY
 class Entity;
-#endif
-
-#ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
-#endif
-
-#ifndef GRAPHICS_COMPONENT
-#define GRAPHICS_COMPONENT
 
 /** Abstract class representing any type of GraphicsComponent
  */
@@ -32,16 +27,11 @@ protected:
 
 public:
 
-	GraphicsComponent(GraphicsSystem* graphicsSystem)
-	:
-	visible(true),
-	priority(0),
-	myGraphicsSystem(graphicsSystem)
-	{}
+	GraphicsComponent(GraphicsSystem* graphicsSystem);
 
 	GraphicsSystem* getGraphicsSystem();
 
-	virtual void update(unsigned int delta) = 0;
+	virtual void update(float delta) = 0;
 	virtual void draw()const = 0;
 
 	bool isVisible()const;
@@ -52,19 +42,6 @@ public:
      * memory
      */
 	virtual bool isReady()const = 0;
-
-	/** \brief return if this component is loaded
-	 * To be loaded means that it has been loaded to main \
-	 * memory
-	 */
-	virtual bool isLoaded()const = 0;
-
-    /** \brief load to video memory
-     * Once the resource of this component has been loaded \
-     * into main memory it has to be loaded to video memory \
-     * this functions loads it into video memory
-     */
-	virtual void becomeReady()const = 0;
 
 	const Vec2f& getPosition()const;
 	Vec2f& getPosition();
@@ -79,7 +56,7 @@ public:
      * \param The XML document
      * \return The XML node
      */
-	virtual rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc) = 0;
+	virtual rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 
 	virtual ~GraphicsComponent() {};
 
