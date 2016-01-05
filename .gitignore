@@ -5,6 +5,7 @@ bin/Debug
 *.depend
 *.layout
 *~
+*.log
 
 bin/bin/
 doc/be.aux
