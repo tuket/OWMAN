@@ -27,6 +27,9 @@ void ResourceCell::load()
 	text[length] = '\0';
 	fs.close();
 
+    cout << name << endl;
+    cout << text << endl;
+    cout << fs.gcount() << endl;
 	doc.parse<0>(text);
 
     node = doc.first_node("cell");

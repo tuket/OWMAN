@@ -95,6 +95,18 @@ public:
         const LowLevelRenderer2D::SpriteVbo& sVbo
     )const;
 
+    /**
+    * \brief get the width of the texture
+    * the texture must be ready
+    */
+    unsigned getWidth()const;
+
+    /**
+    * \brief get the height of the texture
+    * the texture must be ready
+    */
+    unsigned getHeight()const;
+
 private:
 
     TextureManager* textureManager;

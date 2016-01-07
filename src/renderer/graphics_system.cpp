@@ -91,9 +91,9 @@ void GraphicsSystem::swap()
 
 }
 
-SpriteStatus* GraphicsSystem::instanceSprite(std::string fileName, const Vec2f& scale)
+SpriteStatus* GraphicsSystem::instanceSprite(std::string name, const Vec2f& scale)
 {
-	SpriteStatus* sprite = spriteManager.instanceSprite(fileName);
+	SpriteStatus* sprite = spriteManager.instanceSprite(name);
 	sprite->setScale(scale);    // < TODO
 	components.insert(sprite);
 	return sprite;

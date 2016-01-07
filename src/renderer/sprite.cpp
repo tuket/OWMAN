@@ -17,6 +17,7 @@ Sprite::Sprite(SpriteManager* spriteManager, const std::string& name)
 {
     mySpriteManager = spriteManager;
     this->name = name;
+    this->fileName = SpriteManager::spritesPath + string("/") + name + string(".xml");
     status = Status::START;
 }
 
@@ -40,7 +41,6 @@ void Sprite::update()
     if(Status::START == status)
     {
          ResourceManager* resMan = ResourceManager::getSingleton();
-         string fileName = name;
          resourceText = resMan->obtain<ResourceText>(fileName);
          status = Status::LOADING_XML;
     }
@@ -48,15 +48,13 @@ void Sprite::update()
     {
         if(Resource::Status::LOADED == resourceText->getStatus())
         {
-            ResourceManager* resMan = ResourceManager::getSingleton();
             GraphicsSystem* gs = mySpriteManager->getGraphicsSystem();
             TextureManager* texMan = gs->getTextureManager();
             // parse XML
             xmlText = resourceText->getText();
-            xml_document<> doc;
             doc.parse<0>((char*)xmlText.c_str());
 
-            xml_node<>* root = doc.first_node("sprite");
+            root = doc.first_node("sprite");
             if(0 == root) throw Exception("expected <sprite> node");
 
             // parse textures
@@ -97,6 +95,28 @@ void Sprite::update()
                 i++;
             }
 
+            status = Status::LOADING_TEXTURES;
+
+        }
+
+    }
+    else if(Status::LOADING_TEXTURES == status)
+    {
+        bool allLoaded = true;
+        for(unsigned i=0; i<textures.size(); i++)
+        {
+            if(textures[i]->isReady() == false)
+            {
+                allLoaded = false;
+                break;
+            }
+        }
+
+        if(allLoaded)
+        {
+
+            // we are parsing the animations after the textures are loaded because we
+            // need to know the dimensions of the textures
             xml_node<>* nodeAnimations = root->first_node("animations");
             if(0 == nodeAnimations) throw Exception("expected animations node");
 
@@ -125,33 +145,35 @@ void Sprite::update()
                     xml_node<>* nodeTex = nodeFrame->first_node("tex");
                     if(0 == nodeTex) throw Exception("no tex provided for frame");
                     string texName = nodeTex->value();
+                    unsigned texIndex = textureNameToIndex[texName];
+                    Texture* tex = textures[texIndex];
 
                     xml_node<>* nodeRect = nodeFrame->first_node("rect");
                     if(0 == nodeRect) throw Exception("no rect provided for frame");
                     AARect rect;
                         xml_node<>* nodeX = nodeRect->first_node("x");
                         if(0 == nodeX) throw Exception("no x provided for rect");
-                        rect.x = atof(nodeX->value()) / 1296;
+                        rect.x = atof(nodeX->value()) / tex->getWidth();
 
                         xml_node<>* nodeY = nodeRect->first_node("y");
                         if(0 == nodeY) throw Exception("no y provided for rect");
-                        rect.y = atof(nodeY->value()) / 2160;
+                        rect.y = atof(nodeY->value()) / tex->getHeight();
 
                         xml_node<>* nodeW = nodeRect->first_node("w");
                         if(0 == nodeW) throw Exception("no w provided for rect");
-                        rect.w = atof(nodeW->value()) / 1296;
+                        rect.w = atof(nodeW->value()) / tex->getWidth();
 
                         xml_node<>* nodeH = nodeRect->first_node("h");
                         if(0 == nodeH) throw Exception("no h provided for rect");
-                        rect.h = atof(nodeH->value()) / 2160;
+                        rect.h = atof(nodeH->value()) / tex->getHeight();
 
 
                     xml_node<>* nodeTime = nodeFrame->first_node("time");
-                    if(0 == nodeTime) throw Exception("no time provide for this frame");
+                    if(0 == nodeTime) throw Exception("no time provided for this frame");
                     float time = atof(nodeTime->value());
 
                     AnimationFrame frame;
-                    frame.textureIndex = textureNameToIndex[texName];
+                    frame.textureIndex = texIndex;
                     frame.vbo = LowLevelRenderer2D::SpriteVbo(rect);
                     frame.frameDuration = time;
                     anim.frames.push_back(frame);
@@ -161,32 +183,23 @@ void Sprite::update()
                 }
                 while(0 != nodeFrame);
 
+                if(name == "grass")
+                {
+                    cout << xmlText << endl;
+                    cout << anim.frames.size() << endl;
+                }
+
                 animations.push_back(anim);
                 nodeAnim = nodeAnim->next_sibling("anim");
 
             }
             while(0 != nodeAnim);
 
-            status = Status::LOADING_TEXTURES;
+            ResourceManager* resMan = ResourceManager::getSingleton();
             resMan->release(resourceText);
+            doc.clear();
+            xmlText.clear();
 
-        }
-
-    }
-    else if(Status::LOADING_TEXTURES == status)
-    {
-        bool allLoaded = true;
-        for(unsigned i=0; i<textures.size(); i++)
-        {
-            if(textures[i]->isReady() == false)
-            {
-                allLoaded = false;
-                break;
-            }
-        }
-
-        if(allLoaded)
-        {
             status = Status::EVERYTHING_LOADED;
         }
     }

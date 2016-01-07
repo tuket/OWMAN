@@ -6,6 +6,7 @@
 #include "sprite_manager.hpp"
 #include "graphics_system.hpp"
 #include "texture.hpp"
+#include "../util/xmlstr.hpp"
 
 using namespace std;
 using namespace rapidxml;
@@ -94,7 +95,7 @@ rapidxml::xml_node<>* SpriteStatus::createXmlNode(rapidxml::xml_document<>* doc)
     const string& spriteName = mySprite->getName();
 
     xml_node<>* root = GraphicsComponent::createXmlNode(doc);
-    xml_node<>* node_sprite = doc->allocate_node(node_element, "sprite", spriteName.c_str());
+    xml_node<>* node_sprite = doc->allocate_node(node_element, xmlstr::sprite, spriteName.c_str());
     root->prepend_node(node_sprite);
 
     return root;

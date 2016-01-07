@@ -1,6 +1,7 @@
 #include "graphics_component.hpp"
 #include "graphics_system.hpp"
 #include <sstream>
+#include "../util/xmlstr.hpp"
 
 using namespace std;
 using namespace rapidxml;
@@ -66,23 +67,32 @@ void GraphicsComponent::setPriority(int priority)
 
 rapidxml::xml_node<>* GraphicsComponent::createXmlNode(rapidxml::xml_document<>* doc)
 {
-    xml_node<>* root = doc->allocate_node(node_element, "graphics");
-    string scaleX, scaleY;
+    xml_node<>* root = doc->allocate_node(node_element, xmlstr::graphics);
     stringstream ss;
     // scaleX
     ss << scale.x;
-    scaleX = ss.str();
+    const char* scaleX = doc->allocate_string( ss.str().c_str() );
     // clear
     ss.clear();
     ss.str(string());
     //scaleY
     ss << scale.y;
-    scaleY = ss.str();
+    const char* scaleY = doc->allocate_string( ss.str().c_str() );
+    // clear
+    ss.clear();
+    ss.str(string());
+    // priority
+    ss << priority;
+    const char* prio = doc->allocate_string( ss.str().c_str() );
+    // allocate strings
+
     // allocate nodes
-    xml_node<>* node_width = doc->allocate_node(node_element, "width", scaleX.c_str());
-    xml_node<>* node_height = doc->allocate_node(node_element, "height", scaleY.c_str());
+    xml_node<>* node_width = doc->allocate_node(node_element, xmlstr::width, scaleX);
+    xml_node<>* node_height = doc->allocate_node(node_element, xmlstr::height, scaleY);
+    xml_node<>* node_priority = doc->allocate_node(node_element, xmlstr::priority, prio);
     // attach nodes
     root->append_node(node_width);
     root->append_node(node_height);
+    root->append_node(node_priority);
     return root;
 }

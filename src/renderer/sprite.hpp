@@ -37,6 +37,7 @@ class Sprite
 	SpriteManager* mySpriteManager;
 
 	std::string name;
+	std::string fileName;
 
     std::map<std::string, unsigned> textureNameToIndex;
 	std::vector<Texture*> textures;
@@ -47,6 +48,8 @@ class Sprite
     Status status;
 	ResourceText* resourceText;
 	std::string xmlText;
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root;
 
 public:
 

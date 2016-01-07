@@ -105,3 +105,13 @@ void Texture::draw
 {
     draw(pos, Vec2f(1, 1), sVbo);
 }
+
+unsigned Texture::getWidth()const
+{
+    return llTexture.getWidth();
+}
+
+unsigned Texture::getHeight()const
+{
+    return llTexture.getHeight();
+}

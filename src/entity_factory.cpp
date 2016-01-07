@@ -53,8 +53,8 @@ Entity* EntityFactory::createEntity
 	if( graphics_node )
 	{
 
-		xml_node<> *texture_node = graphics_node->first_node("sprite");
-		string textureFileName( string("img/") + texture_node->value() );
+		xml_node<> *sprite_node = graphics_node->first_node("sprite");
+		string spriteName = sprite_node->value();
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
 		xml_node<> *height_graphics_node = graphics_node->first_node("height");
@@ -64,7 +64,7 @@ Entity* EntityFactory::createEntity
 		GraphicsComponent* graphicsComponent =
         myEngine->getGraphicsSystem()->instanceSprite
         (
-            textureFileName,
+            spriteName,
             Vec2f( width_graphics, height_graphics )
         );
 
@@ -145,8 +145,8 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 	if( graphics_node )
 	{
 
-		xml_node<> *texture_node = graphics_node->first_node("sprite");
-		string textureFileName( string("sprites/") + texture_node->value() + ".xml" );
+		xml_node<> *sprite_node = graphics_node->first_node("sprite");
+		string spriteName = sprite_node->value();
 		xml_node<> *width_graphics_node = graphics_node->first_node("width");
 		float width_graphics = atof( width_graphics_node->value() );
 		xml_node<> *height_graphics_node = graphics_node->first_node("height");
@@ -156,7 +156,7 @@ MainCharacter* EntityFactory::createMainCharacter(rapidxml::xml_node<> *node)
 		GraphicsComponent* graphicsComponent =
         myEngine->getGraphicsSystem()->instanceSprite
         (
-            textureFileName,
+            spriteName,
             Vec2f( width_graphics, height_graphics )
         );
 

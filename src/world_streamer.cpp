@@ -171,15 +171,18 @@ void cellToXmlDocument(xml_document<>* doc, const WorldCell& wc, float cellSize)
 
     doc->remove_all_attributes();
     doc->remove_all_nodes();
+    doc->clear();
 
+    const char* str_cell = doc->allocate_string("cell");
     if( wc.size() == 0 )
     {
-        xml_node<>* root = doc->allocate_node(node_element, "cell", " ");
+        const char* str_space = doc->allocate_string(" ");
+        xml_node<>* root = doc->allocate_node(node_element, str_cell, str_space);
         doc->append_node( root );
         return;
     }
 
-    xml_node<>* root = doc->allocate_node(node_element, "cell");
+    xml_node<>* root = doc->allocate_node(node_element, str_cell);
     doc->append_node( root );
 
     xml_node<>* node_ent;
