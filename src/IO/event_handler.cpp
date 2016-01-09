@@ -16,6 +16,7 @@ void EventHandler::handle()
 {
 
     Entity* mc = engine->getMainCharacter();
+    static const float v = 2000;
     float vx = 0;
     float vy = 0;
 
@@ -52,16 +53,16 @@ void EventHandler::handle()
                 break;
 
                 case SDLK_UP:
-                    vy += 2000;
+                    vy += v;
                 break;
                 case SDLK_DOWN:
-                    vy -= 2000;
+                    vy -= v;
                 break;
                 case SDLK_LEFT:
-                    vx -= 2000;
+                    vx -= v;
                 break;
                 case SDLK_RIGHT:
-                    vx += 2000;
+                    vx += v;
                 break;
 
                 default:

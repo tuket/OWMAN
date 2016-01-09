@@ -170,6 +170,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="math/functions.cpp" />
 		<Unit filename="math/functions.hpp" />
 		<Unit filename="math/vec2f.cpp">
 			<Option target="Debug" />

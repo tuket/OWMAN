@@ -183,11 +183,13 @@ void Sprite::update()
                 }
                 while(0 != nodeFrame);
 
+                /*
                 if(name == "grass")
                 {
                     cout << xmlText << endl;
                     cout << anim.frames.size() << endl;
                 }
+                */
 
                 animations.push_back(anim);
                 nodeAnim = nodeAnim->next_sibling("anim");

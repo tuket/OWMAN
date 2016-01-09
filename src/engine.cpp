@@ -110,34 +110,28 @@ void Engine::init()
     ResourceManager* resourceManager = ResourceManager::getSingleton();
     resourceManager->launch();
 
-    if( !mainCharacter )
-    {
-        //worldStreamer->init(mainCharacter->getCell(), mainCharacter->getPosition());
-    }
-    else
-    {
-        worldStreamer->init
-        (
-            mainCharacter->getCell(),
-            mainCharacter->getPosition()
-        );
-    }
-
+    worldStreamer->init
+    (
+        mainCharacter->getCell(),
+        mainCharacter->getPosition()
+    );
 
 }
 
 void Engine::mainLoop()
 {
 
+    unsigned prevTicks = SDL_GetTicks();
+
     while( !end )
     {
 
-        unsigned int beginTicks = SDL_GetTicks();
+        unsigned ticks = SDL_GetTicks();
 
         eventHandler.poll();
 
         // update physics
-        physicsSystem->update( 1000/fps );
+        physicsSystem->update( ticks - prevTicks );
 
         // update world streamer
         worldStreamer->update( mainCharacter->getPosition(), mainCharacter );
@@ -171,16 +165,18 @@ void Engine::mainLoop()
         graphicsSystem->getCamera()->setPosition( -mainCharacter->getPosition() );
 
         // update graphics
-        graphicsSystem->update(1000/fps);
+        graphicsSystem->update(ticks-prevTicks);
 
         // draw
         graphicsSystem->draw();
         graphicsSystem->swap();
 
         unsigned int endTicks = SDL_GetTicks();
-		int sleepTicks = 1000/fps - (endTicks-beginTicks);
+		int sleepTicks = 1000/fps - (endTicks-ticks);
 		if(sleepTicks > 0)
 			SDL_Delay( sleepTicks );
+
+        prevTicks = ticks;
 
     }
 

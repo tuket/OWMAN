@@ -212,37 +212,16 @@ worldWindow(windowSize)
 	this->worldFolder = worldFolder;
 	this->entityFactory = entityFactory;
 
-	filesystem::wpath worldPath(worldFolder);
+    fstream fs;
+    fs.open("world_folder/world_file.txt", ios::in);
 
-    filesystem::directory_iterator end_dit;
 
-    for
-    (
-        filesystem::directory_iterator dit( worldFolder )
-        ;
-        dit != end_dit
-        ;
-        ++dit
-    )
+    int x, y;
+    while(fs >> x)
     {
-
-        if( filesystem::is_regular_file( dit->status() ) )
-        {
-            string fileName = dit->path().string();
-
-            bool isCell = isCellFile(fileName);
-
-            if( isCell )
-            {
-
-                Vec2i cell = getCell( fileName );
-                // cout << "available cell: " << cell.x << ", " << cell.y << endl;
-                availableCells.insert( cell );
-
-            }
-
-        }
-
+        fs >> y;
+        Vec2i cell(x, y);
+        availableCells.insert( cell );
     }
 
 }

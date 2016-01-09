@@ -14,7 +14,8 @@ PhysicsSystem::PhysicsSystem()
 void PhysicsSystem::update(unsigned int delta)
 {
 
-    world->Step(delta/1000.0, 12, 5);
+    float seconds = delta / 1000.0f;
+    world->Step(seconds, 12, 5);
 
 }
 

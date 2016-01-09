@@ -1,12 +1,10 @@
+#ifndef PHYSICS_COMPONENT
+#define PHYSICS_COMPONENT
+
 #include "../math/vec2f.hpp"
 #include "../dependencies/rapidxml/rapidxml.hpp"
 
-#ifndef PHYSICS_SYSTEM
 class PhysicsSystem;
-#endif
-
-#ifndef PHYSICS_COMPONENT
-#define PHYSICS_COMPONENT
 
 class PhysicsComponent
 {

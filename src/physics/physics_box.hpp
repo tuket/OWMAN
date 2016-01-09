@@ -1,13 +1,12 @@
+#ifndef PHYSICS_BOX
+#define PHYSICS_BOX
+
 #include "physics_component.hpp"
 #include <Box2D/Box2D.h>
 #include "../math/vec2f.hpp"
 
-#ifndef PHYSICS_BOX_FACTORY
 class PhysicsBoxFactory;
-#endif
 
-#ifndef PHYSICS_BOX
-#define PHYSICS_BOX
 
 /**
  * This class represents a box shaped physics body.

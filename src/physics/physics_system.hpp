@@ -1,20 +1,12 @@
+#ifndef PHYSICS_SYSTEM
+#define PHYSICS_SYSTEM
+
 #include <Box2D/Box2D.h>
 #include "../math/vec2f.hpp"
 
-#ifndef PHYSICS_COMPONENT
 class PhysicsComponent;
-#endif
-
-#ifndef PHYSICS_BOX
 class PhysicsBox;
-#endif
-
- #ifndef PHYSICS_BOX_FACTORY
- class PhysicsBoxFactory;
- #endif
-
-#ifndef PHYSICS_SYSTEM
-#define PHYSICS_SYSTEM
+class PhysicsBoxFactory;
 
 class PhysicsSystem
 {

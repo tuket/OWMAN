@@ -95,7 +95,8 @@ rapidxml::xml_node<>* SpriteStatus::createXmlNode(rapidxml::xml_document<>* doc)
     const string& spriteName = mySprite->getName();
 
     xml_node<>* root = GraphicsComponent::createXmlNode(doc);
-    xml_node<>* node_sprite = doc->allocate_node(node_element, xmlstr::sprite, spriteName.c_str());
+    const char* str_spriteName = doc->allocate_string(spriteName.c_str());
+    xml_node<>* node_sprite = doc->allocate_node(node_element, xmlstr::sprite, str_spriteName);
     root->prepend_node(node_sprite);
 
     return root;
