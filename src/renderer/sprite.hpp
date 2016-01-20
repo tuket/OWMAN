@@ -66,6 +66,8 @@ public:
 
 	const std::string& getName()const;
 
+	unsigned getAnimIndex(const std::string& animName)const;
+
 	~Sprite();
 
 private:

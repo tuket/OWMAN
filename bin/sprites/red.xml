@@ -1,0 +1,132 @@
+<sprite>
+
+<textures>
+	<tex id="sp1">pokemon_red_pj.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand_down">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>32</x> <y>0</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+	<anim id="stand_left">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>32</x> <y>32</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+	<anim id="stand_right">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>32</x> <y>32</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+	<anim id="stand_up">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>32</x> <y>32</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+	<anim id="walking_down">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>64</x> <y>0</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+	</anim>
+	
+	<anim id="walking_left">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>32</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>64</x> <y>32</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+	</anim>
+	
+	<anim id="walking_right">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>64</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>64</x> <y>64</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+	</anim>
+	
+	<anim id="walking_up">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>96</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>64</x> <y>96</y>
+				<w>32</w> <h>32</h>
+			</rect>
+			<time>0.3</time>
+		</frame>
+	</anim>
+	
+</animations>
+
+</sprite>
+

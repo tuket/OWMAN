@@ -7,6 +7,7 @@
 #include "graphics_system.hpp"
 #include "texture.hpp"
 #include "../util/xmlstr.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace rapidxml;
@@ -19,6 +20,7 @@ SpriteStatus::SpriteStatus(Sprite* sprite)
     currentAnimation = 0;
     currentFrame = 0;
     elapsedTime = 0.0f;
+    //cout << "-" << endl;
 }
 
 int SpriteStatus::getCurrentFrame()const
@@ -87,6 +89,21 @@ void SpriteStatus::draw()const
         const LowLevelRenderer2D::SpriteVbo& vbo = frame.vbo;
 
         texture->draw(pos, scale, vbo);
+    }
+}
+
+unsigned SpriteStatus::getAnimationIndex()const
+{
+    return currentAnimation;
+}
+
+void SpriteStatus::setAnimation(const string& animName)
+{
+    unsigned index = mySprite->getAnimIndex(animName);
+    if(index != currentAnimation)
+    {
+        currentAnimation = index;
+        currentFrame = 0;
     }
 }
 

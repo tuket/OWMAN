@@ -399,6 +399,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="util/exception.hpp" />
 		<Unit filename="util/file_to_string.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -407,6 +408,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="util/stack_trace.hpp" />
 		<Unit filename="util/time_conversions.hpp" />
 		<Unit filename="util/xmlstr.cpp" />
 		<Unit filename="util/xmlstr.hpp" />

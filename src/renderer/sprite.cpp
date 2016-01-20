@@ -120,6 +120,7 @@ void Sprite::update()
             xml_node<>* nodeAnimations = root->first_node("animations");
             if(0 == nodeAnimations) throw Exception("expected animations node");
 
+            unsigned animIndex = 0;
             xml_node<>* nodeAnim = nodeAnimations->first_node("anim");
             if(0 == nodeAnim) throw Exception("you must provide at least one anim node");
 
@@ -192,6 +193,8 @@ void Sprite::update()
                 */
 
                 animations.push_back(anim);
+                animNameToIndex[animName] = animIndex;
+                animIndex++;
                 nodeAnim = nodeAnim->next_sibling("anim");
 
             }
@@ -210,6 +213,16 @@ void Sprite::update()
 const std::string& Sprite::getName()const
 {
     return name;
+}
+
+unsigned Sprite::getAnimIndex(const string& animName)const
+{
+    map<string, unsigned>::const_iterator it = animNameToIndex.find(animName);
+    if(it == animNameToIndex.end()){
+        cout << "warning: animation " << animName << " does not exist" << endl;
+        return 0;
+    }
+    return it->second;
 }
 
 Sprite::~Sprite()

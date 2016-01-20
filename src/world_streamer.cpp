@@ -215,7 +215,6 @@ worldWindow(windowSize)
     fstream fs;
     fs.open("world_folder/world_file.txt", ios::in);
 
-
     int x, y;
     while(fs >> x)
     {
