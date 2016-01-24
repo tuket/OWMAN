@@ -107,6 +107,15 @@ void SpriteStatus::setAnimation(const string& animName)
     }
 }
 
+void SpriteStatus::setAnimation(unsigned animIndex)
+{
+    if(animIndex != currentAnimation)
+    {
+        currentAnimation = animIndex;
+        currentFrame = 0;
+    }
+}
+
 rapidxml::xml_node<>* SpriteStatus::createXmlNode(rapidxml::xml_document<>* doc)
 {
     const string& spriteName = mySprite->getName();

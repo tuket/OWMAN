@@ -33,6 +33,7 @@ public:
 
     unsigned getAnimationIndex()const;
     void setAnimation(const std::string& animName);
+    void setAnimation(unsigned animIndex);
 
     rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 

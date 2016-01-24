@@ -6,6 +6,7 @@
 #include "engine.hpp"
 #include "renderer/sprite_status.hpp"
 #include <string>
+#include <iostream>
 
 using namespace rapidxml;
 using namespace std;
@@ -91,6 +92,7 @@ Entity* EntityFactory::createEntity
         float height_physics = atof( height_physics_node->value() );
         xml_node<> *mass_node = physics_node->first_node("mass");
         float mass = atof( mass_node->value() );
+        cout << "mass: " << mass << endl;
 
         PhysicsComponent* physicsComponent =
         myEngine->getPhysicsSystem()->createPhysicsBox

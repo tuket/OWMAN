@@ -1,6 +1,9 @@
 #include "physics_box_factory.hpp"
 #include "physics_system.hpp"
 #include <Box2D/Box2D.h>
+#include <iostream>
+
+using namespace std;
 
 PhysicsBoxFactory::PhysicsBoxFactory( PhysicsSystem* physicsSystem )
 {
@@ -16,7 +19,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBox( const Vec2f& position, const Ve
     res->scale = scale;
 
     b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
+    bodyDef.type = (mass == 0) ? b2_staticBody : b2_dynamicBody;;
     bodyDef.fixedRotation = true;
     bodyDef.active = true;
     bodyDef.position.Set(position.x, position.y);
@@ -45,7 +48,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBoxKinematic( const Vec2f& position,
     res->scale = scale;
 
     b2BodyDef bodyDef;
-    bodyDef.type = b2_kinematicBody;
+    bodyDef.type = b2_dynamicBody;
     bodyDef.fixedRotation = true;
     bodyDef.active = true;
     bodyDef.position.Set(position.x, position.y);

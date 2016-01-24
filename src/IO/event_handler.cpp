@@ -92,14 +92,29 @@ void EventHandler::handle()
 
     SpriteStatus* spr = ((SpriteStatus*)mc->getGraphicsComponent());
 
-    if(upArrowStatus) vy += v;
-    if(downArrowStatus) vy -= v;
-    if(leftArrowStatus) vx -= v;
-    if(rightArrowStatus) vx += v;
+    if(upArrowStatus)
+    {
+        vy += v;
+        spr->setAnimation("walking_up");
+    }
+    if(downArrowStatus)
+    {
+        vy -= v;
+        spr->setAnimation("walking_down");
+    }
+    if(leftArrowStatus)
+    {
+        vx -= v;
+        spr->setAnimation("walking_left");
+    }
+    if(rightArrowStatus)
+    {
+        vx += v;
+        spr->setAnimation("walking_right");
+    }
     float len = sqrt(vx*vx + vy*vy);
     if(len > 0)
     {
-        spr->setAnimation("walking_down");
         vx /= len;
         vy /= len;
         vx *= v;
@@ -107,7 +122,9 @@ void EventHandler::handle()
     }
     else
     {
-        spr->setAnimation("stand_down");
+        unsigned animIndex = spr->getAnimationIndex();
+        animIndex %= 4;
+        spr->setAnimation(animIndex);
     }
 
     mc->getPhysicsComponent()->setSpeed( Vec2f(vx, vy) );
