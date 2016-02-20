@@ -19,7 +19,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBox( const Vec2f& position, const Ve
     res->scale = scale;
 
     b2BodyDef bodyDef;
-    bodyDef.type = (mass == 0) ? b2_staticBody : b2_dynamicBody;;
+    bodyDef.type = (mass == 0) ? b2_staticBody : b2_dynamicBody;
     bodyDef.fixedRotation = true;
     bodyDef.active = true;
     bodyDef.position.Set(position.x, position.y);
@@ -31,6 +31,7 @@ PhysicsBox* PhysicsBoxFactory::createPhysicsBox( const Vec2f& position, const Ve
 
     b2FixtureDef fixtureDef;
     fixtureDef.density = mass/(scale.x*scale.y);
+    fixtureDef.restitution = 0.5;
     fixtureDef.shape = &shape;
 
     res->body->CreateFixture(&fixtureDef);

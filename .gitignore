@@ -1,5 +1,6 @@
 /src/resource_manager/resource_texture_factory.o
 *.o
+<<<<<<< HEAD
 bin/world_folder
 bin/Debug
 *.depend
@@ -13,3 +14,10 @@ doc/be.log
 doc/be.out
 doc/be.synctex.gz
 doc/be.toc
+=======
+*.toc
+*.aux
+*.log
+*.out
+*.synctex.gz
+>>>>>>> d1b3502c3f8e72e4442cc7b52ad32ca191ab8a11
