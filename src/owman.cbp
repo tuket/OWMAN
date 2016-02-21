@@ -206,6 +206,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="physics/physics_circle.cpp" />
+		<Unit filename="physics/physics_circle.hpp" />
+		<Unit filename="physics/physics_circle_factory.cpp" />
+		<Unit filename="physics/physics_circle_factory.hpp" />
 		<Unit filename="physics/physics_component.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

@@ -1,25 +1,25 @@
-#ifndef PHYSICS_BOX
-#define PHYSICS_BOX
+#ifndef PHYSICS_CIRCLE
+#define PHYSICS_CIRCLE
 
 #include "physics_component.hpp"
 #include <Box2D/Box2D.h>
 #include "../math/vec2f.hpp"
 
-class PhysicsBoxFactory;
+class PhysicsCircleFactory;
 
 
 /**
- * This class represents a box shaped physics body.
+ * This class represents a circular shaped physics body.
  */
 
-class PhysicsBox : public PhysicsComponent
-{
+ class PhysicsCircle : public PhysicsComponent
+ {
 
-    friend class PhysicsBoxFactory;
+    friend class PhysicsCircleFactory;
 
-    Vec2f scale;
+    float radius;
 
-    PhysicsBox(){}
+    PhysicsCircle(){}
 
 public:
 
@@ -30,13 +30,13 @@ public:
      */
     rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
 
-    virtual ~PhysicsBox(){}
+    virtual ~PhysicsCircle(){}
 
     /** \brief this will call to the corresponding PhysicsSystem function \
      * in charge of deleting this PhysicsComponent
      */
     void destroyDispatcher();
 
-};
+ };
 
-#endif
+#endif // PHYSICS_CIRCLE
