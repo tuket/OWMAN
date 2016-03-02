@@ -1,0 +1,67 @@
+<sprite>
+
+<textures>
+	<tex id="m0">mew_0.png</tex>
+	<tex id="m1">mew_1.png</tex>
+	<tex id="m2">mew_2.png</tex>
+	<tex id="m3">mew_3.png</tex>
+	<tex id="m4">mew_4.png</tex>
+	<tex id="m5">mew_5.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand">
+		<frame>
+			<tex>m0</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>17</w> <h>29</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>m1</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>17</w> <h>29</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>m2</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>17</w> <h>29</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+				<tex>m3</tex>
+				<rect>
+					<x>0</x> <y>0</y>
+					<w>17</w> <h>29</h>
+				</rect>
+				<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>m4</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>17</w> <h>29</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>m5</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>17</w> <h>29</h>
+			</rect>
+			<time>20</time>
+		</frame>
+	</anim>
+</animations>
+
+</sprite>
+

@@ -1,7 +1,7 @@
 <sprite>
-	
+
 <textures>
-	<tex id="sp1">trees.png</tex>
+	<tex id="sp1">crater.png</tex>
 </textures>
 
 <animations>
@@ -10,8 +10,8 @@
 		<frame>
 			<tex>sp1</tex>
 			<rect>
-				<x>203</x> <y>0</y>
-				<w>38</w> <h>128</h>
+				<x>0</x> <y>0</y>
+				<w>54</w> <h>47</h>
 			</rect>
 			<time>1</time>
 		</frame>

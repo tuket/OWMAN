@@ -1,0 +1,294 @@
+<sprite>
+
+<textures>
+	<tex id="b0">bird/bird_0.png</tex>
+	<tex id="b1">bird/bird_1.png</tex>
+	<tex id="b2">bird/bird_2.png</tex>
+	<tex id="b3">bird/bird_3.png</tex>
+	<tex id="b4">bird/bird_4.png</tex>
+	<tex id="b5">bird/bird_5.png</tex>
+	<tex id="b6">bird/bird_6.png</tex>
+	<tex id="b7">bird/bird_7.png</tex>
+	<tex id="b8">bird/bird_8.png</tex>
+	<tex id="b9">bird/bird_9.png</tex>
+	<tex id="b10">bird/bird_10.png</tex>
+	<tex id="b11">bird/bird_11.png</tex>
+	<tex id="b12">bird/bird_12.png</tex>
+	<tex id="b13">bird/bird_13.png</tex>
+	<tex id="b14">bird/bird_14.png</tex>
+	<tex id="b15">bird/bird_15.png</tex>
+	<tex id="b16">bird/bird_16.png</tex>
+	<tex id="b17">bird/bird_17.png</tex>
+	<tex id="b18">bird/bird_18.png</tex>
+	<tex id="b19">bird/bird_19.png</tex>
+	<tex id="b20">bird/bird_20.png</tex>
+	<tex id="b21">bird/bird_21.png</tex>
+	<tex id="b22">bird/bird_22.png</tex>
+	<tex id="b23">bird/bird_23.png</tex>
+	<tex id="b24">bird/bird_24.png</tex>
+	<tex id="b25">bird/bird_25.png</tex>
+	<tex id="b26">bird/bird_26.png</tex>
+	<tex id="b27">bird/bird_27.png</tex>
+	<tex id="b28">bird/bird_28.png</tex>
+	<tex id="b29">bird/bird_29.png</tex>
+	<tex id="b30">bird/bird_30.png</tex>
+	<tex id="b31">bird/bird_31.png</tex>
+</textures>
+
+<animations>
+	<anim id="moving">
+		<frame>
+			<tex>b0</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b2</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b3</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b4</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b5</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b6</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b7</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b8</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b9</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b10</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b11</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b12</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b13</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b14</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b15</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b16</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b17</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b18</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b19</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b20</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b21</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b22</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b23</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b24</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b25</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b26</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b27</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b28</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b29</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b30</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+		<frame>
+			<tex>b31</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>0.1</time>
+		</frame>
+	</anim>
+</animations>
+
+</sprite>
+
+
+

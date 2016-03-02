@@ -91,6 +91,7 @@ void Sprite::update()
                 string name = TextureManager::texturesPath + it->second;
                 Texture* res = texMan->getTexture(name);
                 textures.push_back(res);
+                idToIndex[it->first] = i;
                 textureNameToIndex[name] = i;
                 i++;
             }
@@ -145,8 +146,8 @@ void Sprite::update()
 
                     xml_node<>* nodeTex = nodeFrame->first_node("tex");
                     if(0 == nodeTex) throw Exception("no tex provided for frame");
-                    string texName = nodeTex->value();
-                    unsigned texIndex = textureNameToIndex[texName];
+                    string texId = nodeTex->value();
+                    unsigned texIndex = idToIndex[texId];
                     Texture* tex = textures[texIndex];
 
                     xml_node<>* nodeRect = nodeFrame->first_node("rect");

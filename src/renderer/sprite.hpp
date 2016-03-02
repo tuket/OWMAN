@@ -43,6 +43,7 @@ class Sprite
 	std::vector<Texture*> textures;
 
     std::map<std::string, unsigned> animNameToIndex;
+    std::map<std::string, unsigned> idToIndex;
 	std::vector<Animation> animations;
 
     Status status;
