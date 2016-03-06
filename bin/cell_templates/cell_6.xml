@@ -32,7 +32,7 @@
 	<entity>
 		<position>
 			<x>166</x>
-			<y>66</y>
+			<y>55</y>
 		</position>
 		<graphics>
 			<sprite>tree4</sprite>
