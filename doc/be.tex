@@ -316,6 +316,13 @@ For our engine we are going to take a simpler approach and we will assume each n
 
 Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cell (or node). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{game_loop_disk.pdf}
+	\caption{Loading from disk in the main loop.}
+	\label{fig:mainloop}
+\end{figure}
+
 The bottleneck here is the access to disk. Access to disk blocks the CPU and requires some time. So most of the time, when loading a new cell, the CPU would be idle while it could be doing important tasks (e.g. physics simulation or rendering). The solution that is suggested in the article of \emph{Scott Bilas} (and the one we have followed) is to use a separate thread for loading resources from disk. So if our main thread (the one that executes the main loop) needs to load a resource, instead of doing it itself, it asks the background thread to do it. This way, the main thread is never idle when there is job to be done and the secondary thread will be loading from disk at its own pace.
 
 \begin{figure}[H]
@@ -323,6 +330,13 @@ The bottleneck here is the access to disk. Access to disk blocks the CPU and req
 	\includegraphics[scale=0.7]{comic1.pdf}
 	\caption{Two threads talking.}
 	\label{fig:comic1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{game_loop_disk_2.pdf}
+	\caption{Loading from disk is performed by a secondary thread}
+	\label{fig:mainloop2}
 \end{figure}
 
 \section{The architecture of the engine}
@@ -529,6 +543,31 @@ In the requirements section we stated that physics simulation was a main require
 As you can see, floating point numbers are not distributed uniformly. The sampling rate is better for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get further from the origin of coordinates. That affects mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
 
 So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section (\ref{sec:worldstreamer}).
+
+\subsubsection{Alternative approaches}
+There are other approaches to overcome the precision issue.
+
+\begin{itemize}
+
+\item \textbf{Using \emph{double}:} Double precision floating point numbers have a broader range and better accuracy. It would be pretty straightforward to replace \emph{float}s by \emph{double}s. But this is not scalable. What if we need even more accuracy?. Also, some graphics cards might not support \emph{double}s. Therefore, animations and visual feedback would look poor.
+
+\item \textbf{Using fixed-point:} Fixed-point numbers (FPN) have constant precision in all ranges. The range might be too small but we can always use \emph{long} integers for a broader range and better accuracy. We could even use libraries for even greater integers (BigInt), although this would decrease performance. There are drawbacks for this solution. The physics engine might not support FPNs, eventhough we could spend time modifying the source if it is available. The graphics card might not support them (specially with 64-bit). In genaral, since floating point numbers are so extended, it would be difficult to integrate with existing software.
+
+\end{itemize}
+
+\subsubsection{Our approach}
+
+The approach we have chosen has many benefits and the only drawback is that it is a bit diffucult to implement.
+
+Having the origin of coordinates close to the entities allows us to use the most precise range of floating point numbers. In that range, floating-point is even more accurate than fixed-point.
+
+Since we are using the floating-point numbers that most graphics cards are optimized for, we get the best possible performance. And the compatibility is also the best.
+
+We can use any existing software because floating-point is so extended.
+
+When storing entities for persistence, the positions will be relative to the cell they belong to. So any position in the world could be represented as a pair of cell (integer vector) and relative position (float vector). So as long as the cell size keeps small, the precision will be fine. And the integer representation is broad enough for most cases. If 32-bit integers were not enough, you could always use 64-bit or even libraries such as TTMath\cite{workqueue}. With our representation we have good accuracy and unlimited range scalability without droping performance.
+
+The representation that we have used is the same that Scott Bilas suggests\cite{worldbilas}.
 
 \subsection{Resource Manager}
 
@@ -1115,8 +1154,12 @@ The project is hosted in a public repository:\newline \url{https://github.com/tu
 	Game Engine Architecture - Jason Gregory
 	\newline
 	\url{http://www.gameenginebook.com}
-	 
 
+\bibitem{ttmathlink}
+	\hypertarget{ttmathlink}
+	TTMath library
+	\newline
+	\url{http://www.ttmath.org/}
 	
 \end{thebibliography}
 
