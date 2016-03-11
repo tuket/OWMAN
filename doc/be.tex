@@ -12,16 +12,36 @@
 \usepackage{verbatim}
 \usepackage{minted}
 \usepackage{pgfplots}
+\usepackage{fix-cm}
 
 \graphicspath{ {img/} }
+
 \begin{document}
 
-\title{ Open World Streaming: \linebreak
-Automatic memory management in open world games without loading screens. }
-
-\author{Alejandro Juan Pérez \\ \href{mailto:tuketet@gmail.com}{tuketet@gmail.com}}
-
-\maketitle
+\begin{titlepage}
+	\centering
+	\vfill
+	\includegraphics[width=8cm]{upv_logo.png}
+	\includegraphics[width=8cm]{etsinf_logo.png}
+	\vskip2cm
+	
+	{\fontsize{36}{30}\selectfont
+		Open World Streaming:	
+	}
+	\linebreak
+	{\huge
+		
+		Automatic memory management in open world games without loading screens.
+	}
+	\vskip2cm
+	{\Large
+		Alejandro Juan Pérez \\ \href{mailto:tuketet@gmail.com}{tuketet@gmail.com}\\
+		\vskip1cm
+		Supervised by\\Ramón Pascual Mollá Vayá
+		\vskip1cm
+		2015-2016
+	}   
+\end{titlepage}
 
 \newpage
 
@@ -34,19 +54,19 @@ Automatic memory management in open world games without loading screens. }
 
 Open world games are among the most appreciated games by players. They provide users the chance to explore a big world and they are very immersive.  Open world games grant players the freedom to take any decision and enjoy their high interaction.
 
-As you might already know, in open world games the player usually controls an avatar over a big virtual world. So the player that controls the avatar takes its skin and, ideally, gets immersed in the virtual world.
+In open world videogames the player, usually, controls an avatar over a big virtual world. So the player that controls the avatar takes its skin and, ideally, gets immersed in the virtual world.
 
-Sure you know about some of the most famous open world games. Some of them are: \emph{Grad Theft Auto} series (by \emph{Rockstar}), \emph{The Elder Of Scrolls} series (by \emph{Bethesda}), \emph{Minecraft} (by \emph{Mojang}). These games, apart from being very famous, have all been in the top of the best-selling videogames. Let's see some examples. \emph{Minecraft} has sold 19 million copies for the PC platform and it is the most sold PC game ever. Grand Theft Auto V has sold 19 millons copies for the \emph{PS3}, making it the most sold \emph{PS3} game ever. The \emph{Eder Scrolls: Skyrim} has sold 20 millon copies for \emph{PC}, \emph{XBOX} and \emph{PS3}\cite{bestselling}.
+There is a good chance you know about some of the most famous open world games. Some of them are: \emph{Grad Theft Auto} series (by \emph{Rockstar}), \emph{The Elder Of Scrolls} series (by \emph{Bethesda}), \emph{Minecraft} (by \emph{Mojang}). These games, apart from being very famous, have all been in the top of the best-selling videogames. Let's see some examples. \emph{Minecraft} has sold 19 million copies for the PC platform and it is the most sold PC game ever. Grand Theft Auto V has sold 19 millons copies for the \emph{PS3}, making it the most sold \emph{PS3} game ever. The \emph{Eder Scrolls: Skyrim} has sold 20 millon copies for \emph{PC}, \emph{XBOX} and \emph{PS3}\cite{bestselling}.
 
 Therefore, open world games are not only about fun, freedom and high interaction but also a promising business. And as we will see they are technologically challenging.
 
 Despite open world games are well know, the techniques that are applied in their implementation are not. Game studios that are experienced in the implementation of open world games, like \emph{Rockstar}, keep well their secrets. The development of open world game engines requires a great investment.
 
-The purpose of this project is to develop a game engine that will support making open world videogames. Our engine should allow the creation of games with huge worlds and avoid loading screens.
+The purpose of this project is to develop a game engine that will support making open world videogames. Our engine should allow the creation of games with huge worlds and avoid loading screens. There is very few information about the topic (specially at the implementation level). My intention is to gather available information and extend it with my own thoughts and get them to be implemented. Hopefully, this article, and the open source code that comes along with it, will help other people to understand the main concerns they should take when developing open world games.
 
 \section{Open world videogames}
 
-Open world are some kind of videogames in which the player can move freely in a huge virtual world. The structure of the game is not lineal in terms of gameplay. That means, the player has the choice on what to do next. There are some game genres that can benefit a lot from the open world approach. For example role playing games (RPG), sandbox and vehicle simulation.
+Open world are some kind of videogames in which the player can move freely in a huge virtual world. The structure of the game is not linear in terms of gameplay. That means, the player has the choice on what to do next. There are some game genres that can benefit a lot from the open world approach. For example, role playing games (RPG), sandbox and vehicle simulation.
 
 In some open world RPGs, the player can explore the world and complete missions. Some of these missions are not mandatory so the player is allowed to decide whether or not to take them. These is an example of the non-linearity we have been talking about.
 
@@ -135,7 +155,7 @@ The mechanics of this type of games allows to manage the resources of the game i
 
 It is well know that computers(and other gaming devices) usually have two types of memory.
 The first memory is the one we usually call main memory. Main memory is fast and small.
-The second memory is the secondary storage memory. This one is slow and big. Changing of level requires loading all the resources of the next level from secondary memory and, therefore, it is slow. That's why in most level-based games changing of level will pop-up a loading screen.and the player has to wait for a while.
+The second memory is the secondary storage memory. This one is slow and big. Changing of level requires loading all the resources of the next level from secondary memory and, therefore, it is slow. That's why in most level-based games changing of level will pop-up a loading screen and the player has to wait for a while \cite{levelgame}.
 
 \begin{figure}[H]
 	\centering
@@ -146,7 +166,7 @@ The second memory is the secondary storage memory. This one is slow and big. Cha
 
 Some times the designers of the game use the loading screen to give tips to the player.
 
-The approach used by level-based games is not suitable for open world games we need world streaming in order to avoid loading screens. That doesn't mean there are not open world games that use the level-based approach but, probably, the only reason to implement an open world videogame with loading screens is because it is easier.
+The approach used by level-based games is not suitable for open world games, we need world streaming in order to avoid loading screens. That doesn't mean there are not open world games that use the level-based approach but, probably, the only reason to implement an open world videogame with loading screens is because it is easier.
 
 \section{World streaming}
 
@@ -1160,6 +1180,12 @@ The project is hosted in a public repository:\newline \url{https://github.com/tu
 	TTMath library
 	\newline
 	\url{http://www.ttmath.org/}
+	
+\bibitem{levelgame}
+\hypertarget{levelgame}
+Level (video gaming) - Wikipedia
+\newline
+\url{https://en.wikipedia.org/wiki/Level_%28video_gaming%29}
 	
 \end{thebibliography}
 
