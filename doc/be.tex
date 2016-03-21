@@ -112,7 +112,7 @@ We consider these requirements are the main target to accomplish.
 
 \item \textbf{Visualization:} We said that requirements that are common for any game engine will be treated as secondary requirements. But this is an exception. It is very important to have some kind of visual feedback. We need visualization to test our system. Also, it is important in order to prove that our engine is working properly. So we need to implement a graphical interface even if it is not very fancy. The graphics will be 2-dimensional.
 
-\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The trick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set of textures, we must accomplish that each texture is in RAM at most once.
+\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously, we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The trick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set of textures, we must accomplish that each texture is in RAM at most once.
 
 \item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space ~(\ref{sec:precission}).
 
@@ -167,7 +167,7 @@ The second memory is the secondary storage memory. This one is slow and big. Cha
 	\label{fig:loading_sonic}
 \end{figure}
 
-Some times the designers of the game use the loading screen to give tips to the player.
+Sometimes, the designers of the game use the loading screen as a mean to give tips to the player.
 
 The approach used by level-based games is not suitable for open world games, we need world streaming in order to avoid loading screens. That doesn't mean there are not open world games that use the level-based approach but, probably, the only reason to implement an open world videogame with loading screens is because it is easier.
 
@@ -294,7 +294,7 @@ World streaming is a feature present in many of the new-generation videogames. \
 
 \paragraph{\emph{Minecraft} - \emph{Mojang} (2011)}
 
-\emph{Minecraft} is the sandbox MMO that proved that games are not all about graphics.
+\emph{Minecraft} is the sandbox that proved that games are not all about graphics.
 
 \begin{figure}[H]
 	\centering
@@ -339,7 +339,7 @@ For our engine we are going to take a simpler approach and we will assume each n
 
 \subsection{Loading Resources is slow}
 
-Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cell (or node). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
+Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cells (or nodes). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
 
 \begin{figure}[H]
 	\centering
@@ -404,10 +404,10 @@ This graphics module is split in two layers. The first layer is the low-level la
 	\label{fig:renderer}
 \end{figure}
 
-The low-level renderer API is just a reduced set of functions that allows to draw things on the screen. On the other hand the high-level renderer provides a class-based mechanism to define the scene. That is, in the low-level renderer we would say: "draw texture A in position X" and it will be shown on the screen for just this frame. And in the -high-level renderer we would say: "there exists a sprite in X and it has priority P" and it would be drawn on the screen until it is removed.
+The low-level renderer API is just a reduced set of functions that allows to draw things on the screen. On the other hand the high-level renderer provides a class-based mechanism to define the scene. That is, in the low-level renderer we would say: "draw texture A in position X" and it will be shown on the screen for just this frame. And in the high-level renderer we would say: "there exists a sprite in X and it has priority P" and it would be drawn on the screen until it is removed.
 
 \subsubsection{Features}
-The renderer I have implemented is not very sophisticated but works fine for our purpose. Animations are not yet supported(Update: I have implemented a new animation system\ref{"sec:animationsystem"}). You can assign priorities to the sprites in order to define what is drawn on top. There is an abstraction of the camera too. The low-level renderer uses OpenGL ES (embedded systems), so it could be ported to mobile platforms.
+The renderer I have implemented is not very sophisticated but works fine for our purpose. Animations are not yet supported(Update: I have implemented a new animation system [\ref{"sec:animationsystem"}]). You can assign priorities to the sprites in order to define what is drawn on top. There is an abstraction of the camera too. The low-level renderer uses the subset of functions available in OpenGL ES (embedded systems), so it could be ported to mobile platforms.
 
 \subsubsection{Why did I implement my own graphics engine?}
 
@@ -427,7 +427,7 @@ Loading a graphics resource (like a texture) involves these steps:
 
 \item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM is fast enough, so it does not block other tasks.
 
-\item \textbf{Delete the resource in MM.} Once the resource is en VRAM, we do not need it anymore in RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
+\item \textbf{Delete the resource in MM.} Once the resource is in VRAM, we do not need it anymore in RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
 
 \end{itemize}
 
@@ -549,7 +549,7 @@ The physics system we have implemented is not very complex. We have made a small
 
 Our wrapper consists of two main classes: PhysicsComponent and PhysicsSystem. The first one is an abstract class that represents a rigid body. In our engine entities are composed of components and PhysicsComponent is one of them. An entity could have a PhysicsComponent or not.
 
-There is only one implementation of PhysicsComponent: PhysicsBox. It is just a rectangle shaped body. You can assign mass, dimensions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces.
+There are only two implementations of PhysicsComponent: PhysicsBox and PhysicsCircle. PhysicsBox is defined by some and width and height (axially aligned) and PhysicsCircle by the radius . You can assign mass, dimensions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces. Also, if mass 0 is assigned to a body it will be assumed to be static (can't be moved at all).
 
 PhysicsComponent's are created by a request to the PhysicsSystem. When you are done with a PhysicsComponets request its deletion to the PhysicsSystem. The GraphicsSystem and the PhysicsSystem run at the same rate. So in the main loop you only have to call the update function of the two systems.
 
@@ -576,7 +576,7 @@ There are other approaches to overcome the precision issue.
 
 \item \textbf{Using \emph{double}:} Double precision floating point numbers have a broader range and better accuracy. It would be pretty straightforward to replace \emph{float}s by \emph{double}s. But this is not scalable. What if we need even more accuracy?. Also, some graphics cards might not support \emph{double}s. Therefore, animations and visual feedback would look poor.
 
-\item \textbf{Using fixed-point:} Fixed-point numbers (FPN) have constant precision in all ranges. The range might be too small but we can always use \emph{long} integers for a broader range and better accuracy. We could even use libraries for even greater integers (BigInt), although this would decrease performance. There are drawbacks for this solution. The physics engine might not support FPNs, eventhough we could spend time modifying the source if it is available. The graphics card might not support them (specially with 64-bit). In genaral, since floating point numbers are so extended, it would be difficult to integrate with existing software.
+\item \textbf{Using fixed-point:} Fixed-point numbers (FPN) have constant precision in all ranges. The range might be too small but we can always use \emph{long} integers for a broader range and better accuracy. We could use libraries for even greater integers (BigInt), although this would decrease performance. There are drawbacks for this solution. The physics engine might not support FPNs, eventhough we could spend time modifying the source if it is available. The graphics card might not support them (specially with 64-bit). In genaral, since floating point numbers are so extended, it would be difficult to integrate with existing software.
 
 \end{itemize}
 
@@ -627,15 +627,15 @@ The resource manager needs to keep track of how many handles are pointing to eac
 
 If one resource needs to be loaded, that request is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
 
-In our implementation there is the abstract class Resource. These are the classes that inherit from Resource:
+In our implementation there is the abstract class Resource. These are some of the classes that inherit from Resource:
 
 \begin{itemize}
 
-\item{\emph{ResourceText.}} It represents a text file on disk. When loaded you will be able to read the file using "getText()".
+\item{\emph{\textbf{ResourceText}}}. It represents a text file on disk. When loaded you will be able to read the file using "\emph{getText()}".
 
-\item{\emph{ResourceTexture}} This is resource that will be required by the sprites. When loaded you can call "getTexture()" and you will be given a "LowLevelRenderer::Texture*".
+\item{\emph{\textbf{ResourceTexture}}}. This is the resource that will be required by the sprites. When loaded you can call "\emph{getTextureData()}" and you will be given a pointer to the raw texture data.
 
-\item{\emph{ResourceCell.}} This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a ResourceCell it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
+\item{\emph{\textbf{ResourceCell}}}. This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a \emph{ResourceCell} it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
 
 \end{itemize}
 
@@ -773,6 +773,9 @@ If you zoom out the camera you will be able to see the boundaries of the visuali
 So if you zoom in enough, the player will not realize that the entities are being loaded a he walks.
 
 You can watch this video of the demo  \url{https://youtu.be/ymecWxF886U}.
+The previous video shows the demo at the time the first performance tests where made.
+
+There it is a video of the engine with the latest features (much better looking) \url{https://vimeo.com/159836286}.
 
 \subsection{Performance}
 
