@@ -754,7 +754,7 @@ The final application consists of a stable game engine. Yet not fully-featured.
 
 \subsection{Demo}
 
-As you can see we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
+As you can see, we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
 
 In order to test our system intensively, we have written an script that generates a random world. We have made our tests with a world of 1 million cells (which is about 4GB of XML files). The files must be located in the "\emph{world\_folder}" directory. In the same folder there is the main character file (\emph{main\_character.xml}). In this file you can configure the appearance, position and other stuff of the main character.
 
@@ -826,7 +826,9 @@ We have found that a window size of three is a good balance between performance 
     \caption{Performance tests.}
 \end{table}
 
-The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. That might be because our tests have been made on a system without dedicated graphics card. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
+The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
+
+A big part (around half of the total) of the time spent during the drawing stage relies in matrix operations. I think there might be a slight margin of improvement in these matrix operations but not much.
 
 Speaking about RAM consumption, the amount of RAM used increases very slowly compared to CPU. That is indeed the prove that our resource manager is taking care of duplicates.
 
@@ -876,22 +878,22 @@ We have successfully integrated graphics and physics.
 
 Physics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wrapped a particular physics engine but all the concepts used are applicable to any other physics engine.
 
-We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied then.
+We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied them.
 
 Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have successfully dealt with it.
 
 The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer if configurable, so it can be adapted to the hardware capabilities.
 
-I was not a main requirement but we also managed so the modifications of the world are persistent. 
+It was not a main requirement but we also managed so the modifications of the world are persistent. 
 
 The code is well documented using doxygen syntax. Hopefully, any developer who is interested in learning or contributing could understand the code and extend the engine.
 
-In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an appropriate engine is a lot of work, but also because a lot of content and resources have to be produced. I said difficult, not impossible. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in a few years.
+In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an appropriate engine is a lot of work, but also because a lot of content and resources have to be produced. But if the proper tools become available to them, that target will get feasible. Also, procedural generation could help developers to fill the world with great content. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in a few years.
 
 \section{Update: animation system}
 \label{"sec:animationsystem"}
 
-The new animation system I have implemented extends the engine and adds some complexity. Also, implementing this feature forced me to refactor the code. Now the engine is performing better, more stable and better organized.
+The new animation system I have implemented extends the engine and adds some complexity. Also, implementing this feature forced me to refactor the code. Now the engine is performing better (in terms of loading times), more stable and better organized.
 
 The animation system is implemented from scratch. The animations are based in frames.
 
@@ -904,7 +906,7 @@ We have created a custom file format based in XML for representing sprites. Spri
 	\label{fig:spriteuml}
 \end{figure}
 
-As you can see, one sprite has at least one animation and each animation has at least one frame. Frames have associated a duration and a rectangular region in a texture. Thanks to having the possibility to refer to a specific region of a texture allows us to use sprite sheets.
+As you can see, one sprite has at least one animation and each animation has at least one frame. Frames have associated a duration and a rectangular region in a texture. Having the possibility to refer to a specific region of a texture allows us to use sprite sheets.
 
 There are a lot of sample sprites in the \emph{bin/sprites} directory. This is a fragment of the sprite that we use as our main character:
 
@@ -986,7 +988,7 @@ In the same way we made sure that no texture is twice in memory, we want to make
 	\label{fig:spritestatusuml}
 \end{figure}
 
-In order to test the animation system I have created a new automatic world generation script. You can find it in "\emph{bin/world\_gens}". This new generator makes better looking worlds. The world is made up of a big set of template cell (can be found at \emph{bin/cell\_templates}). Our generator takes as input a certain number of rows and columns and fills the world with randomly chosen cell templates. This is an example of what we have seen in \ref{sec:contentgen}. In this case we are making a mixture of manually generated content and automatically generated content.
+In order to test the animation system I have created a new automatic world generation script. You can find it in "\emph{bin/world\_gens}". This new generator makes better looking worlds. The world is made up of a big set of template cells (can be found at \emph{bin/cell\_templates}). Our generator takes as input a certain number of rows and columns and fills the world with randomly chosen cell templates. This is an example of what we have seen in \ref{sec:contentgen}. In this case we are making a mixture of manually generated content and automatically generated content.
 
 \begin{figure}[H]
 	\centering
@@ -995,7 +997,7 @@ In order to test the animation system I have created a new automatic world gener
 	\label{fig:animscreenshot}
 \end{figure}
 
-In terms of performance we have performed the same tests we did and it seems that the animation system has not affected at all. The bottleneck keeps being the physics simulation.
+In terms of performance we have performed the same tests we did and it seems that the animation system has not affected at all. The bottleneck keeps being the rendering stage.
 
 \section{Future extensions}
 
@@ -1073,11 +1075,11 @@ The project is hosted in a public repository:\newline \url{https://github.com/tu
 \newline
 \url{www.lonesock.net/soil.html}
 
-\item{\textbf{GLEW.}} Necessary if you want to use modern OpenGL.
+\item{\textbf{GLEW.}} A library that defines the OpenGL extensions.
 \newline
 \url{glew.sourceforge.net}
 
-\item{\textbf{GLM.}} A mathematic library for OpenGL.
+\item{\textbf{GLM.}} A mathematics library for OpenGL.
 \newline
 \url{http://glm.g-truc.net}
 \end{itemize}
