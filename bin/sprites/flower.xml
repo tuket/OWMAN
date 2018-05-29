@@ -1,0 +1,55 @@
+<sprite>
+
+<textures>
+	<tex id="sp0">flower.png</tex>
+</textures>
+
+<animations>
+	<anim id="moving">
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>16</w> <h>16</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>17</x> <y>0</y>
+				<w>16</w> <h>16</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>34</x> <y>0</y>
+				<w>16</w> <h>16</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>51</x> <y>0</y>
+				<w>16</w> <h>16</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>68</x> <y>0</y>
+				<w>16</w> <h>16</h>
+			</rect>
+			<time>0.2</time>
+		</frame>
+	</anim>
+</animations>
+
+</sprite>
+
+
+

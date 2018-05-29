@@ -1,0 +1,47 @@
+<sprite>
+
+<textures>
+	<tex id="c0">castle_0.png</tex>
+	<tex id="c1">castle_1.png</tex>
+	<tex id="c2">castle_2.png</tex>
+	<tex id="c3">castle_3.png</tex>
+</textures>
+
+<animations>
+	<anim id="moving">
+		<frame>
+			<tex>c0</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>102</w> <h>180</h>
+			</rect>
+			<time>0.25</time>
+		</frame>
+		<frame>
+			<tex>c1</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>102</w> <h>180</h>
+			</rect>
+			<time>0.25</time>
+		</frame>
+		<frame>
+			<tex>c2</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>102</w> <h>180</h>
+			</rect>
+			<time>0.25</time>
+		</frame>
+		<frame>
+			<tex>c3</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>102</w> <h>180</h>
+			</rect>
+			<time>0.25</time>
+		</frame>
+	</anim>	
+</animations>
+
+</sprite>

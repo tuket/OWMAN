@@ -5,16 +5,28 @@
 
 using namespace std;
 
-ResourceTexture::ResourceTexture()
+ResourceTexture::ResourceTexture(const string& name)
+:
+    Resource(name)
 {
-	status = Resource::Status::STORED;
 }
 
-LowLevelRenderer2D::Texture* ResourceTexture::getTexture()
+const unsigned char* ResourceTexture::getTextureData()const
 {
-	return &texture;
+    return imageData;
 }
 
+int ResourceTexture::getWidth()const
+{
+    return width;
+}
+
+int ResourceTexture::getHeight()const
+{
+    return height;
+}
+
+/*
 void ResourceTexture::loadToGraphicsCard()
 {
 
@@ -27,13 +39,12 @@ void ResourceTexture::loadToGraphicsCard()
 	SOIL_free_image_data(imageData);
 
 }
+*/
 
 // this function is called by the resource manager thread
 void ResourceTexture::load()
 {
-
-	LowLevelRenderer2D* renderer;
-	renderer = myFactory->getRenderer();
+    status = Status::LOADING;
 
 	imageData =
 	SOIL_load_image
@@ -44,9 +55,6 @@ void ResourceTexture::load()
 		0,					// pointer where num of chanel will be saved
 		SOIL_LOAD_RGBA		// RGB
 	);
-
-	texture.setWidth(width);
-	texture.setHeight(height);
 
 	if(imageData == 0)
 	{
@@ -61,13 +69,13 @@ void ResourceTexture::load()
 void ResourceTexture::free()
 {
 
-	LowLevelRenderer2D* renderer;
-	renderer = myFactory->getRenderer();
-	renderer->destroyTexture(&texture);
+	SOIL_free_image_data(imageData);
 
 }
 
+/*
 void ResourceTexture::destroyDispatcher()
 {
     myFactory->destroyResource(this);
 }
+*/

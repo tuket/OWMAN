@@ -1,7 +1,7 @@
-#include <string>
-
 #ifndef RESOURCE
 #define RESOURCE
+
+#include <string>
 
 /**
  * \brief Abstract resource data class
@@ -9,7 +9,6 @@
  * resource. In order to create a new type of resource
  * just extend from this class
  */
-
 class Resource
 {
 
@@ -39,12 +38,12 @@ protected:
 
 public:
 
-	Resource();
+	Resource(const std::string& name);
 
 	std::string getName()const;
 	Resource::Status getStatus()const;
 
-	virtual void destroyDispatcher() = 0;
+	//virtual void destroyDispatcher() = 0;
 
 	virtual ~Resource(){};
 

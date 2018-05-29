@@ -1,8 +1,8 @@
-#include <pthread.h>
-#include <list>
-
 #ifndef WORK_QUEUE
 #define WORK_QUEUE
+
+#include <pthread.h>
+#include <list>
 
 /**
  * \brief Thread safe queue

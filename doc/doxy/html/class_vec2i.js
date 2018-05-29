@@ -2,6 +2,8 @@ var class_vec2i =
 [
     [ "Vec2i", "class_vec2i.html#ab3aaa1108bd90108d4d036fd8ea2d3b6", null ],
     [ "Vec2i", "class_vec2i.html#aa6b585dddf8cd22acaf9f42a0d91d0ee", null ],
+    [ "Vec2i", "class_vec2i.html#aa5926e03cfb8088ff4ba4e357756348a", null ],
+    [ "Vec2i", "class_vec2i.html#a761a8aad7c3913ffac614a67d80b0ae5", null ],
     [ "operator!=", "class_vec2i.html#ade18ced851c4bf09f069956d3f0676bd", null ],
     [ "operator+", "class_vec2i.html#a5b84792d7c12a1a25fdecd6b20dd9637", null ],
     [ "operator+=", "class_vec2i.html#a83aa608fb193de353489b13eb0ffdb8e", null ],

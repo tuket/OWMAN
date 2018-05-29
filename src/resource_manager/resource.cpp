@@ -1,16 +1,20 @@
 #include "resource.hpp"
 
-Resource::Resource()
+using namespace std;
+
+Resource::Resource(const string& name)
+:
+    name(name)
 {
 	status = Status::STORED;
 }
 
-std::string Resource::getName()const
+string Resource::getName()const
 {
 	return name;
 }
 
-void Resource::setName(std::string name)
+void Resource::setName(string name)
 {
 	this->name = name;
 }

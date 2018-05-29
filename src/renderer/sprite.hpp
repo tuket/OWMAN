@@ -8,77 +8,76 @@
 #include <vector>
 #include "animation.hpp"
 
-#ifndef SPRITE_FACTORY
-class SpriteFactory;
-#endif
-
-#ifndef RESOURCE_TEXTURE
+class SpriteManager;
 class ResourceTexture;
-#endif
-
-#ifndef GRAPHICS_SYSTEM
 class GraphicsSystem;
-#endif
+class Texture;
+class ResourceText;
+class SpriteStatus;
 
 /** \brief Represents a static sprite
  * This sprite has no animations
  */
-class Sprite : public GraphicsComponent
+class Sprite
 {
+
+    enum class Status
+    {
+        START,
+        LOADING_XML,
+        LOADING_TEXTURES,
+        EVERYTHING_LOADED
+    };
 
 	friend class Entity;
 	friend class GraphicsSystem;
+	friend class SpriteManager;
+	friend class SpriteStatus;
 
-	friend class SpriteFactory;
+	SpriteManager* mySpriteManager;
 
-	SpriteFactory* myFactory;
+	std::string name;
+	std::string fileName;
 
-    std::map<std::string, unsigned> textureNameToId;
-	std::vector<ResourceTexture*> resourceTextures;
+    std::map<std::string, unsigned> textureNameToIndex;
+	std::vector<Texture*> textures;
 
+    std::map<std::string, unsigned> animNameToIndex;
+    std::map<std::string, unsigned> idToIndex;
 	std::vector<Animation> animations;
+
+    Status status;
+	ResourceText* resourceText;
+	std::string xmlText;
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root;
 
 public:
 
-	Sprite(SpriteFactory* factory)
-	:GraphicsComponent(),
-	myFactory(factory){}
+	Sprite(SpriteManager* spriteManager, const std::string& name);
 
-	void update(unsigned int delta){}
-	void draw()const;
+	SpriteManager* getSpriteManager();
+	GraphicsSystem* getGraphicsSystem();
 
-    /** \brief return if this components is ready
-     * To be ready means that is has been loaded to video \
-     * memory
+	void update();
+
+    /** \brief return if this component is ready
      */
 	bool isReady()const;
 
-	/** \brief return if this component is loaded
-	 * To be loaded means that it has been loaded to main \
-	 * memory
-	 */
-	bool isLoaded()const;
+	const std::string& getName()const;
 
-    /** \brief load to video memory
-     * Once the resource of this component has been loaded \
-     * into main memory it has to be loaded to video memory \
-     * this functions loads it into video memory
-     */
-	void becomeReady()const;
-
-    /** \brief Creates a graphics XML node
-     * Returns an XML node representing the class itself
-     * \param The XML document
-     * \return The XML node
-     */
-	rapidxml::xml_node<>* createXmlNode(rapidxml::xml_document<>* doc);
+	unsigned getAnimIndex(const std::string& animName)const;
 
 	~Sprite();
 
-    /** \brief this will call to the corresponding GraphicsSystem function \
-     * in charge of deleting this GraphicsComponent
-     */
-	void destroyDispatcher();
+private:
+
+    /**
+    * \brief release all the resources of this sprite
+    * This function is only to be called by SpriteManager::releaseSprite
+    */
+    void release();
 
 };
 

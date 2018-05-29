@@ -79,8 +79,8 @@ def gen_rand_cell():
 
 	return res
 
-for x in xrange(10):
-	for y in xrange(10):
+for x in xrange(1):
+	for y in xrange(1):
 		
 		fileName = "cell_" + str(x) + "_" + str(y) + ".xml"
 	

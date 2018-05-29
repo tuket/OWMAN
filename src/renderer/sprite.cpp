@@ -2,102 +2,240 @@
 #include "graphics_system.hpp"
 #include "../resource_manager/resource_manager.hpp"
 #include "../resource_manager/resource_texture.hpp"
+#include "../resource_manager/resource_text.hpp"
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "../dependencies/rapidxml/rapidxml.hpp"
+#include "../util/exception.hpp"
+#include "sprite_manager.hpp"
 
 using namespace std;
 using namespace rapidxml;
 
+Sprite::Sprite(SpriteManager* spriteManager, const std::string& name)
+{
+    mySpriteManager = spriteManager;
+    this->name = name;
+    this->fileName = SpriteManager::spritesPath + string("/") + name + string(".xml");
+    status = Status::START;
+}
+
+SpriteManager* Sprite::getSpriteManager()
+{
+    return mySpriteManager;
+}
+
+GraphicsSystem* Sprite::getGraphicsSystem()
+{
+    return getSpriteManager()->getGraphicsSystem();
+}
+
 bool Sprite::isReady()const
 {
-	return resourceTexture->getStatus() == Resource::Status::READY;
+	return Status::EVERYTHING_LOADED == status;
 }
 
-bool Sprite::isLoaded()const
+void Sprite::update()
 {
-	return resourceTexture->getStatus() == Resource::Status::LOADED;
-}
-
-void Sprite::becomeReady()const
-{
-	resourceTexture->loadToGraphicsCard();
-}
-
-void Sprite::draw()const
-{
-
-	LowLevelRenderer2D* renderer = myFactory->getGraphicsSystem()->getRenderer();
-	renderer->draw(position, scale, resourceTexture->getTexture());
-
-}
-
-xml_node<>* Sprite::createXmlNode(xml_document<>* doc)
-{
-
-    char* s;
-    xml_node<>* root = doc->allocate_node(node_element, "graphics");
-
-    string textureName = resourceTexture->getName();
-    unsigned int i = textureName.size()-1;
-    while( textureName[i] != '/' && i >= 0 ) i--;
-    if( textureName[i] == '/' ) i++;
-    string tn;
-    while( i < textureName.size() ) tn += textureName[i++];
-
-    s = doc->allocate_string(tn.c_str());
-    xml_node<>* texture_node = doc->allocate_node(node_element, "texture", s);
-    root->append_node( texture_node );
-
-    Vec2f scale = getScale();
-    stringstream ss;
-    ss << scale.x;
-    string width = ss.str();
-
-    ss.str( string() );
-    ss.clear();
-
-    ss << scale.y;
-    string height = ss.str();
-
-    s = doc->allocate_string(width.c_str());
-    xml_node<>* width_node = doc->allocate_node(node_element, "width", s);
-    root->append_node( width_node );
-
-    s = doc->allocate_string(height.c_str());
-    xml_node<>* height_node = doc->allocate_node(node_element, "height", s);
-    root->append_node( height_node );
-
-    if( priority != 0 )
+    if(Status::START == status)
     {
+         ResourceManager* resMan = ResourceManager::getSingleton();
+         resourceText = resMan->obtain<ResourceText>(fileName);
+         status = Status::LOADING_XML;
+    }
+    else if(Status::LOADING_XML == status)
+    {
+        if(Resource::Status::LOADED == resourceText->getStatus())
+        {
+            GraphicsSystem* gs = mySpriteManager->getGraphicsSystem();
+            TextureManager* texMan = gs->getTextureManager();
+            // parse XML
+            xmlText = resourceText->getText();
+            doc.parse<0>((char*)xmlText.c_str());
 
-        ss.str( string() );
-        ss.clear();
+            root = doc.first_node("sprite");
+            if(0 == root) throw Exception("expected <sprite> node");
 
-        ss << priority;
-        string prio = ss.str();
+            // parse textures
+            xml_node<>* nodeTextures = root->first_node("textures");
+            if(0 == nodeTextures) throw Exception("expected <textures> node");
 
-        s = doc->allocate_string( prio.c_str() );
-        xml_node<> *prio_node = doc->allocate_node(node_element, "priority", s);
-        root->append_node( prio_node );
+            xml_node<>* nodeTex = nodeTextures->first_node("tex");
+            if(0 == nodeTex) throw Exception("expected <tex> node");
+
+            map<string, string> idToName;
+            do
+            {
+                xml_attribute<>* attrId = nodeTex->first_attribute("id");
+                string id = string(attrId->value());
+                if(0 == attrId) throw Exception("expected \"id\" attribute in <tex>" );
+                string name = string(nodeTex->value());
+                map<string, string>::iterator it = idToName.find(id);
+                if(it != idToName.end()) throw Exception("there is already a \"tex\" with id="+id);
+                idToName[id] = name;
+                nodeTex = nodeTex->next_sibling("tex");
+            }
+            while(0 != nodeTex);
+
+            textures.reserve( idToName.size() );
+
+            unsigned i = 0;
+            for
+            (
+                map<string, string>::iterator it = idToName.begin();
+                it != idToName.end();
+                ++it
+            )
+            {
+                string name = TextureManager::texturesPath + it->second;
+                Texture* res = texMan->getTexture(name);
+                textures.push_back(res);
+                idToIndex[it->first] = i;
+                textureNameToIndex[name] = i;
+                i++;
+            }
+
+            status = Status::LOADING_TEXTURES;
+
+        }
 
     }
+    else if(Status::LOADING_TEXTURES == status)
+    {
+        bool allLoaded = true;
+        for(unsigned i=0; i<textures.size(); i++)
+        {
+            if(textures[i]->isReady() == false)
+            {
+                allLoaded = false;
+                break;
+            }
+        }
 
-    return root;
+        if(allLoaded)
+        {
 
+            // we are parsing the animations after the textures are loaded because we
+            // need to know the dimensions of the textures
+            xml_node<>* nodeAnimations = root->first_node("animations");
+            if(0 == nodeAnimations) throw Exception("expected animations node");
+
+            unsigned animIndex = 0;
+            xml_node<>* nodeAnim = nodeAnimations->first_node("anim");
+            if(0 == nodeAnim) throw Exception("you must provide at least one anim node");
+
+            do
+            {
+
+                xml_attribute<>* attribAnimName = nodeAnim->first_attribute("id");
+                if(0 == attribAnimName) throw Exception("no id provided for anim");
+                string animName = string(attribAnimName->value());
+
+                xml_node<>* nodeFrame = nodeAnim->first_node("frame");
+                if(0 == nodeFrame)
+                {
+                    throw Exception("you must provide at least one frame per anim");
+                }
+
+                Animation anim;
+                anim.name = animName;
+
+                do
+                {
+
+                    xml_node<>* nodeTex = nodeFrame->first_node("tex");
+                    if(0 == nodeTex) throw Exception("no tex provided for frame");
+                    string texId = nodeTex->value();
+                    unsigned texIndex = idToIndex[texId];
+                    Texture* tex = textures[texIndex];
+
+                    xml_node<>* nodeRect = nodeFrame->first_node("rect");
+                    if(0 == nodeRect) throw Exception("no rect provided for frame");
+                    AARect rect;
+                        xml_node<>* nodeX = nodeRect->first_node("x");
+                        if(0 == nodeX) throw Exception("no x provided for rect");
+                        rect.x = atof(nodeX->value()) / tex->getWidth();
+
+                        xml_node<>* nodeY = nodeRect->first_node("y");
+                        if(0 == nodeY) throw Exception("no y provided for rect");
+                        rect.y = atof(nodeY->value()) / tex->getHeight();
+
+                        xml_node<>* nodeW = nodeRect->first_node("w");
+                        if(0 == nodeW) throw Exception("no w provided for rect");
+                        rect.w = atof(nodeW->value()) / tex->getWidth();
+
+                        xml_node<>* nodeH = nodeRect->first_node("h");
+                        if(0 == nodeH) throw Exception("no h provided for rect");
+                        rect.h = atof(nodeH->value()) / tex->getHeight();
+
+
+                    xml_node<>* nodeTime = nodeFrame->first_node("time");
+                    if(0 == nodeTime) throw Exception("no time provided for this frame");
+                    float time = atof(nodeTime->value());
+
+                    AnimationFrame frame;
+                    frame.textureIndex = texIndex;
+                    frame.vbo = LowLevelRenderer2D::SpriteVbo(rect);
+                    frame.frameDuration = time;
+                    anim.frames.push_back(frame);
+
+                    nodeFrame = nodeFrame->next_sibling("frame");
+
+                }
+                while(0 != nodeFrame);
+
+                /*
+                if(name == "grass")
+                {
+                    cout << xmlText << endl;
+                    cout << anim.frames.size() << endl;
+                }
+                */
+
+                animations.push_back(anim);
+                animNameToIndex[animName] = animIndex;
+                animIndex++;
+                nodeAnim = nodeAnim->next_sibling("anim");
+
+            }
+            while(0 != nodeAnim);
+
+            ResourceManager* resMan = ResourceManager::getSingleton();
+            resMan->release(resourceText);
+            doc.clear();
+            xmlText.clear();
+
+            status = Status::EVERYTHING_LOADED;
+        }
+    }
+}
+
+const std::string& Sprite::getName()const
+{
+    return name;
+}
+
+unsigned Sprite::getAnimIndex(const string& animName)const
+{
+    map<string, unsigned>::const_iterator it = animNameToIndex.find(animName);
+    if(it == animNameToIndex.end()){
+        cout << "warning: animation " << animName << " does not exist" << endl;
+        return 0;
+    }
+    return it->second;
 }
 
 Sprite::~Sprite()
 {
 
-	ResourceManager* resourceManager = ResourceManager::getSingleton();
-	resourceManager->releaseTexture( resourceTexture );
-
 }
 
-void Sprite::destroyDispatcher()
+void Sprite::release()
 {
-
-    myGraphicsSystem->destroySprite( this );
-
+    TextureManager* texMan = getGraphicsSystem()->getTextureManager();
+    for(Texture* tex : textures)
+    {
+        texMan->releaseTexture(tex);
+    }
 }

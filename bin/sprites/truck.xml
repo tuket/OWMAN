@@ -1,0 +1,23 @@
+<sprite>
+
+<textures>
+	<tex id="sp1">truck.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>51</w> <h>42</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+</animations>
+
+</sprite>
+

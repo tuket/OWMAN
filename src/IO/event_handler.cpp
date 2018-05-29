@@ -1,6 +1,7 @@
 #include "event_handler.hpp"
 #include "../engine.hpp"
 #include "../physics/physics_component.hpp"
+#include "../renderer/sprite_status.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -10,12 +11,14 @@ EventHandler::EventHandler( Engine* engine )
 {
     this->engine = engine;
 	SDL_Init(SDL_INIT_EVENTS);
+	for(unsigned i=0; i<4; i++) arrowKeysPressed[i] = false;
 }
 
 void EventHandler::handle()
 {
 
     Entity* mc = engine->getMainCharacter();
+    static const float v = 2000;
     float vx = 0;
     float vy = 0;
 
@@ -52,26 +55,77 @@ void EventHandler::handle()
                 break;
 
                 case SDLK_UP:
-                    vy += 2000;
+                    upArrowStatus = true;
                 break;
                 case SDLK_DOWN:
-                    vy -= 2000;
+                    downArrowStatus = true;
                 break;
                 case SDLK_LEFT:
-                    vx -= 2000;
+                    leftArrowStatus = true;
                 break;
                 case SDLK_RIGHT:
-                    vx += 2000;
+                    rightArrowStatus = true;
                 break;
+			}
+        break;
 
-                default:
-                    vx = 0;
-                    vy = 0;
-
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym) {
+                case SDLK_UP:
+                    upArrowStatus = false;
+                break;
+                case SDLK_DOWN:
+                    downArrowStatus = false;
+                break;
+                case SDLK_LEFT:
+                    leftArrowStatus = false;
+                break;
+                case SDLK_RIGHT:
+                    rightArrowStatus = false;
+                break;
 			}
         break;
 
 	}
+
+    if(!mc->getGraphicsComponent()->isReady()) return;
+
+    SpriteStatus* spr = ((SpriteStatus*)mc->getGraphicsComponent());
+
+    if(upArrowStatus)
+    {
+        vy += v;
+        spr->setAnimation("walking_up");
+    }
+    if(downArrowStatus)
+    {
+        vy -= v;
+        spr->setAnimation("walking_down");
+    }
+    if(leftArrowStatus)
+    {
+        vx -= v;
+        spr->setAnimation("walking_left");
+    }
+    if(rightArrowStatus)
+    {
+        vx += v;
+        spr->setAnimation("walking_right");
+    }
+    float len = sqrt(vx*vx + vy*vy);
+    if(len > 0)
+    {
+        vx /= len;
+        vy /= len;
+        vx *= v;
+        vy *= v;
+    }
+    else
+    {
+        unsigned animIndex = spr->getAnimationIndex();
+        animIndex %= 4;
+        spr->setAnimation(animIndex);
+    }
 
     mc->getPhysicsComponent()->setSpeed( Vec2f(vx, vy) );
 

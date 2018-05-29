@@ -1,0 +1,22 @@
+<sprite>
+
+<textures>
+	<tex id="sp1">grass_3.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>250</w> <h>250</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+</animations>
+
+</sprite>

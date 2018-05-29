@@ -13,7 +13,7 @@
    height="527.63971"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="level_loading_mechanics.svg">
   <defs
      id="defs4">
@@ -73,10 +73,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="965"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-width="1301"
+     inkscape:window-height="744"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -341,7 +341,7 @@
            height="674.28571"
            x="-192.85715"
            y="-71.923531" /></flowRegion><flowPara
-         id="flowPara5630"></flowPara></flowRoot>    <text
+         id="flowPara5630" /></flowRoot>    <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="276"

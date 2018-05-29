@@ -1,13 +1,13 @@
 #include "resource_text.hpp"
-#include "resource_text_factory.hpp"
 #include <fstream>
 #include <iostream>
 
 using namespace std;
 
-ResourceText::ResourceText()
+ResourceText::ResourceText(const string& name)
+:
+    Resource(name)
 {
-	status = Resource::Status::STORED;
 }
 
 std::string ResourceText::getText()const
@@ -17,6 +17,8 @@ std::string ResourceText::getText()const
 
 void ResourceText::load()
 {
+
+    status = Status::LOADING;
 
 	fstream fs;
 	fs.open(name.c_str(), fstream::in);
@@ -43,7 +45,9 @@ void ResourceText::free()
 
 }
 
+/*
 void ResourceText::destroyDispatcher()
 {
     myFactory->destroyResource(this);
 }
+*/

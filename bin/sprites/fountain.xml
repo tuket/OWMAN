@@ -1,0 +1,30 @@
+<sprite>
+
+<textures>
+	<tex id="sp0">fountain.png</tex>
+</textures>
+
+<animations>
+	<anim id="moving">
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>0</x> <y>0</y>
+				<w>66</w> <h>104</h>
+			</rect>
+			<time>0.32</time>
+		</frame>
+		<frame>
+			<tex>sp0</tex>
+			<rect>
+				<x>75</x> <y>0</y>
+				<w>66</w> <h>104</h>
+			</rect>
+			<time>0.32</time>
+		</frame>
+	</anim>
+</animations>
+
+</sprite>
+
+

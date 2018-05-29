@@ -12,16 +12,65 @@
 \usepackage{verbatim}
 \usepackage{minted}
 \usepackage{pgfplots}
+\usepackage{fix-cm}
 
 \graphicspath{ {img/} }
+
 \begin{document}
 
-\title{ Open World Streaming: \linebreak
-Automatic memory management in open world games without loading screens. }
-
-\author{Alejandro Juan Pérez \\ \href{mailto:tuketet@gmail.com}{tuketet@gmail.com}}
-
-\maketitle
+\begin{titlepage}
+	\centering
+	\vfill
+	
+	\begin{figure}[!tbp]
+		\centering
+		\begin{minipage}[b]{0.4\textwidth}
+			\includegraphics[width=6cm]{upv_logo.png}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[b]{0.4\textwidth}
+			\includegraphics[width=6cm]{etsinf_logo.png}
+		\end{minipage}
+	\end{figure}
+	
+	
+	\vskip1cm
+	{\Large
+		Escola Tècnica Superior d'Enginyeria Informàtica
+		
+		Universitat Politècnica de València
+	}
+	
+	\vskip2cm
+	
+	{\fontsize{36}{30}\selectfont
+		Open World Streaming:	
+	}
+	
+	{\huge
+		
+		Automatic memory management in open world games without loading screens.
+	}
+	\vskip2cm
+	
+	{\Large
+		Trabajo Fin de Grado
+		
+		Grado en Ingeniería Informática
+	}
+	
+	\vskip2cm
+	
+	\begin{flushright}
+	{\Large
+		Alejandro Juan Pérez \\ \href{mailto:tuketet@gmail.com}{tuketet@gmail.com}\\
+		\vskip1cm
+		Supervised by\\Ramón Pascual Mollá Vayá
+		\vskip1cm
+		2015-2016
+	}
+	\end{flushright}   
+\end{titlepage}
 
 \newpage
 
@@ -34,19 +83,66 @@ Automatic memory management in open world games without loading screens. }
 
 Open world games are among the most appreciated games by players. They provide users the chance to explore a big world and they are very immersive.  Open world games grant players the freedom to take any decision and enjoy their high interaction.
 
-As you might already know, in open world games the player usually controls an avatar over a big virtual world. So the player that controls the avatar takes its skin and, ideally, gets immersed in the virtual world.
+In open world videogames the player, usually, controls an avatar over a big virtual world. So the player that controls the avatar takes its skin and, ideally, gets immersed in the virtual world.
 
-Sure you know about some of the most famous open world games. Some of them are: \emph{Grad Theft Auto} series (by \emph{Rockstar}), \emph{The Elder Of Scrolls} series (by \emph{Bethesda}), \emph{Minecraft} (by \emph{Mojang}). These games, apart from being very famous, have all been in the top of the best-selling videogames. Let's see some examples. \emph{Minecraft} has sold 19 million copies for the PC platform and it is the most sold PC game ever. Grand Theft Auto V has sold 19 millons copies for the \emph{PS3}, making it the most sold \emph{PS3} game ever. The \emph{Eder Scrolls: Skyrim} has sold 20 millon copies for \emph{PC}, \emph{XBOX} and \emph{PS3}\cite{bestselling}.
+There is a good chance you know about some of the most famous open world games. Some of them are: \emph{Grad Theft Auto} series \footnote{\emph{Grand Theft Auto} is a series of games produced by \emph{Rockstar}}
+, \emph{The Elder Scrolls} series \footnote{\emph{The Elder Scrolls} is a series of games produced by \emph{Bethesda}} or
+\emph{Minecraft} \footnote{\emph{Minecraft} is a sandbox game produced by \emph{Mojang}}.
+These games, apart from being very famous, they have all been in the top of the best-selling videogames\cite{bestselling}.
 
+\begin{itemize}
+\item \emph{Minecraft} has sold 19 million copies for the PC platform and it is the most sold PC game ever.
+
+\item \emph{Grand Theft Auto V} has sold 19 millons copies for the \emph{PS3}, making it the most sold \emph{PS3} game ever.
+
+\item \emph{The Eder Scrolls: Skyrim} has sold 20 millon copies for \emph{PC}, \emph{XBOX} and \emph{PS3}.
+\end{itemize}
+  
 Therefore, open world games are not only about fun, freedom and high interaction but also a promising business. And as we will see they are technologically challenging.
 
 Despite open world games are well know, the techniques that are applied in their implementation are not. Game studios that are experienced in the implementation of open world games, like \emph{Rockstar}, keep well their secrets. The development of open world game engines requires a great investment.
 
-The purpose of this project is to develop a game engine that will support making open world videogames. Our engine should allow the creation of games with huge worlds and avoid loading screens.
+The purpose of this project is to develop a game engine that will support making open world videogames. Our engine should allow the creation of games with huge worlds and avoid loading screens. There is very few information about the topic (specially at the implementation level). My intention is to gather available information and extend it with my own thoughts and get them to be implemented. Hopefully, this article, and the open source code that comes along with it, will help other people to understand the main concerns they should take when developing open world games.
+
+\section{Open world videogames}
+
+Open world are some kind of videogames in which the player can move freely in a huge virtual world. The structure of the game is not linear in terms of gameplay. That means, the player has the choice on what to do next. There are some game genres that can benefit a lot from the open world approach. For example, role playing games (RPG)\footnote{\url{https://en.wikipedia.org/wiki/Role-playing\_video\_game}}, sandbox\footnote{\url{https://en.wikipedia.org/wiki/Glossary\_of\_video\_game\_terms\#Sandbox\_game}} and vehicle simulation\footnote{\url{https://en.wikipedia.org/wiki/Vehicle\_simulation\_game}} are enhanced when convined with a big open world.
+
+In some open world RPGs, the player can explore the world and complete missions. Some of these missions are not mandatory so the player is allowed to decide whether or not to take them. These is an example of the non-linearity we have been talking about.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.62]{farcry3.jpeg}
+	\caption{Far Cry 3 is a RPG featuring an open world}
+	\label{fig:farcry3}
+\end{figure}
+
+In an open world vehicle simulation videogame, the player would be free to drive around a big city or the long roads of the country side.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{eurotruck.jpg}
+	\caption{Euro Truck Simulator is a driving simulator with a realistic open world}
+	\label{fig:eurotruck}
+\end{figure}
+
+\subsection{Content generation}
+\label{sec:contentgen}
+
+Since open world games have such a big universe, there must be a lot of content to fill up all that space. It is required to have a lot of people creating that content (programmers, designers, artists...). Sometimes, when there are not so many human resources available, it is a good choice to generate the world procedurally. Therefore, we can get help from the computers in order to fill the world with fun content. Most of the times, there is a mixture of procedurally generated content and artists content. But there are some games where the content generated by algorithms is predominant. Having the computers to do such a costly task is an advantage for indie game studios because they can not afford hiring so much people. \emph{No Man's Sky}\footnote{\emph{No Man's Sky} is a game produced by \emph{Hello Games}} is an example of a videogame with a procedurally generated world developed by a small team.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.52]{nomanssky.jpg}
+	\caption{\emph{No Man's Sky} is a videogame with a potentially unending open world (procedurally generated)}
+	\label{fig:nomanssky}
+\end{figure}
+
+Whether or not the content of open world games has been generated by a computer or a human, there is a common trend in the latest open world videogames: there are less and less loading screens. The videogame designers are trying to avoid loading screens when possible, so the player doesn't have to wait and has his immersion feeling increased. This is accomplished thanks to a techniche called world streaming. This is the main focus of this document.
 
 \section{Requirements}
 
-So we are willing to make a game engine that supports the development of open world games. We are going to focus on the requirements that are more specific for open world games. And requirements that are common for most game engines will be left as secondary requirements.
+So we are willing to make a game engine that supports the development of open world games and avoids loading screens. We are going to focus on the requirements that are more specific for open world games. And requirements that are common for most game engines will be left as secondary requirements.
 
 \subsection{Main requirements}
 
@@ -56,7 +152,7 @@ We consider these requirements are the main target to accomplish.
 
 \item \textbf{Visualization:} We said that requirements that are common for any game engine will be treated as secondary requirements. But this is an exception. It is very important to have some kind of visual feedback. We need visualization to test our system. Also, it is important in order to prove that our engine is working properly. So we need to implement a graphical interface even if it is not very fancy. The graphics will be 2-dimensional.
 
-\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The trick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set of textures, we must accomplish that each texture is in RAM at most once.
+\item \textbf{Memory management:} If there is one thing that characterizes open world games is that they usually have very big worlds. These worlds have a huge amounts of data (entities, textures, meshes, sound, etc). Some of this games require several tens of gigabytes of compressed data in secondary disk. Obviously, we can not expect our users to have that much RAM capacity. The main challenge will be to keep memory consumption to a minimum while not compromising playability or quality. The trick we are going to use is to load into main memory only the things that are closer to the player. Another thing that we will do is to avoid duplicated resources in RAM. For example, there are is a forest that has many trees that share the same set of textures, we must accomplish that each texture is in RAM at most once.
 
 \item \textbf{Accurate physics simulation:} Again, this is a feature that most game engines incorporate. But it is important as a main requirement because accuracy in open world games carry challenges that must be solved. We will talk about this topic later because it is complex and requires its own space ~(\ref{sec:precission}).
 
@@ -102,7 +198,7 @@ The mechanics of this type of games allows to manage the resources of the game i
 
 It is well know that computers(and other gaming devices) usually have two types of memory.
 The first memory is the one we usually call main memory. Main memory is fast and small.
-The second memory is the secondary storage memory. This one is slow and big. Changing of level requires loading all the resources of the next level from secondary memory and, therefore, it is slow. That's why in most level-based games changing of level will pop-up a loading screen.and the player has to wait for a while.
+The second memory is the secondary storage memory. This one is slow and big. Changing of level requires loading all the resources of the next level from secondary memory and, therefore, it is slow. That's why in most level-based games changing of level will pop-up a loading screen and the player has to wait for a while \cite{levelgame}.
 
 \begin{figure}[H]
 	\centering
@@ -111,15 +207,15 @@ The second memory is the secondary storage memory. This one is slow and big. Cha
 	\label{fig:loading_sonic}
 \end{figure}
 
-Some times the designers of the game use the loading screen to give tips to the player.
+Sometimes, the designers of the game use the loading screen as a mean to give tips to the player.
 
-The approach used by level-based games is not useful for open world games we need world streaming in order to avoid loading screens.
+The approach used by level-based games is not suitable for open world games, we need world streaming in order to avoid loading screens. That doesn't mean there are not open world games that use the level-based approach but, probably, the only reason to implement an open world videogame with loading screens is because it is easier.
 
 \section{World streaming}
 
-World streaming consists on loading game resources on demand. The concept is very similar to video streaming. In video streaming the data is sent from disk or from the network as it is needed. So in world streaming the game contents are taken from the disk (or from the network) to main memory as they are needed.
+World streaming consists on loading game resources and entities on demand. The concept is very similar to video streaming. In video streaming the data is sent from disk or from the network as it is needed. So in world streaming the game contents are taken from the disk (or from the network) to main memory as they are needed.
 In contrast to video streaming, world streaming is not as straightforward. In video streaming the data is sequential, that is, you know what comes after. World streaming is different because what comes next depends on what the user does. So we must have the data prepared for all the decisions the user can make.
-Imagine the case of platform game such as \emph{Terraria}. \emph{Terraria} is a 2D game that has an enormous map.
+Imagine the case of a platform game such as \emph{Terraria}\footnote{\emph{Terraria} is a sandbox game by \emph{Re-Logic}}. \emph{Terraria} is a 2D game that has an enormous map.
 
 \begin{figure}[H]
 	\centering
@@ -136,6 +232,8 @@ In \emph{Terraria} the player can move in four directions (up, down, left, right
 Companies, such as \emph{Rockstar}, know that world streaming is the technology that supports their success.
 
 In this section we are going to show some of the most relevant games supported by the world streaming technology.
+
+It is pretty easy to find out whether a game is using some kind of world streaming or not. First of all, the game uses less RAM than the size it takes in secondary storage. This would mean that not all the content of the game is loaded at start up (which could be the case in small sized games like Retro City Rampage DX\cite{retrocitysmall}). The second characteristic that identifies games using streaming is the lack of loading screens when moving around (there can be still some loading screens like the first one and when taking portals).
 
 \paragraph{\emph{Hunter} - Paul Holmes (1991)}
 
@@ -178,7 +276,7 @@ The game was released in 1997 for \emph{PC} and \emph{PlayStation}, and in 1998 
 	\label{fig:midnight1}
 \end{figure}
 
-This first \emph{Midnight Club} was released in the same year that the \emph{PS2} (\emph{PlayStation 2}) was commercialised. The acceptance of the public was good but sells were less than expected. One year later they released the \emph{GBA} version which was rated poorly. Despite of its unfortunate sales this game is the one that started a successful saga.
+This first \emph{Midnight Club} was released in the same year that the \emph{PS2} (\emph{PlayStation 2}) was commercialised. The acceptance of the public was good but sells were less than expected. One year later, they released the \emph{GBA} version which was rated poorly. Despite of its unfortunate sales, this game is the one that started a successful saga.
 
 \paragraph{\emph{Dungeon Siege} - \emph{Gas Powered Games} (2002)}
 
@@ -236,7 +334,7 @@ World streaming is a feature present in many of the new-generation videogames. \
 
 \paragraph{\emph{Minecraft} - \emph{Mojang} (2011)}
 
-\emph{Minecraft} is the sandbox MMO that proved that games are not all about graphics.
+\emph{Minecraft} is the sandbox that proved that games are not all about graphics.
 
 \begin{figure}[H]
 	\centering
@@ -281,7 +379,14 @@ For our engine we are going to take a simpler approach and we will assume each n
 
 \subsection{Loading Resources is slow}
 
-Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cell (or node). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
+Imagine that we have implemented our strategy and in a given moment the player has changed of node. We will have to load to main memory all the entities that are located in the new adjacent cells (or nodes). That implies: loading from disk the file that describes that cell, parsing that file in order to find the entities, loading all the resources that are required by the entities and finally creating the entities. So when the node had been loaded you would realize that you have spent 1 second (or much more) and in this time you haven't rendered a single frame!. This would be perceived by the user as a freeze. Therefore, we have to solve this in some way.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{game_loop_disk.pdf}
+	\caption{Loading from disk in the main loop.}
+	\label{fig:mainloop}
+\end{figure}
 
 The bottleneck here is the access to disk. Access to disk blocks the CPU and requires some time. So most of the time, when loading a new cell, the CPU would be idle while it could be doing important tasks (e.g. physics simulation or rendering). The solution that is suggested in the article of \emph{Scott Bilas} (and the one we have followed) is to use a separate thread for loading resources from disk. So if our main thread (the one that executes the main loop) needs to load a resource, instead of doing it itself, it asks the background thread to do it. This way, the main thread is never idle when there is job to be done and the secondary thread will be loading from disk at its own pace.
 
@@ -290,6 +395,13 @@ The bottleneck here is the access to disk. Access to disk blocks the CPU and req
 	\includegraphics[scale=0.7]{comic1.pdf}
 	\caption{Two threads talking.}
 	\label{fig:comic1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{game_loop_disk_2.pdf}
+	\caption{Loading from disk is performed by a secondary thread}
+	\label{fig:mainloop2}
 \end{figure}
 
 \section{The architecture of the engine}
@@ -332,10 +444,10 @@ This graphics module is split in two layers. The first layer is the low-level la
 	\label{fig:renderer}
 \end{figure}
 
-The low-level renderer API is just a reduced set of functions that allows to draw things on the screen. On the other hand the high-level renderer provides a class-based mechanism to define the scene. That is, in the low-level renderer we would say: "draw texture A in position X" and it will be shown on the screen for just this frame. And in the -high-level renderer we would say: "there exists a sprite in X and it has priority P" and it would be drawn on the screen until it is removed.
+The low-level renderer API is just a reduced set of functions that allows to draw things on the screen. On the other hand the high-level renderer provides a class-based mechanism to define the scene. That is, in the low-level renderer we would say: "draw texture A in position X" and it will be shown on the screen for just this frame. And in the high-level renderer we would say: "there exists a sprite in X and it has priority P" and it would be drawn on the screen until it is removed.
 
 \subsubsection{Features}
-The renderer I have implemented is not very sophisticated but works fine for our purpose. Animations are not yet supported. You can assign priorities to the sprites in order to define what is drawn on top. There is an abstraction of the camera too. The low-level renderer uses OpenGL ES (embedded systems), so it could be ported to mobile platforms.
+The renderer I have implemented is not very sophisticated but works fine for our purpose. Animations are not yet supported(Update: I have implemented a new animation system [\ref{"sec:animationsystem"}]). You can assign priorities to the sprites in order to define what is drawn on top. There is an abstraction of the camera too. The low-level renderer uses the subset of functions available in OpenGL ES (embedded systems), so it could be ported to mobile platforms.
 
 \subsubsection{Why did I implement my own graphics engine?}
 
@@ -355,7 +467,7 @@ Loading a graphics resource (like a texture) involves these steps:
 
 \item \textbf{Allocate the resource in video card memory.} To render an object all its resources must be in the memory of the graphics card. To allocate, for instance, a texture in video memory we need to call OpenGL functions. That is the reason this step must be performed by the main thread (only the main thread is allowed to call OpenGL functions). Fortunately, the process copying a resource from RAM to VRAM is fast enough, so it does not block other tasks.
 
-\item \textbf{Delete the resource in MM.} Once the resource is en VRAM, we do not need it anymore in RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
+\item \textbf{Delete the resource in MM.} Once the resource is in VRAM, we do not need it anymore in RAM. This task is not costly and could be performed by any thread. In our implementation it is deleted by the secondary thread because we think it makes more sense that the memory is released by the same thread it was allocated by. Also, in this way the code seems better encapsulated.
 
 \end{itemize}
 
@@ -363,20 +475,20 @@ Most graphics engines provide functions to load graphics resources. And these fu
 
 \paragraph{I had personal interest in learning modern OpenGL.}
 
-Also, I wanted an excuse to learn modern OpenGL features like shaders. The version of OpenGL I used is OpenGL ES 2.0. This version of OpenGL is compatible with embedded systems like smartphones. In this version you are forced to use shaders because all the fixed pipeline functionality has been removed. I will dedicate a section to explain briefly how to use shaders in modern OpenGL.
+Also, I wanted an excuse to learn modern OpenGL features like shaders. The version of OpenGL I used is OpenGL ES 2.0. This version of OpenGL is compatible with embedded systems, smartphones and tablets. In this version you are forced to use shaders because all the fixed pipeline functionality has been removed. I will dedicate a section to explain briefly how to use shaders in modern OpenGL.
 
 \subsubsection{Modern OpenGL programming}
 
 I do not pretend to make a tutorial on modern OpenGL nor shaders but just to summarize what I have done.
 I have used only the subset of API that is common to OpenGL 2.1 and OpenGL ES 2.0. In my testings, I used version 2.1, which is the one that runs on PC.
 
-Since OpenGL does not support fixed pipeline functions I had to use shaders. What are shaders? Basically , they are pieces of code that run in the graphics card. They are used to achieve custom visual effects\cite{shader}. In OpenGL shaders are written in a specific programming language called GLSL. GLSL is very similar to C\cite{glsl}].
+Since OpenGL ES does not support fixed pipeline functions I had to use shaders. What are shaders? Basically , they are pieces of code that run in the graphics card. They are used to achieve custom visual effects\cite{shader}. In OpenGL shaders are written in a specific programming language called GLSL. GLSL is very similar to C\cite{glsl}].
 
 There are two types of shader.
 
 \begin{itemize}
 
-\item \textbf{Vertex shader.} Vertex shaders take as input one vertex and gives as output the position (or other properties like normal) that vertex should take. It is used to achieve effects such as mesh deformation. One example where vertex shaders are used is the waves of the ocean. The vertex shader should change the position of vertices  so it fakes the water moving. In our 2D render engine, we do not need the vertex shader to do anything special: it just forwards the position as it is.
+\item \textbf{Vertex shader.} Vertex shaders take as input one vertex and gives as output the position (or other properties like normal and UV coordinates) that vertex should take. It is used to achieve effects such as mesh deformation. One example where vertex shaders are used is the waves of the ocean. The vertex shader should change the position of vertices  so it fakes the water moving. In our 2D render engine, we do not need the vertex shader to do anything special: it just forwards the position as it is.
 
 \begin{minted}{c}
 
@@ -459,7 +571,7 @@ Shaders are compiled at runtime. In the following picture there is a summary of 
 	\label{fig:shad}
 \end{figure}
 
-Once you have built your shader program you can use it at any time. These are the tutorials I read \cite{shadtut} \cite{glmodtut} \cite{learngl}.
+Once you have built your shader program you can use it at any time. These are the tutorials that I have learned from: \cite{shadtut} \cite{glmodtut} \cite{learngl}.
 
 Since in modern OpenGL ES matrix operations (such as \emph{glRotatef()}) have been removed I had to use one geometry library: GLM\cite{glm}. For window management I used SDL2\cite{glm}. And for texture loading I employed SOIL\cite{soil}.
 
@@ -477,7 +589,7 @@ The physics system we have implemented is not very complex. We have made a small
 
 Our wrapper consists of two main classes: PhysicsComponent and PhysicsSystem. The first one is an abstract class that represents a rigid body. In our engine entities are composed of components and PhysicsComponent is one of them. An entity could have a PhysicsComponent or not.
 
-There is only one implementation of PhysicsComponent: PhysicsBox. It is just a rectangle shaped body. You can assign mass, dimensions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces.
+There are only two implementations of PhysicsComponent: PhysicsBox and PhysicsCircle. PhysicsBox is defined by some and width and height (axially aligned) and PhysicsCircle by the radius. You can assign mass, dimensions and position to it. Also you can chose at creation time if it is dynamic or kinematic. Kinematic bodies will not be affected by forces. Also, if mass 0 is assigned to a body it will be assumed to be static (can't be moved at all).
 
 PhysicsComponent's are created by a request to the PhysicsSystem. When you are done with a PhysicsComponets request its deletion to the PhysicsSystem. The GraphicsSystem and the PhysicsSystem run at the same rate. So in the main loop you only have to call the update function of the two systems.
 
@@ -496,6 +608,31 @@ In the requirements section we stated that physics simulation was a main require
 As you can see, floating point numbers are not distributed uniformly. The sampling rate is better for values that are closer to 0. And the number of represented values decreases as we go towards $-\infty$ or $+\infty$. So in our game the precision would decrease as we get further from the origin of coordinates. That affects mainly the physics simulation but also graphical representation. And this problem becomes worse if the world is very big.
 
 So how can we solve this? Well, if the problem raises because the entities are too far from the origin of coordinates, let us move the entities to where the origin of coordinates is (or move the origin of coordinates to where the entities are). We will retake this topic in the "World streamer" section (\ref{sec:worldstreamer}).
+
+\subsubsection{Alternative approaches}
+There are other approaches to overcome the precision issue.
+
+\begin{itemize}
+
+\item \textbf{Using \emph{double}:} Double precision floating point numbers have a broader range and better accuracy. It would be pretty straightforward to replace \emph{float}s by \emph{double}s. But this is not scalable. What if we need even more accuracy?. Also, some graphics cards might not support \emph{double}s. Therefore, animations and visual feedback would look poor.
+
+\item \textbf{Using fixed-point:} Fixed-point numbers (FPN) have constant precision in all ranges. The range might be too small but we can always use \emph{long} integers for a broader range and better accuracy. We could use libraries for even greater integers (BigInt), although this would decrease performance. There are drawbacks for this solution. The physics engine might not support FPNs, eventhough we could spend time modifying the source if it is available. The graphics card might not support them (specially with 64-bit). In genaral, since floating point numbers are so extended, it would be difficult to integrate with existing software.
+
+\end{itemize}
+
+\subsubsection{Our approach}
+
+The approach we have chosen has many benefits and the only drawback is that it is a bit diffucult to implement.
+
+Having the origin of coordinates close to the entities allows us to use the most precise range of floating point numbers. In that range, floating-point is even more accurate than fixed-point.
+
+Since we are using the floating-point numbers that most graphics cards are optimized for, we get the best possible performance. And the compatibility is also the best.
+
+We can use any existing software because floating-point is so extended.
+
+When storing entities for persistence, the positions will be relative to the cell they belong to. So any position in the world could be represented as a pair of cell (integer vector) and relative position (float vector). So as long as the cell size keeps small, the precision will be fine. And the integer representation is broad enough for most cases. If 32-bit integers were not enough, you could always use 64-bit or even libraries such as TTMath\cite{workqueue}. With our representation we have good accuracy and unlimited range scalability without droping performance.
+
+The representation that we have used is the same that Scott Bilas suggests\cite{worldbilas}.
 
 \subsection{Resource Manager}
 
@@ -524,21 +661,21 @@ Take a look at (this time more serious) representation.
 
 The resource handle is returned in all cases. The handle has an attribute that tells if the resource is loaded or not.
 
-So for instance, the renderer needs to draw a texture. Therefore, the graphics system requests to the resource manager that texture. Every frame, the graphics system will check if the resource has been loaded. And if it is, it will draw the texture.
+So for instance, the renderer needs to draw a texture. Therefore, the graphics system requests to the resource manager that texture. Every frame, the graphics system will check if the resource has been loaded. And if it is, the texture is drawn.
 
 The resource manager needs to keep track of how many handles are pointing to each resource. When the number of handles for one resource becomes zero, the resource is released.
 
 If one resource needs to be loaded, that request is enqueued in a special queue. What is so special about this queue is that it is prepared for being accessed by several threads (thread safe queue). This type of queue is usually called work queue.
 
-In our implementation there is the abstract class Resource. These are the classes that inherit from Resource:
+In our implementation there is the abstract class Resource. These are some of the classes that inherit from Resource:
 
 \begin{itemize}
 
-\item{\emph{ResourceText.}} It represents a text file on disk. When loaded you will be able to read the file using "getText()".
+\item{\emph{\textbf{ResourceText}}}. It represents a text file on disk. When loaded you will be able to read the file using "\emph{getText()}".
 
-\item{\emph{ResourceTexture}} This is resource that will be required by the sprites. When loaded you can call "getTexture()" and you will be given a "LowLevelRenderer::Texture*".
+\item{\emph{\textbf{ResourceTexture}}}. This is the resource that will be required by the sprites. When loaded you can call "\emph{getTextureData()}" and you will be given a pointer to the raw texture data.
 
-\item{\emph{ResourceCell.}} This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a ResourceCell it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
+\item{\emph{\textbf{ResourceCell}}}. This resource is quite special. When loaded, you will be able to get the data also. But this time you can modify the data. You are given a XML node and you can modify it. When there are no references to a \emph{ResourceCell} it will be released and all changes made will be stored. This resource is used to represent a cell where entities can be placed. Therefore, you can add and remove entities from the cell and seamlessly all changes will be persistent.
 
 \end{itemize}
 
@@ -648,20 +785,22 @@ When I had to implement the code that looks cell files in a certain directory, I
 
 The final application consists of a stable game engine. Yet not fully-featured.
 
+\textbf{Note:} There is section \ref{"sec:animationsystem"}, where we show a newer version of the engine.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.38]{screenshot1.png}
+	\includegraphics[scale=0.36]{screenshot1.png}
 	\caption{Demo screenshot.}
 	\label{fig:screenshot1}
 \end{figure}
 
 \subsection{Demo}
 
-As you can see we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
+As you can see, we have developed a demo using our game engine. After a lot of debugging, everything seems to work very well. Graphics are fine, physics are accurate and overall performance is petty good.
 
 In order to test our system intensively, we have written an script that generates a random world. We have made our tests with a world of 1 million cells (which is about 4GB of XML files). The files must be located in the "\emph{world\_folder}" directory. In the same folder there is the main character file (\emph{main\_character.xml}). In this file you can configure the appearance, position and other stuff of the main character.
 
-Our application allows to zoom in and zoom out the camera using the mouse wheel. When you open the application you will see something like in figure 26.
+Our application allows to zoom in and zoom out the camera using the mouse wheel. When you open the application you will see something like in figure \ref{fig:screenshot1}.
 
 If you zoom out the camera you will be able to see the boundaries of the visualization.
 
@@ -676,10 +815,13 @@ If you zoom out the camera you will be able to see the boundaries of the visuali
 So if you zoom in enough, the player will not realize that the entities are being loaded a he walks.
 
 You can watch this video of the demo  \url{https://youtu.be/ymecWxF886U}.
+The previous video shows the demo at the time the first performance tests where made.
+
+There it is a video of the engine with the latest features (much better looking) \url{https://vimeo.com/159836286}.
 
 \subsection{Performance}
 
-The memory consumption is very low. Running with one million of cells we get a RAM consumption of ~70MB.
+The memory consumption is very low. Running with one million of cells we get a RAM consumption of $\sim$70MB.
 
 The world window is the space that will determine the set of entities that are loaded at any given time. We can configure the size of the world window in \emph{init\_file.xml}. The world window is always square shaped and the side is always odd. The number you have to put in the configuration file is not the side of the world window, it is $(side-1)/2$. This way, the introduced number is always valid.
 
@@ -726,7 +868,9 @@ We have found that a window size of three is a good balance between performance 
     \caption{Performance tests.}
 \end{table}
 
-The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. That might be because our tests have been made on a system without dedicated graphics card. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
+The CPU consumption is highly dependent on the window size. We have measured that most of the CPU consumption is drawn at the drawing stage. The CPU consumption of the physics simulation is only a small part and the consumption of the other subsystems are negligible.
+
+A big part (around half of the total) of the time spent during the drawing stage relies in matrix operations. I think there might be a slight margin of improvement in these matrix operations but not much.
 
 Speaking about RAM consumption, the amount of RAM used increases very slowly compared to CPU. That is indeed the prove that our resource manager is taking care of duplicates.
 
@@ -776,23 +920,150 @@ We have successfully integrated graphics and physics.
 
 Physics simulation is accurate thanks to the, moving the origin of coordinates, strategy. We have wrapped a particular physics engine but all the concepts used are applicable to any other physics engine.
 
-We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied then.
+We have implemented a small render engine. The reader of this article would learn how to implement a graphics system that has to cooperate with the resource manager to overcome the limitations of multithreading with OpenGL. Also, I have learned the basics of modern OpenGL programming and I have applied them.
 
 Also, we have implemented a resource manager that could be used in other types of applications, not only videogames. Our resource manager is easy to extend. Avoiding race conditions has been a difficulty and we have successfully dealt with it.
 
-The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer if configurable, so it can be adapted to the hardware capabilities.
+The world streamer implementation works fine and our architecture would allow to create new implementations and swap between them easily. The world streamer is configurable, so it can be adapted to the hardware capabilities.
 
-I was not a main requirement but we also managed so the modifications of the world are persistent. 
+It was not a main requirement but we also managed so the modifications of the world are persistent. 
 
 The code is well documented using doxygen syntax. Hopefully, any developer who is interested in learning or contributing could understand the code and extend the engine.
 
-In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an appropriate engine is a lot of work, but also because a lot of content and resources have to be produced. I said difficult, not impossible. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in some years.
+In my opinion world streaming is an interesting topic in the field of videogames. I think open world videogames will keep being among the most popular videogames. Up to now, successful open world videogames have come from very important companies that can make great investments. From my point of view, open world games are a difficult target for small companies and indie developers. Not only because the implementation of an appropriate engine is a lot of work, but also because a lot of content and resources have to be produced. But if the proper tools become available to them, that target will get feasible. Also, procedural generation could help developers to fill the world with great content. I think in some years the number of available tools for making open world games will grow and they will be accessible for anybody. I hope to see some indie open world games in a few years.
+
+\section{Update: animation system}
+\label{"sec:animationsystem"}
+
+The new animation system I have implemented extends the engine and adds some complexity. Also, implementing this feature forced me to refactor the code. Now the engine is performing better (in terms of loading times), more stable and better organized.
+
+The animation system is implemented from scratch. The animations are based in frames.
+
+We have created a custom file format based in XML for representing sprites. Sprites can have multiple animations. The structure of these sprite files is represented in the following UML diagram.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{sprite_uml.pdf}
+	\caption{UML diagram}
+	\label{fig:spriteuml}
+\end{figure}
+
+As you can see, one sprite has at least one animation and each animation has at least one frame. Frames have associated a duration and a rectangular region in a texture. Having the possibility to refer to a specific region of a texture allows us to use sprite sheets.
+
+There are a lot of sample sprites in the \emph{bin/sprites} directory. This is a fragment of the sprite that we use as our main character:
+
+\begin{minted}{xml}
+<sprite>
+	
+	<textures>
+		<tex id="sp1">pokemon_red_pj.png</tex>
+	</textures>
+	
+	<animations>
+	
+		<anim id="stand_down">
+			<frame>
+				<tex>sp1</tex>
+				<rect>
+					<x>32</x> <y>0</y>
+					<w>32</w> <h>32</h>
+				</rect>
+				<time>1</time>
+			</frame>
+		</anim>
+		
+		...
+		
+		<anim id="walking_up">
+			<frame>
+				<tex>sp1</tex>
+				<rect>
+					<x>0</x> <y>96</y>
+					<w>32</w> <h>32</h>
+				</rect>
+				<time>0.2</time>
+			</frame>
+			<frame>
+				<tex>sp1</tex>
+				<rect>
+					<x>32</x> <y>96</y>
+					<w>32</w> <h>32</h>
+				</rect>
+				<time>0.15</time>
+			</frame>
+			<frame>
+				<tex>sp1</tex>
+				<rect>
+					<x>64</x> <y>96</y>
+					<w>32</w> <h>32</h>
+				</rect>
+				<time>0.2</time>
+			</frame>
+		</anim>
+		
+	</animations>
+
+</sprite>
+
+
+\end{minted}
+
+It is useful to have an id for every animation, so it's straight forward to set an animation programmatically. If we wish to make an sprite which is not animated, we can make an animation with only one frame, since animations loop by default.
+
+In the following diagram we try to represent the mechanism we use in order to load and display sprites.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{sprite_loading.pdf}
+	\caption{Flow chart of the sprite's loading process}
+	\label{fig:spriteloading}
+\end{figure}
+
+Now there are more steps than when we had just static images. We need to read the XML of each sprite and from that file obtain the textures that must be loaded.
+
+In the same way we made sure that no texture is twice in memory, we want to make sure no sprite is twice in memory. The class \emph{Sprite} contains the data which is common to all the entities using it. And the class \emph{SpriteStatus} only keeps track of the current status of the animation. That is, the current frame and the time spent in the current frame.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{sprite_status_uml.pdf}
+	\caption{UML representation of the \emph{Sprite} and \emph{SpriteStatus} classes}
+	\label{fig:spritestatusuml}
+\end{figure}
+
+In order to test the animation system I have created a new automatic world generation script. You can find it in "\emph{bin/world\_gens}". This new generator makes better looking worlds. The world is made up of a big set of template cells (can be found at \emph{bin/cell\_templates}). Our generator takes as input a certain number of rows and columns and fills the world with randomly chosen cell templates. This is an example of what we have seen in \ref{sec:contentgen}. In this case we are making a mixture of manually generated content and automatically generated content.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{anim_screenshot.png}
+	\caption{Screenshot of one generated world}
+	\label{fig:animscreenshot}
+\end{figure}
+
+In terms of performance we have performed the same tests we did and it seems that the animation system has not affected at all. The bottleneck keeps being the rendering stage.
+
+\section{Future extensions}
+
+I have taken the development of this game engine as a hobby. I pretend to continue the development in my spare time.
+
+These are some of the features that I would like to get implemented.
+
+\begin{itemize}
+	
+	\item \textbf{Scripting:} I have already started working on this feature. Right now, implementing game logic is really difficult. Since the beginning, the game logic was intended to be done by scripting. When this feature got implemented, I would consider the game engine usable to make some real games. I want to embed the Lua programming language.
+	
+	\item \textbf{World editor tool:} Right now, everything has to be done by editing text files. It would be great to have a tool that allows to edit the world and manage the assets. That would make the engine friendlier to use.
+	
+	\item \textbf{Sound:} No game is complete without sound.
+	
+	\item \textbf{World description data compression:} If you generate a very big world the \emph{world\_folder} gets flooded of small cell files. Getting these files packed in a single compressed file would save a lot of space and would make the \emph{world\_folder} easier to manage.
+	
+\end{itemize}
 
 \section{License}
 
 The developed software is open source. It is licensed under the MIT License.
 
-The project is hosted in a pulic repository:\newline \url{https://github.com/tuket/OWMAN}.
+The project is hosted in a public repository:\newline \url{https://github.com/tuket/OWMAN}.
 
 \section{Tools and dependencies}
 
@@ -846,11 +1117,11 @@ The project is hosted in a pulic repository:\newline \url{https://github.com/tuk
 \newline
 \url{www.lonesock.net/soil.html}
 
-\item{\textbf{GLEW.}} Necessary if you want to use modern OpenGL.
+\item{\textbf{GLEW.}} A library that defines the OpenGL extensions.
 \newline
 \url{glew.sourceforge.net}
 
-\item{\textbf{GLM.}} A mathematic library for OpenGL.
+\item{\textbf{GLM.}} A mathematics library for OpenGL.
 \newline
 \url{http://glm.g-truc.net}
 \end{itemize}
@@ -973,8 +1244,24 @@ The project is hosted in a pulic repository:\newline \url{https://github.com/tuk
 	Game Engine Architecture - Jason Gregory
 	\newline
 	\url{http://www.gameenginebook.com}
-	 
 
+\bibitem{ttmathlink}
+	\hypertarget{ttmathlink}
+	TTMath library
+	\newline
+	\url{http://www.ttmath.org/}
+	
+\bibitem{levelgame}
+\hypertarget{levelgame}
+Level (video gaming) - Wikipedia
+\newline
+\url{https://en.wikipedia.org/wiki/Level_%28video_gaming%29}
+	
+\bibitem{retrocitysmall}
+\hypertarget{retrocitysmall}
+Steam discussion about the small size of Retro City Rampage
+\newline
+\url{http://steamcommunity.com/app/204630/discussions/0/882962698536189638/}
 	
 \end{thebibliography}
 

@@ -1,11 +1,9 @@
-#include "physics_box.hpp"
-
-#ifndef PHYSICS_SYSTEM
-class PhysicsSystem;
-#endif
-
 #ifndef PHYSICS_BOX_FACTORY
 #define PHYSICS_BOX_FACTORY
+
+#include "physics_box.hpp"
+
+class PhysicsSystem;
 
 class PhysicsBoxFactory
 {

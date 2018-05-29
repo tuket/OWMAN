@@ -1,13 +1,10 @@
 var searchData=
 [
-  ['addentry',['addEntry',['../class_resource_table.html#a677834028e027d5488fa583e14f8e14c',1,'ResourceTable']]],
-  ['align',['align',['../classrapidxml_1_1memory__pool.html#a317396afc1812f08b64a1dd9cde4039b',1,'rapidxml::memory_pool']]],
-  ['allocate_5faligned',['allocate_aligned',['../classrapidxml_1_1memory__pool.html#a4e9cf53fa5f9da3a8f31b754bd94b4ec',1,'rapidxml::memory_pool']]],
-  ['allocate_5fattribute',['allocate_attribute',['../classrapidxml_1_1memory__pool.html#a3de2a66c983336e006ea3844e244ed30',1,'rapidxml::memory_pool']]],
-  ['allocate_5fnode',['allocate_node',['../classrapidxml_1_1memory__pool.html#a4118581c29ee9a2f6b55ebf7dac185f8',1,'rapidxml::memory_pool']]],
-  ['allocate_5fraw',['allocate_raw',['../classrapidxml_1_1memory__pool.html#a1aed504a747303352e05f61c6ccbbebb',1,'rapidxml::memory_pool']]],
-  ['allocate_5fstring',['allocate_string',['../classrapidxml_1_1memory__pool.html#a171941b39d55b868358da97462185f58',1,'rapidxml::memory_pool']]],
-  ['append_5fattribute',['append_attribute',['../classrapidxml_1_1xml__node.html#a33ce3386f8c42dd4db658b75cbb6e6c4',1,'rapidxml::xml_node']]],
-  ['append_5fnode',['append_node',['../classrapidxml_1_1xml__node.html#a8696d098ecc9c4d2a646b43e91d58e31',1,'rapidxml::xml_node']]],
-  ['attribute_5fiterator',['attribute_iterator',['../classrapidxml_1_1attribute__iterator.html#a30a82132793bc59d4e7b20f5be6237b9',1,'rapidxml::attribute_iterator::attribute_iterator()'],['../classrapidxml_1_1attribute__iterator.html#a1109344dead88533ae4dd68cea5d9613',1,'rapidxml::attribute_iterator::attribute_iterator(xml_node&lt; Ch &gt; *node)']]]
+  ['createentity',['createEntity',['../class_entity_factory.html#a3aa5cd5100c9cf9891596ffdad675669',1,'EntityFactory']]],
+  ['createmaincharacter',['createMainCharacter',['../class_entity_factory.html#a1cb3be59b369c47c853cd35a770b3bfa',1,'EntityFactory']]],
+  ['createphysicsbox',['createPhysicsBox',['../class_physics_system.html#a60ce8b47b8b509506d20d4f87b4243b2',1,'PhysicsSystem']]],
+  ['createphysicsboxkinematic',['createPhysicsBoxKinematic',['../class_physics_system.html#a6092d628627413bf466bdf81a76c2496',1,'PhysicsSystem']]],
+  ['createphysicscircle',['createPhysicsCircle',['../class_physics_system.html#ac246e4403059f9a08efa6913df402aca',1,'PhysicsSystem']]],
+  ['createphysicscirclekinematic',['createPhysicsCircleKinematic',['../class_physics_system.html#a7c97407a7ef35572d9ebe5e1e2db3df3',1,'PhysicsSystem']]],
+  ['createxmlnode',['createXmlNode',['../class_entity.html#a8b76053b92d14f54ea2a096dae2c667e',1,'Entity::createXmlNode()'],['../class_graphics_component.html#a0aa72b1c36e3fdfa0e0de4d242a41e65',1,'GraphicsComponent::createXmlNode()'],['../class_physics_component.html#a5a2e3761a13d45a4dd38fe3b69253332',1,'PhysicsComponent::createXmlNode()'],['../class_sprite_status.html#af27ee28a71914590501f4482277d0065',1,'SpriteStatus::createXmlNode()'],['../class_physics_box.html#ab1f504cb2f8aeae61b06047c33cda9a9',1,'PhysicsBox::createXmlNode()'],['../class_physics_circle.html#a6c238978789f221d65464df879e5b898',1,'PhysicsCircle::createXmlNode()']]]
 ];

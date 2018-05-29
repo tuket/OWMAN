@@ -171,15 +171,18 @@ void cellToXmlDocument(xml_document<>* doc, const WorldCell& wc, float cellSize)
 
     doc->remove_all_attributes();
     doc->remove_all_nodes();
+    doc->clear();
 
+    const char* str_cell = doc->allocate_string("cell");
     if( wc.size() == 0 )
     {
-        xml_node<>* root = doc->allocate_node(node_element, "cell", " ");
+        const char* str_space = doc->allocate_string(" ");
+        xml_node<>* root = doc->allocate_node(node_element, str_cell, str_space);
         doc->append_node( root );
         return;
     }
 
-    xml_node<>* root = doc->allocate_node(node_element, "cell");
+    xml_node<>* root = doc->allocate_node(node_element, str_cell);
     doc->append_node( root );
 
     xml_node<>* node_ent;
@@ -209,37 +212,15 @@ worldWindow(windowSize)
 	this->worldFolder = worldFolder;
 	this->entityFactory = entityFactory;
 
-	filesystem::wpath worldPath(worldFolder);
+    fstream fs;
+    fs.open("world_folder/world_file.txt", ios::in);
 
-    filesystem::directory_iterator end_dit;
-
-    for
-    (
-        filesystem::directory_iterator dit( worldFolder )
-        ;
-        dit != end_dit
-        ;
-        ++dit
-    )
+    int x, y;
+    while(fs >> x)
     {
-
-        if( filesystem::is_regular_file( dit->status() ) )
-        {
-            string fileName = dit->path().string();
-
-            bool isCell = isCellFile(fileName);
-
-            if( isCell )
-            {
-
-                Vec2i cell = getCell( fileName );
-                // cout << "available cell: " << cell.x << ", " << cell.y << endl;
-                availableCells.insert( cell );
-
-            }
-
-        }
-
+        fs >> y;
+        Vec2i cell(x, y);
+        availableCells.insert( cell );
     }
 
 }
@@ -277,7 +258,7 @@ void WorldStreamer::init(const Vec2i& cell, const Vec2f& offset)
         // cout << fileName << endl;
 
         ResourceManager* resMan = ResourceManager::getSingleton();
-        ResourceCell* cellResource = resMan->obtainCell(fileName);
+        ResourceCell* cellResource = resMan->obtain<ResourceCell>(fileName);
         loadingCellResources[ Vec2i(x, y) ] = cellResource;
 
     }
@@ -345,7 +326,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                     string fileName = ss.str();
 
                     ResourceManager* resMan = ResourceManager::getSingleton();
-                    ResourceCell* cellResource = resMan->obtainCell(fileName);
+                    ResourceCell* cellResource = resMan->obtain<ResourceCell>(fileName);
                     loadingCellResources[ goodCell ] = cellResource;
 
                 }
@@ -435,7 +416,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
                 }
 
                 ResourceManager* resMan = ResourceManager::getSingleton();
-                resMan->releaseCell( loadedCellResources[ it->first ] );
+                resMan->release( loadedCellResources[ it->first ] );
                 loadedCellResources.erase(it->first);
 
                 auto nextIt = it;
@@ -487,7 +468,7 @@ void WorldStreamer::update(const Vec2f& position, MainCharacter* mainCharacter)
             string fileName = ss.str();
 
             ResourceManager* resMan = ResourceManager::getSingleton();
-            ResourceCell* cellResource = resMan->obtainCell(fileName);
+            ResourceCell* cellResource = resMan->obtain<ResourceCell>(fileName);
             loadingCellResources[ Vec2i(x, y) ] = cellResource;
 
         }
@@ -647,7 +628,7 @@ void WorldStreamer::end()
         }
 
         ResourceManager* resMan = ResourceManager::getSingleton();
-        resMan->releaseCell( loadedCellResources[ it->first ] );
+        resMan->release( loadedCellResources[ it->first ] );
         loadedCellResources.erase(it->first);
 
         auto nextIt = it;
