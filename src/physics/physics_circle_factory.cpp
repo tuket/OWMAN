@@ -2,6 +2,7 @@
 #include "physics_system.hpp"
 #include <Box2D/Box2D.h>
 #include <iostream>
+#include "../math/functions.hpp"
 
 using namespace std;
 

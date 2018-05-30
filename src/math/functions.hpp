@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS
 #define FUNCTIONS
 
+#define M_PI 3.14159265
+
 /**
 * \brief compute a % b for floats
 */
