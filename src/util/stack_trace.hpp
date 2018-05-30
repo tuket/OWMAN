@@ -1,5 +1,10 @@
 #include <libunwind.h>
 
+#ifdef WIN32
+static void debugInfo(FILE* out, const void* ip) {}
+static void printStackTrace(FILE* out, int skip) {}
+#else
+
 static void debugInfo(FILE* out,const void* ip)
 {
 
@@ -73,3 +78,5 @@ static void __attribute__((noinline)) printStackTrace(FILE* out, int skip)
 	}
 
 }
+
+#endif
