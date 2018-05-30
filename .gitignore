@@ -6,7 +6,7 @@ bin/Release
 *.layout
 *~
 *.log
-
+.vs
 bin/bin/
 doc/be.aux
 doc/be.log
@@ -19,3 +19,4 @@ doc/be.toc
 *.log
 *.out
 *.synctex.gz
+
