@@ -21,6 +21,9 @@ public:
 
 	Vec2f operator=(const Vec2f& vec);
 
+    Vec2f operator+=(const Vec2f& vec);
+    Vec2f operator-=(const Vec2f& vec);
+
 	Vec2f operator+(const Vec2f& vec)const;
 	Vec2f operator-(const Vec2f& vec)const;
 	Vec2f operator-()const;

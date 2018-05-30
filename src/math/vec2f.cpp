@@ -26,6 +26,19 @@ Vec2f Vec2f::operator=(const Vec2f& vec)
 	return *this;
 }
 
+Vec2f Vec2f::operator+=(const Vec2f& vec)
+{
+    (*this) = (*this) + vec;
+    return *this;
+}
+
+Vec2f Vec2f::operator-=(const Vec2f& vec)
+{
+    (*this) = (*this) - vec;
+    return *this;
+}
+
+
 Vec2f Vec2f::operator+(const Vec2f& vec)const
 {
 	float x = this->x + vec.x;
