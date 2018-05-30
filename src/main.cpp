@@ -9,4 +9,5 @@ int main()
 
     engine.mainLoop();
 
+    return 0;
 }
