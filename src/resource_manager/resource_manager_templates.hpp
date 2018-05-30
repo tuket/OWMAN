@@ -4,9 +4,9 @@
 template <typename T>
 T* ResourceManager::obtain(std::string name)
 {
-    pthread_mutex_lock(&mutexTable);
+    mutexTable.lock();
         unsigned int count = resourceTable.getCount( name );
-	pthread_mutex_unlock(&mutexTable);
+	mutexTable.unlock();
 
 	// not loaded
 	if( count == 0 )
@@ -15,7 +15,7 @@ T* ResourceManager::obtain(std::string name)
 
 		pthread_mutex_lock(&mutexTable);
             resourceTable.addEntry(name, resource);
-		pthread_mutex_unlock(&mutexTable);
+		mutexTable.unlock();
 
 		workQueue.push( ResourceRequest( ResourceRequest::Type::OBTAIN, name ) );
 		return resource;
@@ -24,13 +24,13 @@ T* ResourceManager::obtain(std::string name)
 	// loaded
 	else
 	{
-	    pthread_mutex_lock(&mutexTable);
+	   mutexTable.lock();
             resourceTable.incEntry(name);
-		pthread_mutex_unlock(&mutexTable);
+		mutexTable.unlock();
 
-        pthread_mutex_lock(&mutexTable);
+       mutexTable.lock();
             T* res = (T*)resourceTable.getResource(name);
-        pthread_mutex_unlock(&mutexTable);
+        mutexTable.unlock();
 
 		return res;
 	}

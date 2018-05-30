@@ -4,7 +4,8 @@
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
-#include <pthread.h>
+#include <thread>
+#include <mutex>
 #include <string>
 
 class LowLevelRenderer2D;
@@ -20,8 +21,8 @@ class ResourceManager
 
 	static ResourceManager uniqueInstance;
 
-	pthread_t myThread;
-    pthread_mutex_t mutexTable;     //< mutex for accessing the table
+	std::thread myThread;
+    std::mutex  mutexTable;     //< mutex for accessing the table
 
 	ResourceTable resourceTable;
 	WorkQueue<ResourceRequest> workQueue;
