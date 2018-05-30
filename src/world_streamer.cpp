@@ -8,14 +8,12 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <boost/filesystem.hpp>
 #include <typeinfo>
 #include <regex>
 #include <cmath>
 
 using namespace std;
 using namespace rapidxml;
-using namespace boost;
 
 // helper
 /** \brief returns whether a given string is the name of a cell file
