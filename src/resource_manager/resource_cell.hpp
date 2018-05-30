@@ -2,7 +2,7 @@
 #define RESOURCE_CELL
 
 #include "resource.hpp"
-#include "../dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 
 /** \brief Cell resource
  * This class is a modifiable resource.

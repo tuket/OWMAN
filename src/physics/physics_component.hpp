@@ -2,7 +2,7 @@
 #define PHYSICS_COMPONENT
 
 #include "../math/vec2f.hpp"
-#include "../dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 
 class PhysicsSystem;
 class b2Body;

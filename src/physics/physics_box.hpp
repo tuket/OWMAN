@@ -3,7 +3,9 @@
 
 #include "physics_component.hpp"
 #include <Box2D/Box2D.h>
+#include <rapidxml.hpp>
 #include "../math/vec2f.hpp"
+
 
 class PhysicsBoxFactory;
 

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "../dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 #include "../util/exception.hpp"
 #include "sprite_manager.hpp"
 

@@ -1,6 +1,6 @@
 #include "engine.hpp"
 #include "resource_manager/resource_manager.hpp"
-#include "dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 #include "util/file_to_string.hpp"
 #include "physics/physics_component.hpp"
 #include "renderer/graphics_component.hpp"

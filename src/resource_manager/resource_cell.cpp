@@ -1,5 +1,5 @@
 #include "resource_cell.hpp"
-#include "../dependencies/rapidxml/rapidxml_print.hpp"
+#include <rapidxml_print.hpp>
 #include <iostream>
 #include <fstream>
 

@@ -1,6 +1,6 @@
 #include "entity.hpp"
 #include "main_character.hpp"
-#include "dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 
 #ifndef ENGINE
 class Engine;
