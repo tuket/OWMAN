@@ -2,7 +2,7 @@
 #define GRAPHICS_COMPONENT
 
 #include "../math/vec2f.hpp"
-#include "../dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 
 class Entity;
 class GraphicsSystem;
