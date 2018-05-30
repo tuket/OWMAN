@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
-#include <SOIL/SOIL.h>
 #include "../math/vec2f.hpp"
 #include <string>
 #include <array>

@@ -2,6 +2,7 @@
 #include "graphics_system.hpp"
 #include <iostream>
 #include <array>
+#include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -613,13 +614,13 @@ void loadTexture(string fileName, int* width, int* height)
 {
 
 	unsigned char* image =
-	SOIL_load_image
+	stbi_load
 	(
 		fileName.c_str(),	// file name
 		width,				// pointer where width will be saved
 		height,				// pointer where height will be saved
 		0,					// pointer where num of chanel will be saved
-		SOIL_LOAD_RGBA		// RGB
+		0		            // RGB
 	);
 
 	if(image == 0)
@@ -641,9 +642,7 @@ void loadTexture(string fileName, int* width, int* height)
 		GL_UNSIGNED_BYTE,	// data type of the pixel data
 		image				// pointer to image data
 	);
-
-	SOIL_free_image_data(image);
-
+    stbi_image_free(image);
 }
 
 void LowLevelRenderer2D::end()

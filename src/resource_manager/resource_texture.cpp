@@ -1,7 +1,7 @@
 #include "resource_texture.hpp"
 #include "resource_texture_factory.hpp"
 #include <iostream>
-#include <SOIL/SOIL.h>
+#include <stb_image.h>
 
 using namespace std;
 
@@ -47,13 +47,13 @@ void ResourceTexture::load()
     status = Status::LOADING;
 
 	imageData =
-	SOIL_load_image
+	stbi_load
 	(
 		name.c_str(),	// file name
 		&width,				// pointer where width will be saved
 		&height,				// pointer where height will be saved
 		0,					// pointer where num of chanel will be saved
-		SOIL_LOAD_RGBA		// RGB
+		0		// desired chanels
 	);
 
 	if(imageData == 0)
@@ -69,7 +69,7 @@ void ResourceTexture::load()
 void ResourceTexture::free()
 {
 
-	SOIL_free_image_data(imageData);
+	stbi_image_free(imageData);
 
 }
 
