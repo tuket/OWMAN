@@ -36,15 +36,14 @@ public:
 
 	T pop()
 	{
-        mutex.lock();
+        std::unique_lock lock(mutex);
 		while( queue.size() == 0 )
 		{
 			// this instruction unlocks the mutex automatically
-            cond.wait(mutex);
+            cond.wait(lock);
 		}
 		T elem = queue.front();
 		queue.pop_front();
-        mutex.unlock();
 
 		return elem;
 	};

@@ -13,7 +13,7 @@ T* ResourceManager::obtain(std::string name)
 	{
 		T* resource = new T(name);
 
-		pthread_mutex_lock(&mutexTable);
+		mutexTable.lock();
             resourceTable.addEntry(name, resource);
 		mutexTable.unlock();
 
