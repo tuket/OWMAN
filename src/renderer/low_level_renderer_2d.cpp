@@ -2,7 +2,6 @@
 #include "graphics_system.hpp"
 #include <iostream>
 #include <array>
-#include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -10,7 +9,6 @@
 
 using namespace std;
 
-void loadTexture(string fileName, int* width, int* height);
 
 //  CAMERA
 // --------
@@ -607,43 +605,6 @@ void LowLevelRenderer2D::swap()
 	SDL_GL_SwapWindow(window);
 }
 
-
-//  LOAD TEXTURE
-// --------------
-void loadTexture(string fileName, int* width, int* height)
-{
-
-	unsigned char* image =
-	stbi_load
-	(
-		fileName.c_str(),	// file name
-		width,				// pointer where width will be saved
-		height,				// pointer where height will be saved
-		0,					// pointer where num of chanel will be saved
-		0		            // RGB
-	);
-
-	if(image == 0)
-	{
-		cerr << "Error loading: " << fileName << endl;
-		return;
-	}
-
-	// specify a 2-dimensional texture image
-	glTexImage2D
-	(
-		GL_TEXTURE_2D,		// target
-		0,					// level of detail (0 is base level)
-		GL_RGBA,			// internal format
-		*width,				// width
-		*height,			// height
-		0,					// border (must be 0)
-		GL_RGBA,			// format of the pixel data
-		GL_UNSIGNED_BYTE,	// data type of the pixel data
-		image				// pointer to image data
-	);
-    stbi_image_free(image);
-}
 
 void LowLevelRenderer2D::end()
 {
