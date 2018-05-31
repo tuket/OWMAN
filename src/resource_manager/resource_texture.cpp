@@ -3,6 +3,10 @@
 #include <iostream>
 #include <stb_image.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+#undef STB_IMAGE_IMPLEMENTATION
+
 using namespace std;
 
 ResourceTexture::ResourceTexture(const string& name)
