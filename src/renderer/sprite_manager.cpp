@@ -111,11 +111,10 @@ void SpriteManager::update(float delta)
 
 // CompareSpriteByName functor
 
-bool CompareSpriteByName::operator()
+bool CompareSpriteByName::operator() 
 (
     const SpriteRefCountEntry& entry1,
     const SpriteRefCountEntry& entry2
-)
-{
+) const {
     return entry1.sprite->getName() < entry2.sprite->getName();
 }

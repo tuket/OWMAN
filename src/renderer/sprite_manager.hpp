@@ -25,7 +25,7 @@ struct SpriteRefCountEntry
 
 struct CompareSpriteByName
 {
-    bool operator()(const SpriteRefCountEntry& entry1, const SpriteRefCountEntry& entry2);
+    bool operator()(const SpriteRefCountEntry& entry1, const SpriteRefCountEntry& entry2) const;
 };
 
 typedef
