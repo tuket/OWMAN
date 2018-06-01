@@ -106,6 +106,7 @@ void ResourceManager::loop()
 			_stop = true;
 		}
 
+        std::this_thread::sleep_for(1ms);
 	}
 
 }
