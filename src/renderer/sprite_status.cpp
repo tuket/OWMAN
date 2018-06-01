@@ -89,13 +89,6 @@ void SpriteStatus::draw()const
         const LowLevelRenderer2D::SpriteVbo& vbo = frame.vbo;
 
         texture->draw(pos, scale, vbo);
-
-        /// //////////////
-        if(mySprite->name == "castle")
-        {
-            cout << "currentFame: " << currentFrame << endl;
-            cout << "tex: " << frame.textureIndex << endl;
-        }
     }
 }
 
