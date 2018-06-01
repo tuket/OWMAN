@@ -6,7 +6,7 @@ num_temps = 20
 from random import randint
 
 temps = []
-for i in xrange(num_temps):
+for i in range(num_temps):
 	t = dir_temp + str(i)
 	temps.append(t)
 	
@@ -16,8 +16,8 @@ h = 200
 wfc = ""
 world_file = open(world_file_name, "w")
 
-for y in xrange(w):
-	for x in xrange(h):
+for y in range(w):
+	for x in range(h):
 		rand_cell = randint(0, num_temps-1)
 		
 		name_source = dir_temp + "cell_" + str(rand_cell) + ".xml"
