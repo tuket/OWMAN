@@ -50,7 +50,7 @@ void ResourceCell::free()
     status = Resource::Status::SAVING;
 
     fstream fs;
-	fs.open(name.c_str(), fstream::out);
+	fs.open(name.c_str(), fstream::binary | fstream::out);
 
     fs << doc << endl;
 
