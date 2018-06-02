@@ -57,7 +57,7 @@ void ResourceTexture::load()
 		&width,				// pointer where width will be saved
 		&height,				// pointer where height will be saved
 		0,					// pointer where num of chanel will be saved
-		0		// desired chanels
+        STBI_rgb_alpha 		// desired chanels
 	);
 
 	if(imageData == 0)
