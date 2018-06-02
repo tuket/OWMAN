@@ -19,4 +19,5 @@ doc/be.toc
 *.log
 *.out
 *.synctex.gz
+cell_*_*.xml
 
