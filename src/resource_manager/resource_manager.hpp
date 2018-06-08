@@ -1,19 +1,14 @@
+#ifndef RESOURCE_MANAGER
+#define RESOURCE_MANAGER
+
 #include "resource_table.hpp"
 #include "work_queue.hpp"
 #include "resource_request.hpp"
-#include "resource_text_factory.hpp"
-#include "resource_texture_factory.hpp"
-#include "resource_cell_factory.hpp"
-#include <pthread.h>
+#include <thread>
+#include <mutex>
 #include <string>
 
-#ifndef LOW_LEVEL_RENDERER_2D
 class LowLevelRenderer2D;
-#endif
-
-
-#ifndef RESOURCE_MANAGER
-#define RESOURCE_MANAGER
 
 /** \brief This is the singleton you should use
  * Requesting resources will deliver a resource pointer
@@ -26,8 +21,8 @@ class ResourceManager
 
 	static ResourceManager uniqueInstance;
 
-	pthread_t myThread;
-    pthread_mutex_t mutexTable;     //< mutex for accessing the table
+	std::thread myThread;
+    std::mutex  mutexTable;     //< mutex for accessing the table
 
 	ResourceTable resourceTable;
 	WorkQueue<ResourceRequest> workQueue;
@@ -35,17 +30,20 @@ class ResourceManager
 
 public:
 
-	static void init();
-
 	static ResourceManager* getSingleton();
 
 	ResourceManager(){}
 
     /**
+    * \brief launches the resource manger in its own thread
+    */
+    void launch();
+
+    /**
 	 * \brief request a pointer to a resource
 	 */
-    template <typename R>
-	R* obtain<R>(std::string name);
+    template <typename T>
+	T* obtain(std::string name);
 
     /**
 	 * \brief release a pointer to a resource
@@ -75,5 +73,7 @@ private:
 	static void* staticLoop(void* object);
 
 };
+
+#include "resource_manager_templates.hpp"
 
 #endif

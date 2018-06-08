@@ -1,6 +1,6 @@
 #include <string>
 #include "position.hpp"
-#include "dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 
 #ifndef GRAPHICS_COMPONENT
 class GraphicsComponent;

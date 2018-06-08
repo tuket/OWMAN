@@ -1,8 +1,9 @@
 #include "engine.hpp"
 #include "resource_manager/resource_manager.hpp"
-#include "dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 #include "util/file_to_string.hpp"
 #include "physics/physics_component.hpp"
+#include "renderer/graphics_component.hpp"
 #include <string>
 #include <sstream>
 #include <cstdio>
@@ -87,6 +88,8 @@ eventHandler( this )
 
     char* mcFileText = fileToString(mcFileName.c_str());
 
+    assert(mcFileText && "main_character.xml not found");
+
     xml_document<> mcDoc;
     mcDoc.parse<0>( mcFileText );
 
@@ -104,38 +107,31 @@ void Engine::init()
 
     SDL_Init(SDL_INIT_TIMER);
 
-    ResourceManager::init();
     ResourceManager* resourceManager = ResourceManager::getSingleton();
     resourceManager->launch();
 
-    if( !mainCharacter )
-    {
-        //worldStreamer->init(mainCharacter->getCell(), mainCharacter->getPosition());
-    }
-    else
-    {
-        worldStreamer->init
-        (
-            mainCharacter->getCell(),
-            mainCharacter->getPosition()
-        );
-    }
-
+    worldStreamer->init
+    (
+        mainCharacter->getCell(),
+        mainCharacter->getPosition()
+    );
 
 }
 
 void Engine::mainLoop()
 {
 
+    unsigned prevTicks = SDL_GetTicks();
+
     while( !end )
     {
 
-        unsigned int beginTicks = SDL_GetTicks();
+        unsigned ticks = SDL_GetTicks();
 
         eventHandler.poll();
 
         // update physics
-        physicsSystem->update( 1000/fps );
+        physicsSystem->update( ticks - prevTicks );
 
         // update world streamer
         worldStreamer->update( mainCharacter->getPosition(), mainCharacter );
@@ -169,16 +165,18 @@ void Engine::mainLoop()
         graphicsSystem->getCamera()->setPosition( -mainCharacter->getPosition() );
 
         // update graphics
-        graphicsSystem->update(1000/fps);
+        graphicsSystem->update(ticks-prevTicks);
 
         // draw
         graphicsSystem->draw();
         graphicsSystem->swap();
 
         unsigned int endTicks = SDL_GetTicks();
-		int sleepTicks = 1000/fps - (endTicks-beginTicks);
+		int sleepTicks = 1000/fps - (endTicks-ticks);
 		if(sleepTicks > 0)
 			SDL_Delay( sleepTicks );
+
+        prevTicks = ticks;
 
     }
 

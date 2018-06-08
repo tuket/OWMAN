@@ -14,6 +14,13 @@ class EventHandler
 
 	Engine* engine;
 
+	bool arrowKeysPressed[4];
+
+	bool& upArrowStatus = arrowKeysPressed[0];
+	bool& downArrowStatus = arrowKeysPressed[1];
+	bool& leftArrowStatus = arrowKeysPressed[2];
+	bool& rightArrowStatus = arrowKeysPressed[3];
+
 public:
 
 	EventHandler( Engine* engine );

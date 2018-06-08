@@ -1,13 +1,14 @@
 #include "low_level_renderer_2d.hpp"
 #include "graphics_system.hpp"
 #include <iostream>
+#include <array>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "../math/aarect.hpp"
 
 using namespace std;
 
-void loadTexture(string fileName, int* width, int* height);
 
 //  CAMERA
 // --------
@@ -52,7 +53,7 @@ void LowLevelRenderer2D::Camera::setHeight(float height)
 //  TEXTURE
 // ---------
 
-LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height)
+LowLevelRenderer2D::Texture::Texture(const unsigned char* image, int width, int height)
 {
 
 	this->width = width;
@@ -81,6 +82,24 @@ LowLevelRenderer2D::Texture::Texture(unsigned char* image, int width, int height
 		image				// pointer to iamge data
 	);
 
+}
+
+const array<GLuint, LLRFilterMode::NUM_FILTER_MODES>
+    LowLevelRenderer2D::Texture:: filterModesGL =
+(
+    []() -> array<GLuint, FilterMode::NUM_FILTER_MODES>
+    {
+        std::array<GLuint, FilterMode::NUM_FILTER_MODES> a = {0};
+        a[FilterMode::LINEAR] = GL_LINEAR;
+        a[FilterMode::NEAREST] = GL_NEAREST;
+        return a;
+    }
+)();
+
+void LowLevelRenderer2D::Texture::setFilterMode(FilterMode filterMode)
+{
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterModesGL[filterMode]);
 }
 
 LowLevelRenderer2D::Texture
@@ -117,10 +136,57 @@ void LowLevelRenderer2D::Texture::setHeight(float height)
 	this->height = height;
 }
 
+// SpriteVao
+// ----------
+
+GLfloat LowLevelRenderer2D::SpriteVbo::verts[] =
+{
+    -0.5, 0.5, 0, 0,
+    0.5, 0.5, 1, 0,
+    0.5, -0.5, 1, 1,
+    -0.5, -0.5, 0, 1
+};
+
+LLRSpriteVbo::SpriteVbo(const AARect& rect)
+{
+
+    setRectVerts(rect);
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+}
+
+LLRSpriteVbo::SpriteVbo(const SpriteVbo& spriteVbo)
+{
+    VBO = spriteVbo.VBO;
+}
+
+const LLRSpriteVbo& LLRSpriteVbo::operator=(const LLRSpriteVbo& spriteVbo)
+{
+    VBO = spriteVbo.VBO;
+    return *this;
+}
+
+void LowLevelRenderer2D::SpriteVbo::setRectVerts(const AARect& rect)
+{
+    float x1 = rect.x;
+    float x2 = rect.x + rect.w;
+    float y1 = rect.y;
+    float y2 = rect.y + rect.h;
+    verts[ 0*4 + 2 + 0 ] = x1; verts[ 0*4 + 2 + 1 ] = y1;
+    verts[ 1*4 + 2 + 0 ] = x2; verts[ 1*4 + 2 + 1 ] = y1;
+    verts[ 2*4 + 2 + 0 ] = x2; verts[ 2*4 + 2 + 1 ] = y2;
+    verts[ 3*4 + 2 + 0 ] = x1; verts[ 3*4 + 2 + 1 ] = y2;
+}
+
+
 
 //  LOW LEVEL RENDERER 2D
 // -----------------------
 
+const GLuint LowLevelRenderer2D::posAttrib = 0;
+const GLuint LowLevelRenderer2D::texAttrib = 1;
 
 // Constructor
 LowLevelRenderer2D::LowLevelRenderer2D
@@ -167,18 +233,18 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	// vertices of the default textured quad
 	const GLfloat vertices[] =
 	{
-		-0.5, 0.5, 0, 0,
-		0.5, 0.5, 1, 0,
-		0.5, -0.5, 1, 1,
-		-0.5, -0.5, 0, 1
+		-0.5, 0.5,
+		0.5, 0.5,
+		0.5, -0.5,
+		-0.5, -0.5
 	};
 
 	// create one vertex buffer object
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
+	GLuint colVBO;
+	glGenBuffers(1, &colVBO);
 
 	// make VBO the current active vertex array buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, colVBO);
 
 	// upload the vertex data to the video card
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -192,7 +258,6 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	};
 
 	// create one element buffer object
-	GLuint EBO;
 	glGenBuffers(1, &EBO);
 
 	// make EBO the current active element array buffer
@@ -201,7 +266,22 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	// upload the element data to the video card
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
-	const char* vertShaderSource =
+    const char* colVertShaderSource =
+    "#version 120\n"
+	"attribute vec2 inPosition;"
+	"uniform mat4 modelMatrix;"
+	"uniform mat4 viewMatrix;"
+	"uniform mat4 projMatrix;"
+	"void main()"
+	"{"
+		"vec4 transfPosition = vec4 (inPosition, 0.0, 1.0);"
+		"transfPosition = modelMatrix * transfPosition;"
+		"transfPosition = viewMatrix * transfPosition;"
+		"transfPosition = projMatrix * transfPosition;"
+		"gl_Position = vec4(transfPosition);"
+	"}";
+
+	const char* texVertShaderSource =
 	"#version 120\n"
 	"attribute vec2 inPosition;"
 	"attribute vec2 inTexCoords;"
@@ -218,7 +298,7 @@ LowLevelRenderer2D::LowLevelRenderer2D
 		"gl_TexCoord[0] = vec4(inTexCoords, 0, 0);"
 	"}";
 
-	const char* fragShaderSource =
+	const char* texFragShaderSource =
 	"#version 120\n"
 	"uniform sampler2D tex;"
 	"void main()"
@@ -237,46 +317,63 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	"}";
 
 	// compiling shaders
-	// compile vertex shader
-	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource
+
+	// compile vertex shader (color)
+	GLuint colVertShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource
 	(
-		vertShader,			// shader id
+		colVertShader,			// shader id
 		1,					// number of strings
-		&vertShaderSource,			// array of strings
+		&colVertShaderSource,			// array of strings
 		0					// length of each string(0 means stop at null char)
 	);
-	glCompileShader(vertShader);
-
+	glCompileShader(colVertShader);
 	// check if the shader compiled OK
 	GLint status;
-	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(colVertShader, GL_COMPILE_STATUS, &status);
 	if( status != GL_TRUE )
 	{
-		cerr << "Error: compiling vertex shader" << endl;
+		cerr << "Error: compiling color vertex shader" << endl;
 		exit(1);
 	}
 
-	// compile fragment shader(texture)
-	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	// compile vertex shader (texture)
+	GLuint texVertShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource
 	(
-		fragShader,
+		texVertShader,			// shader id
+		1,					// number of strings
+		&texVertShaderSource,			// array of strings
+		0					// length of each string(0 means stop at null char)
+	);
+	glCompileShader(texVertShader);
+	// check if the shader compiled OK
+	glGetShaderiv(texVertShader, GL_COMPILE_STATUS, &status);
+	if( status != GL_TRUE )
+	{
+		cerr << "Error: compiling texture vertex shader" << endl;
+		exit(1);
+	}
+
+	// compile fragment shader (texture)
+	GLuint texFragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource
+	(
+		texFragShader,
 		1,
-		&fragShaderSource,
+		&texFragShaderSource,
 		0
 	);
-	glCompileShader(fragShader);
-
+	glCompileShader(texFragShader);
 	// check if the shader compiled OK
-	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(texFragShader, GL_COMPILE_STATUS, &status);
 	if( status != GL_TRUE )
 	{
 		cerr << "Error: compiling fragment shader(texture)" << endl;
 		exit(1);
 	}
 
-	// compile fragment shader(color)
+	// compile fragment shader (color)
 	GLuint colFragShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource
 	(
@@ -286,7 +383,6 @@ LowLevelRenderer2D::LowLevelRenderer2D
 		0
 	);
 	glCompileShader(colFragShader);
-
 	// check if the shader compiled OK
 	glGetShaderiv(colFragShader, GL_COMPILE_STATUS, &status);
 	if( status != GL_TRUE )
@@ -297,20 +393,16 @@ LowLevelRenderer2D::LowLevelRenderer2D
 
 	// combining shaders into a program (texture)
 	textureShaderProgram = glCreateProgram();
-	glAttachShader(textureShaderProgram, vertShader);
-	glAttachShader(textureShaderProgram, fragShader);
+	glAttachShader(textureShaderProgram, texVertShader);
+	glAttachShader(textureShaderProgram, texFragShader);
+	glBindAttribLocation(textureShaderProgram, posAttrib, "inPosition");
+	glBindAttribLocation(textureShaderProgram, texAttrib, "inTexCoords");
 
 	// combining shaders into a program (color)
 	colorShaderProgram = glCreateProgram();
-	glAttachShader(colorShaderProgram, vertShader);
+	glAttachShader(colorShaderProgram, colVertShader);
 	glAttachShader(colorShaderProgram, colFragShader);
-
-	// Since fragment shader is allowed to write to multiple buffers,
-	// you need to specify which output is written to which buffer.
-	// You must do this before linking.
-	// However, since 0 is the default and there is only one output
-	// the following line is not necessary.
-	/// glBindFragDataLocation(textureShaderProgram, 0, "outColor");
+	glBindAttribLocation(textureShaderProgram, posAttrib, "inPosition");
 
 	// We must connect the two shaders.
 	// We do this with the "linking" step.
@@ -321,101 +413,18 @@ LowLevelRenderer2D::LowLevelRenderer2D
 	// use the program
 	glUseProgram(textureShaderProgram);
 
-	// VAO
-	// ---
-	// VAOs are used to save "settings"
-	// VAOs store all the links between the attributes and
-	// your VBO with raw vertex data.
-	glGenVertexArrays(1, &texVAO);
-	glBindVertexArray(texVAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-	// making the link between vertex data and attributes
-	// OpenGL needs to know how the attributes are formatted
-	// and ordered
-
-	// POSITION ATTRIBUTE
-	GLint posAttrib = glGetAttribLocation(textureShaderProgram, "inPosition");
-
-	// specify how the data is structured in the array
-	glVertexAttribPointer
-	(
-		posAttrib,			// input
-		2,					// num of vals
-		GL_FLOAT,			// type of vals
-		GL_FALSE,			// should they be normalized?
-		4*sizeof(float),	// stride: how many bytes between each pos
-		0					// offset: offset of the attribute wrt pos
-	);
-
-	// enable vertex attribute array
-	glEnableVertexAttribArray(posAttrib);
-
-	// TEXCOORD ATTRIBUTE
-	GLint texAttrib = glGetAttribLocation(textureShaderProgram, "inTexCoords");
-
-	// specify how the data is structured in the array
-	glVertexAttribPointer
-	(
-		texAttrib,			// input
-		2,					// num of vals
-		GL_FLOAT,			// type of vals
-		GL_FALSE,			// should they be normalized?
-		4*sizeof(float),			// stride: how many bytes between each pos
-		(void*)(2*sizeof(float))	// offset: offset of the attribute wrt pos
-	);
-
-	// enable vertex attribute array
-	glEnableVertexAttribArray(texAttrib);
-
-	// COLOR SHADER ATTRIBS
-	glUseProgram(colorShaderProgram);
-
-	glGenVertexArrays(1, &colVAO);
-	glBindVertexArray(colVAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-	// POSITION ATTRIBUTE
-	posAttrib = glGetAttribLocation(colorShaderProgram, "inPosition");
-
-	// specify how the data is structured in the array
-	glVertexAttribPointer
-	(
-		posAttrib,			// input
-		2,					// num of vals
-		GL_FLOAT,			// type of vals
-		GL_FALSE,			// should they be normalized?
-		4*sizeof(float),	// stride: how many bytes between each pos
-		0					// offset: offset of the attribute wrt pos
-	);
-
-	// enable vertex attribute array
-	glEnableVertexAttribArray(posAttrib);
-
 	// enable using textures
-	glBindVertexArray(texVAO);
-	glUseProgram(textureShaderProgram);
 	glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_TEXTURE_2D);
 	glUniform1i(glGetUniformLocation(textureShaderProgram, "tex"), 0);
 
 	// enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBindVertexArray(colVAO);
-	glEnable(GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// transform matrices
-	glBindVertexArray(texVAO);
 	texModelMatrix = glGetUniformLocation(textureShaderProgram, "modelMatrix");
 	texViewMatrix = glGetUniformLocation(textureShaderProgram, "viewMatrix");
 	texProjMatrix = glGetUniformLocation(textureShaderProgram, "projMatrix");
-	glBindVertexArray(colVAO);
 	colModelMatrix = glGetUniformLocation(colorShaderProgram, "modelMatrix");
 	colViewMatrix = glGetUniformLocation(colorShaderProgram, "viewMatrix");
 	colProjMatrix = glGetUniformLocation(colorShaderProgram, "projMatrix");
@@ -438,28 +447,18 @@ LowLevelRenderer2D::Camera* LowLevelRenderer2D::getCamera()
 }
 
 
-LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(unsigned char* image, int width, int height)
+LowLevelRenderer2D::Texture LowLevelRenderer2D::createTexture(const unsigned char* image, int width, int height)
 {
-
-	glBindVertexArray(texVAO);
-	glUseProgram(textureShaderProgram);
-
 	Texture res(image, width, height);
 	return res;
-
 }
 
 
 void LowLevelRenderer2D::destroyTexture(Texture* texture)
 {
-
-	glUseProgram(textureShaderProgram);
-	glBindVertexArray(texVAO);
-
 	glDeleteTextures(1, &(texture->textureID));
 	texture->width = 0;
 	texture->height = 0;
-
 }
 
 // clear color buffer
@@ -468,28 +467,60 @@ void LowLevelRenderer2D::clear()
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void LowLevelRenderer2D::draw(const Vec2f& pos, const Vec2f& scale, Texture* texture)
+void LowLevelRenderer2D::draw
+(
+    const Vec2f& pos,
+    const Vec2f& scale,
+    const Texture& texture,
+    const SpriteVbo& sVbo
+)
 {
 
 	Vec2f camPos = camera.getPosition();
 
 	// compute model matrix
 	glm::mat4 modelMat =
-	glm::translate(glm::mat4(1.0), glm::vec3(pos.x, pos.y, 0)) *
-	glm::scale(glm::mat4(1.0), glm::vec3(scale.x, scale.y, 1));
+        glm::translate(glm::mat4(1.0), glm::vec3(pos.x, pos.y, 0)) *
+        glm::scale(glm::mat4(1.0), glm::vec3(scale.x, scale.y, 1));
 
 	// compute view matrix
 	glm::mat4 viewMat = glm::translate(glm::mat4(1.0), glm::vec3(camPos.x, camPos.y, 0));
 
 	// compute projection matrix
 	glm::mat4 projMat =
-	glm::scale
-	(
-		glm::mat4(1.0),
-		glm::vec3(1.0/camera.getWidth(), 1.0/camera.getHeight(), 1.0)
-	);
+        glm::scale
+        (
+            glm::mat4(1.0),
+            glm::vec3(1.0/camera.getWidth(), 1.0/camera.getHeight(), 1.0)
+        );
 
-	glBindVertexArray(texVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, sVbo.VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+    // VERTEX DATA FORMAT
+    // pos attrib
+	glVertexAttribPointer
+	(
+		posAttrib,			// input
+		2,					// num of vals
+		GL_FLOAT,			// type of vals
+		GL_FALSE,			// should they be normalized?
+		4*sizeof(float),	// stride: how many bytes between each pos
+		0					// offset: offset of the attribute wrt pos
+	);
+	glEnableVertexAttribArray(posAttrib);
+    // tex attrib
+	glVertexAttribPointer
+	(
+		texAttrib,			// input
+		2,					// num of vals
+		GL_FLOAT,			// type of vals
+		GL_FALSE,			// should they be normalized?
+		4*sizeof(float),			// stride: how many bytes between each pos
+		(void*)(2*sizeof(float))	// offset: offset of the attribute wrt pos
+	);
+	glEnableVertexAttribArray(texAttrib);
+
 	glUseProgram(textureShaderProgram);
 
 	// upload matrices
@@ -500,14 +531,14 @@ void LowLevelRenderer2D::draw(const Vec2f& pos, const Vec2f& scale, Texture* tex
 	glBindTexture
 	(
 		GL_TEXTURE_2D,
-		texture->textureID
+		texture.textureID
 	);
 
 	glDrawElements
 	(
 		GL_TRIANGLES,		// primitive to draw
-		6,					// how many vertices to skip
-		GL_UNSIGNED_INT,	// how many vertices to draw
+		6,					// how many vertices to draw
+		GL_UNSIGNED_INT,
 		0
 	);
 
@@ -535,7 +566,20 @@ void LowLevelRenderer2D::drawColorSquare(const Vec2f& pos, const Vec2f& scale, c
 	);
 
 	glUseProgram(colorShaderProgram);
-	glBindVertexArray(colVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, colVBO);
+
+	// VERTEX DATA FORMAT
+	// pos attrib
+	glVertexAttribPointer
+	(
+		posAttrib,			// input
+		2,					// num of vals
+		GL_FLOAT,			// type of vals
+		GL_FALSE,			// should they be normalized?
+		4*sizeof(float),	// stride: how many bytes between each pos
+		0					// offset: offset of the attribute wrt pos
+	);
+	glEnableVertexAttribArray(posAttrib);
 
 	// upload matrices
 	glUniformMatrix4fv(colModelMatrix, 1, GL_FALSE, glm::value_ptr(modelMat));
@@ -561,45 +605,6 @@ void LowLevelRenderer2D::swap()
 	SDL_GL_SwapWindow(window);
 }
 
-
-//  LOAD TEXTURE
-// --------------
-void loadTexture(string fileName, int* width, int* height)
-{
-
-	unsigned char* image =
-	SOIL_load_image
-	(
-		fileName.c_str(),	// file name
-		width,				// pointer where width will be saved
-		height,				// pointer where height will be saved
-		0,					// pointer where num of chanel will be saved
-		SOIL_LOAD_RGBA		// RGB
-	);
-
-	if(image == 0)
-	{
-		cerr << "Error loading: " << fileName << endl;
-		return;
-	}
-
-	// specify a 2-dimensional texture image
-	glTexImage2D
-	(
-		GL_TEXTURE_2D,		// target
-		0,					// level of detail (0 is base level)
-		GL_RGBA,			// internal format
-		*width,				// width
-		*height,			// height
-		0,					// border (must be 0)
-		GL_RGBA,			// format of the pixel data
-		GL_UNSIGNED_BYTE,	// data type of the pixel data
-		image				// pointer to iamge data
-	);
-
-	SOIL_free_image_data(image);
-
-}
 
 void LowLevelRenderer2D::end()
 {

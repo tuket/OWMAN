@@ -1,7 +1,7 @@
 #ifndef AARECT_HPP_INCLUDED
 #define AARECT_HPP_INCLUDED
 
-/* Axialy aligned rectangle */
+/* Axially aligned rectangle */
 class AARect{
 
 public:

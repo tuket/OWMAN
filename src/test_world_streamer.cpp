@@ -1,7 +1,7 @@
 #include "test_world_streamer.hpp"
 #include "entity.hpp"
 #include "entity_factory.hpp"
-#include "dependencies/rapidxml/rapidxml.hpp"
+#include <rapidxml.hpp>
 #include <string>
 
 using namespace std;

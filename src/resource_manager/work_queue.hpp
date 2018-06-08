@@ -1,8 +1,9 @@
-#include <pthread.h>
-#include <list>
-
 #ifndef WORK_QUEUE
 #define WORK_QUEUE
+
+#include <condition_variable>
+#include <mutex>
+#include <list>
 
 /**
  * \brief Thread safe queue
@@ -15,44 +16,41 @@ class WorkQueue
 {
 
 	std::list<T> queue;
-	pthread_mutex_t mutex;
-	pthread_cond_t cond;
+	std::mutex mutex;
+	std::condition_variable cond;
 
 public:
 
 	WorkQueue()
 	{
-		pthread_mutex_init(&mutex, 0);
-		pthread_cond_init(&cond, 0);
+
 	}
 
 	void push(T elem)
 	{
-		pthread_mutex_lock(&mutex);
+        mutex.lock();
 		queue.push_back(elem);
-		pthread_cond_signal(&cond);
-		pthread_mutex_unlock(&mutex);
+        cond.notify_one();
+        mutex.unlock();
 	}
 
 	T pop()
 	{
-		pthread_mutex_lock(&mutex);
+        std::unique_lock<std::mutex> lock(mutex);
 		while( queue.size() == 0 )
 		{
 			// this instruction unlocks the mutex automatically
-			pthread_cond_wait(&cond, &mutex);
+            cond.wait(lock);
 		}
 		T elem = queue.front();
 		queue.pop_front();
-		pthread_mutex_unlock(&mutex);
 
 		return elem;
 	};
 
 	~WorkQueue()
 	{
-		pthread_mutex_destroy(&mutex);
-		pthread_cond_destroy(&cond);
+
 	}
 
 };

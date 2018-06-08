@@ -1,6 +1,6 @@
 #include "engine.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
 
     Engine engine("init_file.xml", "world_folder");
@@ -9,4 +9,5 @@ int main()
 
     engine.mainLoop();
 
+    return 0;
 }

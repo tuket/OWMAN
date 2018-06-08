@@ -1,0 +1,23 @@
+<sprite>
+	
+<textures>
+	<tex id="sp1">trees.png</tex>
+</textures>
+
+<animations>
+	
+	<anim id="stand">
+		<frame>
+			<tex>sp1</tex>
+			<rect>
+				<x>283</x> <y>0</y>
+				<w>50</w> <h>128</h>
+			</rect>
+			<time>1</time>
+		</frame>
+	</anim>
+	
+</animations>
+
+</sprite>
+

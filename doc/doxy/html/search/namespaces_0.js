@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['genfile',['genfile',['../namespacegenfile.html',1,'']]]
+  ['xmlstr',['xmlstr',['../namespacexmlstr.html',1,'']]]
 ];

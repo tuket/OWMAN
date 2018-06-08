@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['iworldstreamer',['IWorldStreamer',['../class_i_world_streamer.html',1,'']]]
+  ['maincharacter',['MainCharacter',['../class_main_character.html',1,'']]]
 ];

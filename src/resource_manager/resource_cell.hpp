@@ -1,12 +1,8 @@
-#include "resource.hpp"
-#include "../dependencies/rapidxml/rapidxml.hpp"
-
-#ifndef RESOURCE_CELL_FACTORY
-class ResourceCellFactory;
-#endif
-
 #ifndef RESOURCE_CELL
 #define RESOURCE_CELL
+
+#include "resource.hpp"
+#include <rapidxml.hpp>
 
 /** \brief Cell resource
  * This class is a modifiable resource.
@@ -30,7 +26,7 @@ protected:
 
 public:
 
-	ResourceCell();
+	ResourceCell(const std::string& name);
 
 	rapidxml::xml_node<>* getNode();
 	rapidxml::xml_document<>* getDocument();

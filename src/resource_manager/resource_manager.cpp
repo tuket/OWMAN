@@ -5,13 +5,6 @@ using namespace std;
 
 ResourceManager ResourceManager::uniqueInstance;
 
-void ResourceManager::init()
-{
-
-
-
-}
-
 ResourceManager* ResourceManager::getSingleton()
 {
 	return &uniqueInstance;
@@ -19,38 +12,35 @@ ResourceManager* ResourceManager::getSingleton()
 
 void ResourceManager::launch()
 {
-
-	int idThread;
-	_stop = false;
-	idThread = pthread_create( &myThread, 0, &ResourceManager::staticLoop, (void*)this);
-    pthread_mutex_init(&mutexTable, 0);
-
-	// check error
-	if( idThread )
+    _stop = false;
+    try
+    {
+        myThread = std::thread(ResourceManager::staticLoop, this);
+    }
+    catch (std::exception e)
 	{
 		cerr << "Error creating thread for ResouceManager: "
-		<< idThread << endl;
+		<< e.what() << endl;
 		exit(1);
 	}
-
 }
 
-void ResourceManager::releaseCell(ResourceCell* resource)
+void ResourceManager::release(Resource* resource)
 {
 
     string name = resource->getName();
 
-	pthread_mutex_lock(&mutexTable);
+	mutexTable.lock();
         unsigned int count = resourceTable.getCount(name);
-	pthread_mutex_unlock(&mutexTable);
+	mutexTable.unlock();
 
 	// last reference
 	if( count == 1 )
 	{
 
-        pthread_mutex_lock(&mutexTable);
+        mutexTable.lock();
             resourceTable.decEntry(name);
-        pthread_mutex_unlock(&mutexTable);
+        mutexTable.unlock();
 
         workQueue.push( ResourceRequest( ResourceRequest::Type::RELEASE, name ) );
 
@@ -59,9 +49,9 @@ void ResourceManager::releaseCell(ResourceCell* resource)
 	// more references
 	else
 	{
-	    pthread_mutex_lock(&mutexTable);
+	    mutexTable.lock();
             resourceTable.decEntry(name);
-		pthread_mutex_unlock(&mutexTable);
+		mutexTable.unlock();
 	}
 
 }
@@ -84,9 +74,9 @@ void ResourceManager::loop()
 
 			string name = request.getName();
 
-			pthread_mutex_lock(&mutexTable);
+			mutexTable.lock();
                 Resource* resource = resourceTable.getResource(name);
-			pthread_mutex_unlock(&mutexTable);
+			mutexTable.unlock();
 
 			resource->load();
 
@@ -98,16 +88,15 @@ void ResourceManager::loop()
 
             string name = request.getName();
 
-            pthread_mutex_lock(&mutexTable);
+            mutexTable.lock();
                 Resource* resource = resourceTable.getResource(name);
-			pthread_mutex_unlock(&mutexTable);
+			mutexTable.unlock();
 
 			resource->free();
-            resourceCellFactory.destroyResource(resource);
 
-            pthread_mutex_lock(&mutexTable);
+            mutexTable.lock();
                 resourceTable.removeEntry(name);
-			pthread_mutex_unlock(&mutexTable);
+			mutexTable.unlock();
 
 		}
 
@@ -117,6 +106,7 @@ void ResourceManager::loop()
 			_stop = true;
 		}
 
+        std::this_thread::sleep_for(1ms);
 	}
 
 }

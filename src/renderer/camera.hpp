@@ -1,11 +1,9 @@
-#include "../math/vec2f.hpp"
-
-#ifndef GRAPHICS_SYSTEM
-class GraphicsSystem;
-#endif
-
 #ifndef CAMERA
 #define CAMERA
+
+#include "../math/vec2f.hpp"
+
+class GraphicsSystem;
 
 /** \brief High level abstraction camera
  * You can set the position and dimensions of the camera

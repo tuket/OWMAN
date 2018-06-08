@@ -1,12 +1,11 @@
-#include "../math/vec2f.hpp"
-#include "../dependencies/rapidxml/rapidxml.hpp"
-
-#ifndef PHYSICS_SYSTEM
-class PhysicsSystem;
-#endif
-
 #ifndef PHYSICS_COMPONENT
 #define PHYSICS_COMPONENT
+
+#include "../math/vec2f.hpp"
+#include <rapidxml.hpp>
+
+class PhysicsSystem;
+class b2Body;
 
 class PhysicsComponent
 {
@@ -17,13 +16,15 @@ protected:
 
     PhysicsSystem* myPhysicsSystem;
 
+    b2Body* body;
+
 public:
 
-    virtual Vec2f getPosition()const = 0;
-    virtual void setPosition(const Vec2f& v) = 0;
+    Vec2f getPosition()const;
+    void setPosition(const Vec2f& v);
 
-    virtual Vec2f getSpeed()const = 0;
-    virtual void setSpeed(const Vec2f& v) = 0;
+    Vec2f getSpeed()const;
+    void setSpeed(const Vec2f& v);
 
     /** \brief Creates a physics XML node
      * Returns an XML node representing the class itself
