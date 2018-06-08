@@ -36,7 +36,7 @@ public:
 
 	T pop()
 	{
-        std::unique_lock lock(mutex);
+        std::unique_lock<std::mutex> lock(mutex);
 		while( queue.size() == 0 )
 		{
 			// this instruction unlocks the mutex automatically
